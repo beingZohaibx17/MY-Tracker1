@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Atmosphere } from './components/Atmosphere';
@@ -14,10 +15,10 @@ const useSound = () => {
   const play = (type: 'click' | 'success' | 'error' | 'pop') => {
     try {
       if (navigator.vibrate) {
-         if (type === 'click') navigator.vibrate(5);
-         if (type === 'success') navigator.vibrate([50, 50, 50]);
-         if (type === 'error') navigator.vibrate(300);
-         if (type === 'pop') navigator.vibrate(10);
+         if (type === 'click') navigator.vibrate(10);
+         if (type === 'success') navigator.vibrate([50, 30, 50]);
+         if (type === 'error') navigator.vibrate([50, 100, 50]);
+         if (type === 'pop') navigator.vibrate(15);
       }
     } catch (e) { }
   };
@@ -105,17 +106,54 @@ const App: React.FC = () => {
     setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 4000);
   };
 
+  const triggerConfetti = () => {
+     playSound('success');
+  };
+
+  const requestNotificationPermission = () => {
+      if (!('Notification' in window)) {
+          addToast("Notifications not supported on this device", "error");
+          return;
+      }
+      Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+              addToast("Reminders Enabled", "success");
+              new Notification("Zohaib Tracker", { body: "Notifications are set up successfully!", icon: "/icon.png" });
+          } else {
+              addToast("Permission Denied", "error");
+          }
+      });
+  };
+
+  // Simple Notification Loop for PWA (Best Effort)
+  useEffect(() => {
+      const interval = setInterval(() => {
+          const now = new Date();
+          if (Notification.permission === 'granted') {
+             if (now.getMinutes() === 0) {
+                 new Notification("Tracker Reminder", { body: "Have you logged your progress?", icon: "/icon.png" });
+             }
+          }
+      }, 60000);
+      return () => clearInterval(interval);
+  }, []);
+
   const exportData = () => {
-    const dataStr = JSON.stringify(state, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `zohaib_tracker_backup_${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    addToast("Data Exported Successfully", "success");
+    try {
+        const dataStr = JSON.stringify(state, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `zohaib_tracker_backup_${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        addToast("Backup downloaded to device", "success");
+    } catch (e) {
+        addToast("Export failed", "error");
+    }
   };
 
   const importData = () => {
@@ -131,8 +169,8 @@ const App: React.FC = () => {
           const json = JSON.parse(event.target?.result as string);
           if (json.daily && json.global) {
             setState(json);
-            addToast("Data Imported Successfully", "success");
-            setTimeout(() => window.location.reload(), 1000);
+            addToast("Data Restored Successfully", "success");
+            setTimeout(() => window.location.reload(), 1500);
           } else {
             addToast("Invalid Backup File", "error");
           }
@@ -159,23 +197,119 @@ const App: React.FC = () => {
      return s;
   };
 
-  // Check if day targets were met
-  const calculateDailyScore = (daily: DailyStats) => {
-     const prayersDone = daily.prayers.filter(p => p.completed).length >= 5;
-     const dhikrDone = (daily.dhikrAstaghfirullah + daily.dhikrRabbiInni) >= 100; 
-     const fitnessDone = daily.fitness.type !== 'Rest';
-     const hygieneDone = daily.hygiene.waterGlasses >= 5;
-     const quranDone = Object.values(daily.quranParts).some(Boolean) || daily.surahMulk || daily.surahBaqarah;
-     return { prayersDone, dhikrDone, fitnessDone, hygieneDone, quranDone };
+  // --- ACHIEVEMENT SYSTEM ---
+  const checkAchievements = (currentState: AppState) => {
+      const { streaks, xp, currentParah, ramadanStats, unlockedAchievements, history } = currentState.global;
+      const unlocked = new Set(unlockedAchievements);
+      const newUnlocks: string[] = [];
+
+      // Helper to get current metric value based on category
+      const getStreak = (cat: string) => {
+          if (cat === 'SALAH') return streaks.salah;
+          if (cat === 'DHIKR') return streaks.dhikr;
+          if (cat === 'MDF') return streaks.mdf;
+          if (cat === 'QURAN') return streaks.quranSurah;
+          if (cat === 'RAMADAN') return streaks.ramadan;
+          if (cat === 'FITNESS') return streaks.fitness;
+          if (cat === 'HYGIENE') return streaks.hygiene;
+          return 0;
+      };
+
+      const getCount = (id: string) => {
+         if (id.includes('r_fasts')) return ramadanStats.fastsDone;
+         if (id.includes('r_taraweeh')) return ramadanStats.taraweehPrayed;
+         if (id.includes('r_khatam')) return ramadanStats.quranKhatams;
+         return 0;
+      };
+
+      const getValue = (id: string) => {
+         if (id.includes('q_parah')) return currentParah;
+         return 0;
+      };
+
+      // SPECIAL CHECKER FOR HISTORY-BASED TITAN ACHIEVEMENTS
+      const checkSpecial = (id: string, val: number) => {
+          // Helper to count consecutive days fulfilling a condition
+          const countConsecutive = (fn: (d: DailyStats) => boolean) => {
+             let count = 0;
+             if (fn(currentState.daily)) count++;
+             // Iterate backwards through history
+             for (let i = history.length - 1; i >= 0; i--) {
+                 if (fn(history[i])) count++;
+                 else break;
+             }
+             return count;
+          };
+
+          if (id === 's_titan_fajr') {
+              // 40 Days Fajr in Jamaah
+              const consecutive = countConsecutive(d => {
+                 const fajr = d.prayers.find(p => p.id === 'fajr');
+                 return !!(fajr && fajr.completed && fajr.isJamaah);
+              });
+              return consecutive >= val;
+          }
+          if (id === 's_titan_tahajjud') {
+              // 40 Days Tahajjud
+              const consecutive = countConsecutive(d => {
+                 const tahajjud = d.prayers.find(p => p.id === 'tahajjud');
+                 return !!(tahajjud && tahajjud.completed);
+              });
+              return consecutive >= val;
+          }
+          if (id === 's_titan_jamaah') {
+              // 30 Days All 5 Jamaah
+              const consecutive = countConsecutive(d => {
+                 const mandatory = d.prayers.filter(p => p.id !== 'tahajjud');
+                 return mandatory.every(p => p.completed && p.isJamaah);
+              });
+              return consecutive >= val;
+          }
+          return false;
+      };
+
+      MASTER_ACHIEVEMENTS.forEach(ach => {
+          if (unlocked.has(ach.id)) return;
+
+          let passed = false;
+
+          if (ach.metric === 'STREAK') {
+              const streak = getStreak(ach.category);
+              if (streak >= (ach.value || 0)) passed = true;
+          } else if (ach.metric === 'COUNT') {
+              const count = getCount(ach.id);
+              if (count >= (ach.value || 0)) passed = true;
+          } else if (ach.metric === 'VALUE') {
+              const val = getValue(ach.id);
+              if (val >= (ach.value || 0)) passed = true;
+          } else if (ach.metric === 'XP') {
+              if (xp >= (ach.value || 0)) passed = true;
+          } else if (ach.metric === 'SPECIAL') {
+              if (checkSpecial(ach.id, ach.value || 0)) passed = true;
+          }
+
+          if (passed) {
+              newUnlocks.push(ach.id);
+              addToast(`Unlocked: ${ach.title}`, 'success');
+              playSound('success');
+          }
+      });
+
+      if (newUnlocks.length > 0) {
+          setState(prev => ({
+              ...prev,
+              global: { ...prev.global, unlockedAchievements: [...prev.global.unlockedAchievements, ...newUnlocks] }
+          }));
+      }
   };
-  
+
   const calculateImanScore = (daily: DailyStats) => {
     let score = 0;
     const completedPrayers = daily.prayers.filter(p => p.completed).length;
-    // 6 prayers total (inc Tahajjud) -> 10 points each = 60 max
     score += (completedPrayers * 10); 
     if (daily.quranParts.rub || daily.surahMulk) score += 15;
-    if ((daily.dhikrAstaghfirullah + daily.dhikrRabbiInni) >= 100) score += 15; 
+    if (daily.surahKahf) score += 20; 
+    if ((daily.dhikrAstaghfirullah + daily.dhikrRabbiInni) >= 4200) score += 15;
     if (!daily.habits.failedToday) score += 10;
     return Math.min(100, score);
   };
@@ -187,6 +321,21 @@ const App: React.FC = () => {
        return next;
     });
   };
+
+  // Effect to check achievements on state change
+  useEffect(() => {
+     if (!isLoading) {
+         checkAchievements(state);
+     }
+  }, [
+      state.daily.prayers, 
+      state.daily.dhikrAstaghfirullah, 
+      state.daily.dhikrRabbiInni, 
+      state.global.streaks, 
+      state.global.xp, 
+      state.global.ramadanStats,
+      state.global.currentParah
+  ]);
 
   const getDaysDiff = (d1: string, d2: string) => {
      const date1 = new Date(d1);
@@ -209,14 +358,11 @@ const App: React.FC = () => {
         };
         let safeDaily = { ...INITIAL_DAILY_STATE, ...parsed.daily };
 
-        // Handle Date Change
+        if(typeof safeDaily.surahKahf === 'undefined') safeDaily.surahKahf = false;
+
         if (parsed.daily.date !== today) {
            const daysPassed = getDaysDiff(parsed.daily.date, today);
            
-           // Reset logic on day change if failed previous day
-           // Since we implement Live Logic now, we mostly just check if streak broke
-           
-           // If missed more than 1 day, reset streaks
            if (daysPassed > 1) {
                safeGlobal.streaks.salah = 0;
                safeGlobal.streaks.dhikr = 0;
@@ -227,28 +373,13 @@ const App: React.FC = () => {
                safeGlobal.streaks.ramadan = 0;
            }
            
-           // If only 1 day passed, the streak was already incremented yesterday when they finished the task (Live Logic).
-           // BUT, if they finished the day WITHOUT completing task, reset to 0.
-           // Note: We need a way to know if yesterday was completed.
-           // Simplified: If daysPassed > 0, we just reset daily stats.
-           // The streak logic handles increments instantly.
-           // We do need to check if streak SHOULD break.
-           // BUT if we increment immediately, then if they miss today, tomorrow we reset.
-           // Logic: If (LastCompletionDate != Yesterday) -> Reset.
-           
-           // For robustness in this version, we rely on Live Updates for increment.
-           // For resets: We assume if you load the app and Date > LastDate + 1, reset.
-           
-           // Archive Yesterday
            const newHistory = [...(safeGlobal.history || []), safeDaily];
-
            safeGlobal = {
                ...safeGlobal,
                history: newHistory,
                streaks: syncMaxStreaks(safeGlobal.streaks)
            };
 
-           // Reset Daily for Today
            safeDaily = {
                ...INITIAL_DAILY_STATE,
                date: today,
@@ -259,7 +390,6 @@ const App: React.FC = () => {
 
         setState({ daily: safeDaily, global: safeGlobal });
 
-        // MDF Auto Check
         const now = Date.now();
         const lastRelapse = safeGlobal.lastRelapseDate || now;
         const mdfDays = Math.floor((now - lastRelapse) / (1000 * 60 * 60 * 24));
@@ -286,7 +416,6 @@ const App: React.FC = () => {
     setTimeout(() => setIsLoading(false), 1000);
   }, []);
 
-  // Auto-save
   useEffect(() => {
     if (!isLoading) {
         const globalWithMax = { ...state.global, streaks: syncMaxStreaks(state.global.streaks) };
@@ -294,7 +423,6 @@ const App: React.FC = () => {
     }
   }, [state, isLoading]);
 
-  // Theme Handler
   useEffect(() => {
     const applyTheme = () => {
        const root = document.body;
@@ -312,7 +440,6 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, [state.global.theme]);
 
-  // LIVE STREAK LOGIC HELPERS
   const checkAndToggleStreak = (
       prev: AppState, 
       category: keyof typeof INITIAL_GLOBAL_STATE.streaks, 
@@ -320,16 +447,14 @@ const App: React.FC = () => {
       isComplete: boolean
   ) => {
       let streaks = { ...prev.global.streaks };
-      // If it wasn't complete before, but is now -> Increment
       if (!wasComplete && isComplete) {
           streaks[category] = (streaks[category] as number) + 1;
+          triggerConfetti();
       } 
-      // If it WAS complete, but now isn't (user unchecked) -> Decrement
       else if (wasComplete && !isComplete) {
           streaks[category] = Math.max(0, (streaks[category] as number) - 1);
       }
       
-      // Update Max
       if (category === 'salah') streaks.maxSalah = Math.max(streaks.maxSalah || 0, streaks.salah);
       if (category === 'dhikr') streaks.maxDhikr = Math.max(streaks.maxDhikr || 0, streaks.dhikr);
       if (category === 'fitness') streaks.maxFitness = Math.max(streaks.maxFitness || 0, streaks.fitness);
@@ -350,7 +475,7 @@ const App: React.FC = () => {
   };
   
   const hardReset = () => {
-      if(confirm("Are you sure? This will wipe ALL data permanently.")) {
+      if(confirm("Warning: This will permanently delete ALL your progress, streaks, and history. This action cannot be undone. Are you sure?")) {
           localStorage.removeItem('zohaib_tracker_v3');
           window.location.reload();
       }
@@ -360,11 +485,14 @@ const App: React.FC = () => {
     playSound('click');
     updateState(prev => {
         const wasComplete = prev.daily.prayers.filter(p => p.completed).length >= 5;
-        const newPrayers = prev.daily.prayers.map(p => p.id === id ? { ...p, completed, isJamaah, completedAt: completed ? new Date().toLocaleTimeString() : null } : p);
+        const newPrayers = prev.daily.prayers.map(p => p.id === id ? { 
+            ...p, 
+            completed, 
+            isJamaah, 
+            completedAt: completed ? new Date().toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'}) : null 
+        } : p);
         const isComplete = newPrayers.filter(p => p.completed).length >= 5;
-        
         const newStreaks = checkAndToggleStreak(prev, 'salah', wasComplete, isComplete);
-        
         return { 
             ...prev, 
             global: { ...prev.global, streaks: newStreaks },
@@ -374,18 +502,16 @@ const App: React.FC = () => {
   };
 
   const handleDhikr = (type: string, amt: number) => {
-     if (amt === 1) playSound('pop');
+     if (amt >= 100) playSound('pop');
      updateState(prev => {
-        const wasComplete = (prev.daily.dhikrAstaghfirullah + prev.daily.dhikrRabbiInni) >= 100;
-        
+        const wasComplete = prev.daily.dhikrAstaghfirullah >= 2100 && prev.daily.dhikrRabbiInni >= 2100;
         let newState = { ...prev };
         if (type === 'astaghfirullah') newState.daily.dhikrAstaghfirullah += amt;
         else if (type === 'rabbiInni') newState.daily.dhikrRabbiInni += amt;
         else newState.daily.customDhikr = prev.daily.customDhikr.map(d => d.id === type ? { ...d, count: d.count + amt } : d);
         
-        const isComplete = (newState.daily.dhikrAstaghfirullah + newState.daily.dhikrRabbiInni) >= 100;
+        const isComplete = newState.daily.dhikrAstaghfirullah >= 2100 && newState.daily.dhikrRabbiInni >= 2100;
         newState.global.streaks = checkAndToggleStreak(prev, 'dhikr', wasComplete, isComplete);
-
         return newState;
      });
   };
@@ -400,15 +526,12 @@ const App: React.FC = () => {
       updateState(prev => {
           const wasComplete = prev.daily.hygiene.waterGlasses >= 5;
           const updatedHygiene = { ...prev.daily.hygiene };
-          
           if (key === 'reset_water') updatedHygiene.waterGlasses = 0;
           else if (key === 'water') updatedHygiene.waterGlasses = (updatedHygiene.waterGlasses || 0) + 1;
           else if (key === 'shower') updatedHygiene.shower = !updatedHygiene.shower;
           else if (key === 'brush') updatedHygiene.brush = !updatedHygiene.brush;
-          
           const isComplete = updatedHygiene.waterGlasses >= 5;
           const newStreaks = checkAndToggleStreak(prev, 'hygiene', wasComplete, isComplete);
-          
           return { ...prev, global: { ...prev.global, streaks: newStreaks }, daily: { ...prev.daily, hygiene: updatedHygiene } };
       });
   };
@@ -428,11 +551,6 @@ const App: React.FC = () => {
     } else {
         updateState(prev => {
              const newDaily = { ...prev.daily, habits: { ...prev.daily.habits, [key]: prev.daily.habits[key as 'smokingCount' | 'nicotineCount'] + 1 } };
-             // Habits streak increments automatically unless failed. 
-             // We handled reset on fail above.
-             // If first time incrementing today, maybe logic? 
-             // Usually habits streak increments at end of day if successful.
-             // We leave habits streak to date change logic as it requires "surviving" the day.
              return { ...prev, daily: newDaily };
         });
     }
@@ -453,9 +571,7 @@ const App: React.FC = () => {
         const wasComplete = Object.values(prev.daily.quranParts).some(Boolean);
         const newParts = { ...prev.daily.quranParts, [part]: !prev.daily.quranParts[part as keyof typeof prev.daily.quranParts] };
         const isComplete = Object.values(newParts).some(Boolean);
-        
         const newStreaks = checkAndToggleStreak(prev, 'quranSurah', wasComplete, isComplete);
-
         const allDone = newParts.rub && newParts.nisf && newParts.thalatha && newParts.kamil;
         if (allDone) {
             playSound('success');
@@ -475,13 +591,12 @@ const App: React.FC = () => {
 
   const handleSurahUpdate = (surah: string) => {
     playSound('click');
-    const key = surah === 'mulk' ? 'surahMulk' : 'surahBaqarah';
+    const key = surah === 'mulk' ? 'surahMulk' : (surah === 'baqarah' ? 'surahBaqarah' : 'surahKahf');
     updateState(prev => {
-        const wasComplete = prev.daily.surahMulk || prev.daily.surahBaqarah;
-        const newDaily = { ...prev.daily, [key]: !prev.daily[key as 'surahMulk' | 'surahBaqarah'] };
-        const isComplete = newDaily.surahMulk || newDaily.surahBaqarah;
+        const wasComplete = prev.daily.surahMulk || prev.daily.surahBaqarah || prev.daily.surahKahf;
+        const newDaily = { ...prev.daily, [key]: !prev.daily[key as 'surahMulk' | 'surahBaqarah' | 'surahKahf'] };
+        const isComplete = newDaily.surahMulk || newDaily.surahBaqarah || newDaily.surahKahf;
         const newStreaks = checkAndToggleStreak(prev, 'quranSurah', wasComplete, isComplete);
-        
         return { ...prev, global: {...prev.global, streaks: newStreaks}, daily: newDaily };
     });
   };
@@ -537,7 +652,7 @@ const App: React.FC = () => {
           {view === ViewState.FITNESS && <TabFitness state={state} updateType={handleFitnessType} />}
           {view === ViewState.MEMORIZE && <TabMemorize state={state} markLearned={handleMemorizeNext} />}
           {view === ViewState.RAMADAN && <TabRamadan state={state} updateRamadanStat={handleRamadanStatUpdate} />}
-          {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} resetApp={hardReset} />}
+          {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} resetApp={hardReset} requestNotify={requestNotificationPermission} />}
           <BottomNav currentView={view} changeView={setView} ramadanMode={state.global.ramadanMode} />
         </div>
       )}

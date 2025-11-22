@@ -1,5 +1,7 @@
 
-const CACHE_NAME = 'zohaib-tracker-v8';
+
+
+const CACHE_NAME = 'zohaib-tracker-v15';
 
 const URLS_TO_CACHE = [
   '/',

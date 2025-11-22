@@ -1,4 +1,5 @@
 
+
 import { Achievement } from './types';
 
 export const DUAS = [
@@ -68,122 +69,34 @@ export const PARAH_NAMES = [
   "اتل ما أوحي", "ومن يقنت", "وما لي", "فمن أظلم", "إليه يرد", "حم", "قال فما خطبكم", "قد سمع الله", "تبارك الذي", "عم يتساءلون"
 ];
 
-const generateMilestones = () => {
-  const m: number[] = [];
-  for (let i = 1; i <= 90; i++) m.push(i);
-  for (let i = 95; i <= 365; i+=5) m.push(i);
-  for (let i = 390; i <= 1000; i+=25) m.push(i);
-  return m;
+export const QURAN_PART_LABELS = {
+  rub: "رُبْع",
+  nisf: "نِصْف",
+  thalatha: "ثَلَاثَة",
+  kamil: "كَامِل"
 };
 
-export const STREAK_MILESTONES = generateMilestones();
-
-const getTier = (day: number): Achievement['tier'] => {
-  if (day < 7) return 'BRONZE';      
-  if (day < 14) return 'BRONZE';     
-  if (day < 30) return 'SILVER';      
-  if (day < 90) return 'GOLD';        
-  if (day < 150) return 'PLATINUM';    
-  if (day < 365) return 'DIAMOND';     
-  if (day < 1500) return 'LEGEND';      
-  return 'ETERNAL';                     
+export const DHIKR_LABELS = {
+  astaghfirullah: "أَسْتَغْفِرُ اللَّهَ",
+  rabbiInni: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ"
 };
 
-const createStreakAchievements = (
+export const STREAK_MILESTONES = [3, 7, 30, 100, 365, 500, 1000, 2000, 3000, 3650];
+
+export const WEEK_DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+const defineAchievement = (
+  id: string, 
+  title: string, 
+  desc: string, 
+  tier: Achievement['tier'], 
   category: Achievement['category'], 
-  prefix: string, 
-  icon: string, 
-  label: string
-): Achievement[] => {
-  return STREAK_MILESTONES.map(day => ({
-    id: `${prefix}_streak_${day}`,
-    title: `${day} Day ${label}`,
-    description: `Successfully maintained a continuous engagement streak of ${day} days in ${label}.`,
-    category: category,
-    tier: getTier(day),
-    icon: icon
-  }));
-};
-
-const achSalah = createStreakAchievements('SALAH', 's', '🕋', 'Salah');
-const achDhikr = createStreakAchievements('DHIKR', 'd', '📿', 'Dhikr');
-const achMDF = createStreakAchievements('MDF', 'm', '🛡️', 'Purity');
-const achHygiene = createStreakAchievements('HYGIENE', 'h', '🧼', 'Hygiene');
-const achFitness = createStreakAchievements('FITNESS', 'f', '💪', 'Fitness');
-const achHabits = createStreakAchievements('HABITS', 'hb', '🚭', 'Discipline');
-const achQuran = createStreakAchievements('QURAN', 'q', '📖', 'Quran');
-const achRamadan = createStreakAchievements('RAMADAN', 'r', '🌙', 'Ramadan');
-
-export const MASTER_ACHIEVEMENTS: Achievement[] = [
-  ...achSalah, ...achDhikr, ...achMDF, ...achHygiene, ...achFitness, ...achHabits, ...achQuran, ...achRamadan
-];
-
-export type GrowthStage = { icon: string; label: string; threshold: number };
-
-export const GROWTH_LEVELS: Record<string, GrowthStage[]> = {
- SALAH: [
-  { threshold: 0, icon: '🌱', label: 'Seed' },
-  { threshold: 7, icon: '🌿', label: 'Sprout' },
-  { threshold: 30, icon: '🪴', label: 'Sapling' },
-  { threshold: 90, icon: '🌳', label: 'Tree' },
-  { threshold: 365, icon: '🌲', label: 'Forest' }
-],
-DHIKR: [
-  { threshold: 0, icon: '📿', label: 'Bead' },
-  { threshold: 7, icon: '🧵', label: 'String' },
-  { threshold: 30, icon: '✨', label: 'Tasbeeh' },
-  { threshold: 90, icon: '💡', label: 'Noor' },
-  { threshold: 365, icon: '☀️', label: 'Radiance' }
-],
-MDF: [
-  { threshold: 0, icon: '🧱', label: 'Brick' },
-  { threshold: 7, icon: '🚧', label: 'Wall' },
-  { threshold: 30, icon: '🏯', label: 'Tower' },
-  { threshold: 90, icon: '🏰', label: 'Fortress' },
-  { threshold: 365, icon: '👑', label: 'Kingdom' }
-],
-QURAN: [
-  { threshold: 0, icon: '✍️', label: 'Ink' },
-  { threshold: 7, icon: '📄', label: 'Page' },
-  { threshold: 30, icon: '📜', label: 'Scroll' },
-  { threshold: 90, icon: '📖', label: 'Book' },
-  { threshold: 365, icon: '📚', label: 'Library' }
-],
-HYGIENE: [
-  { threshold: 0, icon: '✨', label: 'Clean' },
-  { threshold: 7, icon: '🌟', label: 'Fresh' },
-  { threshold: 30, icon: '💎', label: 'Pure' },
-  { threshold: 90, icon: '💧', label: 'Crystal' },
-  { threshold: 365, icon: '💠', label: 'Immaculate' }
-],
-FITNESS: [
-  { threshold: 0, icon: '🪨', label: 'Stone' },
-  { threshold: 7, icon: '🌋', label: 'Magma' },
-  { threshold: 30, icon: '⛰️', label: 'Hill' },
-  { threshold: 90, icon: '🏔️', label: 'Mountain' },
-  { threshold: 365, icon: '🪐', label: 'Titan' }
-],
-RAMADAN: [
-  { threshold: 0, icon: '🌑', label: 'New Moon' },
-  { threshold: 5, icon: '🌙', label: 'Crescent' },
-  { threshold: 15, icon: '🌗', label: 'Half Moon' },
-  { threshold: 20, icon: '🏮', label: 'Lantern' },
-  { threshold: 29, icon: '🕌', label: 'Eid Ready' }
-]
-};
-
-export const getGrowthStage = (category: keyof typeof GROWTH_LEVELS, streak: number) => {
-  const stages = GROWTH_LEVELS[category] || GROWTH_LEVELS['SALAH'];
-  let current = stages[0];
-  for (const stage of stages) {
-    if (streak >= stage.threshold) {
-      current = stage;
-    } else {
-      break;
-    }
-  }
-  return current;
-};
+  icon: string,
+  metric: Achievement['metric'] = 'STREAK',
+  value: number
+): Achievement => ({
+  id, title, description: desc, tier, category, icon, metric, value
+});
 
 export const getStreakTitle = (streak: number): string => {
   if (streak < 3) return "Novice";
@@ -194,5 +107,155 @@ export const getStreakTitle = (streak: number): string => {
   if (streak < 90) return "Warrior";
   if (streak < 180) return "Master";
   if (streak < 365) return "Grandmaster";
-  return "Legend";
+  if (streak < 1000) return "Sage";
+  if (streak < 2000) return "Ascendant";
+  return "Eternal";
+};
+
+// --- ALGORITHMIC ACHIEVEMENT GENERATOR ---
+const generateStreakAchievements = (category: Achievement['category'], icon: string) => {
+  const levels = [
+    1, 3, 5, 7, 10, 14, 21, 30, 40, 45, 50, 60, 70, 80, 90, 100, 
+    120, 150, 180, 200, 250, 300, 350, 365, 400, 450, 500, 600, 700, 800, 900, 1000,
+    1200, 1500, 1800, 2000, 2500, 3000, 3500, 3650
+  ];
+  
+  return levels.map(day => ({
+    id: `${category.toLowerCase()}_streak_${day}`,
+    title: `${getStreakTitle(day)} ${category === 'SALAH' ? 'Worshipper' : category === 'DHIKR' ? 'Zakireen' : category === 'QURAN' ? 'Reciter' : 'Guardian'}`,
+    description: `Reach ${day} days streak in ${category}.`,
+    tier: day >= 3650 ? 'TITAN' : day >= 1000 ? 'ETERNAL' : day >= 365 ? 'LEGEND' : day >= 100 ? 'DIAMOND' : day >= 30 ? 'GOLD' : day >= 7 ? 'SILVER' : 'BRONZE',
+    category,
+    icon,
+    metric: 'STREAK',
+    value: day
+  } as Achievement));
+};
+
+// --- SPECIAL ACHIEVEMENTS (HARDCORE/COUNT/XP) ---
+
+const salahSpecial = [
+  defineAchievement('s_titan_fajr', 'Guardian of Dawn', 'Complete 40 Days of consecutive Fajr in Jamaah', 'TITAN', 'SALAH', '⚔️', 'SPECIAL', 40),
+  defineAchievement('s_titan_tahajjud', 'Night Vigilante', 'Perform Tahajjud prayer for 40 nights in a row', 'TITAN', 'SALAH', '🌙', 'SPECIAL', 40),
+  defineAchievement('s_titan_jamaah', 'Mosque Heart', 'Pray all 5 prayers in Jamaah for 30 days straight', 'TITAN', 'SALAH', '🕌', 'SPECIAL', 30),
+];
+
+const quranSpecial = [
+  defineAchievement('q_parah_1', 'The Opening', 'Complete reading the 1st Parah of the Quran', 'BRONZE', 'QURAN', '1️⃣', 'VALUE', 1),
+  defineAchievement('q_parah_5', 'First Quarter', 'Reach the 5th Parah in your recitation journey', 'SILVER', 'QURAN', '5️⃣', 'VALUE', 5),
+  defineAchievement('q_parah_15', 'Halfway There', 'Reach the 15th Parah (Half Quran Completed)', 'GOLD', 'QURAN', '🏁', 'VALUE', 15),
+  defineAchievement('q_parah_30', 'The Completion', 'Complete the 30th Parah (Full Khatam)', 'PLATINUM', 'QURAN', '🔚', 'VALUE', 30),
+  defineAchievement('q_scholar', 'Quranic Scholar', 'Accrue a total of 1000 XP from Quran activities', 'LEGEND', 'QURAN', '🎓', 'XP', 1000),
+];
+
+const ramadanSpecial = [
+  defineAchievement('r_fasts_10', 'Ten Days of Fasting', 'Log a total of 10 completed Fasts', 'SILVER', 'RAMADAN', '🗓️', 'COUNT', 10),
+  defineAchievement('r_fasts_20', 'Twenty Days of Fasting', 'Log a total of 20 completed Fasts', 'GOLD', 'RAMADAN', '🗓️', 'COUNT', 20),
+  defineAchievement('r_fasts_29', 'Month of Fasting', 'Complete the full month (29/30 Fasts)', 'PLATINUM', 'RAMADAN', '🌙', 'COUNT', 29),
+  defineAchievement('r_taraweeh_5', 'Night Prayer Novice', 'Log 5 completed Taraweeh sessions', 'BRONZE', 'RAMADAN', '🌃', 'COUNT', 5),
+  defineAchievement('r_taraweeh_20', 'Night Prayer Devotee', 'Log 20 completed Taraweeh sessions', 'GOLD', 'RAMADAN', '🌃', 'COUNT', 20),
+  defineAchievement('r_taraweeh_30', 'Night Stand', 'Complete all 30 nights of Taraweeh', 'TITAN', 'RAMADAN', '🛐', 'COUNT', 30),
+  defineAchievement('r_khatam_1', 'Ramadan Khatam', 'Finish reading the entire Quran during Ramadan', 'TITAN', 'RAMADAN', '📖', 'COUNT', 1),
+  defineAchievement('r_khatam_3', 'Triple Khatam', 'Complete 3 full Quran Khatams in one Ramadan', 'TITAN', 'RAMADAN', '⚡', 'COUNT', 3),
+];
+
+// Generate Master List
+const salahAch = [...generateStreakAchievements('SALAH', '🕌'), ...salahSpecial];
+const dhikrAch = generateStreakAchievements('DHIKR', '📿');
+const mdfAch = generateStreakAchievements('MDF', '🛡️');
+const quranAch = [...generateStreakAchievements('QURAN', '📖'), ...quranSpecial];
+const ramadanAch = [...generateStreakAchievements('RAMADAN', '🌙'), ...ramadanSpecial];
+const fitnessAch = generateStreakAchievements('FITNESS', '💪');
+const hygieneAch = generateStreakAchievements('HYGIENE', '🧼');
+const memorizeAch = generateStreakAchievements('MEMORIZE', '🧠');
+
+export const MASTER_ACHIEVEMENTS = [
+  ...salahAch,
+  ...dhikrAch,
+  ...mdfAch,
+  ...quranAch,
+  ...ramadanAch,
+  ...fitnessAch,
+  ...hygieneAch,
+  ...memorizeAch
+];
+
+export const ACHIEVEMENT_CATEGORIES = {
+  SALAH: salahAch,
+  DHIKR: dhikrAch,
+  MDF: mdfAch,
+  QURAN: quranAch,
+  RAMADAN: ramadanAch,
+  FITNESS: fitnessAch,
+  HYGIENE: hygieneAch,
+  MEMORIZE: memorizeAch
+};
+
+export const GROWTH_LEVELS: Record<string, { icon: string; label: string; threshold: number }[]> = {
+ SALAH: [
+  { threshold: 0, icon: '🌱', label: 'Seed' },
+  { threshold: 7, icon: '🌿', label: 'Sprout' },
+  { threshold: 30, icon: '🌳', label: 'Tree' },
+  { threshold: 100, icon: '🍎', label: 'Fruit Bearing' },
+  { threshold: 365, icon: '🏞️', label: 'Sanctuary' },
+  { threshold: 1000, icon: '🏔️', label: 'Mountain' },
+  { threshold: 2000, icon: '🌍', label: 'Worldly Light' },
+  { threshold: 3650, icon: '🌞', label: 'Sun of Deen' }
+],
+DHIKR: [
+  { threshold: 0, icon: '💧', label: 'Drop' },
+  { threshold: 30, icon: '🌊', label: 'Stream' },
+  { threshold: 100, icon: '⛲', label: 'River' },
+  { threshold: 365, icon: '🌅', label: 'Ocean' },
+  { threshold: 1000, icon: '🌌', label: 'Cosmos' },
+  { threshold: 3650, icon: '✨', label: 'Starlight' }
+],
+MDF: [
+  { threshold: 0, icon: '🥚', label: 'Egg' },
+  { threshold: 30, icon: '🐣', label: 'Hatchling' },
+  { threshold: 90, icon: '🦅', label: 'Falcon' },
+  { threshold: 365, icon: '🐉', label: 'Dragon' },
+  { threshold: 1000, icon: '👑', label: 'King' },
+  { threshold: 3650, icon: '🦁', label: 'Lionheart' }
+],
+QURAN: [
+  { threshold: 0, icon: '📝', label: 'Student' },
+  { threshold: 30, icon: '📚', label: 'Reader' },
+  { threshold: 90, icon: '🧠', label: 'Memorizer' },
+  { threshold: 365, icon: '🎓', label: 'Scholar' },
+  { threshold: 1000, icon: '🕌', label: 'Imam' },
+  { threshold: 3650, icon: '🕋', label: 'Guardian' }
+],
+HYGIENE: [
+  { threshold: 0, icon: '✨', label: 'Sparkle' },
+  { threshold: 30, icon: '💎', label: 'Crystal' },
+  { threshold: 365, icon: '💠', label: 'Diamond' },
+  { threshold: 1000, icon: '🌟', label: 'Star' }
+],
+FITNESS: [
+  { threshold: 0, icon: '🚶', label: 'Walker' },
+  { threshold: 30, icon: '🏃', label: 'Runner' },
+  { threshold: 365, icon: '🏋️', label: 'Lifter' },
+  { threshold: 1000, icon: '🤸', label: 'Gymnast' },
+  { threshold: 3650, icon: '🦸', label: 'Hero' }
+],
+RAMADAN: [
+  { threshold: 0, icon: '🌑', label: 'New Moon' },
+  { threshold: 10, icon: '🌒', label: 'Crescent' },
+  { threshold: 20, icon: '🌓', label: 'Quarter' },
+  { threshold: 29, icon: '🌕', label: 'Full Moon' }
+]
+};
+
+export const getGrowthStage = (category: string, streak: number) => {
+  const levels = GROWTH_LEVELS[category] || GROWTH_LEVELS['SALAH'];
+  let stage = levels[0];
+  for (const level of levels) {
+    if (streak >= level.threshold) {
+      stage = level;
+    } else {
+        break;
+    }
+  }
+  return stage;
 };

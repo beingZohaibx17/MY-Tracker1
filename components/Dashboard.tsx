@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { 
-  Moon, Activity, Droplets, Flame, Lock, Calendar, Sparkles, Tent, ShieldCheck, Snowflake, Maximize2, ArrowRight, Trophy
+  Moon, Activity, Droplets, Flame, Lock, Calendar, Sparkles, Tent, ShieldCheck, Snowflake, Maximize2, ArrowRight, Trophy, Star
 } from 'lucide-react';
 import { AppState, ViewState } from '../types';
 import { DUAS } from '../constants';
@@ -41,6 +41,7 @@ export const Dashboard: React.FC<Props> = ({ state, changeView }) => {
   const badgeText = BADGES[currentTime.getDate() % BADGES.length];
   const dailyDua = DUAS[currentTime.getDate() % DUAS.length];
   const xpProgress = (state.global.xp % 1000) / 10; 
+  const isFriday = currentTime.getDay() === 5;
 
   return (
     <div className="pb-32 space-y-5 animate-fade-in">
@@ -53,7 +54,7 @@ export const Dashboard: React.FC<Props> = ({ state, changeView }) => {
             <p className="text-emerald-500 text-[10px] font-bold tracking-[0.25em] uppercase">System Online</p>
           </div>
           <h1 className="text-3xl font-light text-primary tracking-tight">
-            {greeting}, <span className="font-medium block text-4xl mt-1 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">{state.global.name}</span>
+            {greeting}, <span className="font-medium block text-4xl mt-1 bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent animate-gradient">{state.global.name}</span>
           </h1>
         </div>
         
@@ -72,38 +73,64 @@ export const Dashboard: React.FC<Props> = ({ state, changeView }) => {
         </div>
       </div>
 
-      {/* Hero Card */}
-      <div className="mx-2 relative overflow-hidden group rounded-[2.5rem] bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 shadow-2xl border border-white/10 text-white min-h-[280px] flex flex-col justify-between p-8 transition-all hover:shadow-emerald-900/20">
-        <div className="absolute top-0 right-0 p-10 opacity-5 transform rotate-12 group-hover:rotate-0 transition-transform duration-1000"><Sparkles size={180} className="text-white" /></div>
-        <div className="relative z-10 flex justify-between items-start">
-           <div>
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-white/60 font-medium text-xs uppercase tracking-wider">{currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</span>
-                <span className="bg-emerald-500/20 px-3 py-1 rounded-full text-[10px] border border-emerald-500/30 text-emerald-300 tracking-wider font-bold uppercase backdrop-blur-sm animate-pulse-slow">🎯 {badgeText}</span>
+      {/* Friday Banner */}
+      {isFriday && (
+         <div className="mx-2 bg-gradient-to-r from-amber-500/20 to-amber-600/20 border border-amber-500/30 rounded-[2.5rem] p-6 relative overflow-hidden animate-slide-up">
+             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] opacity-10"></div>
+             <div className="flex items-center gap-4 relative z-10">
+                 <div className="w-14 h-14 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 border border-amber-500/30 animate-pulse-slow">
+                     <Star size={24} fill="currentColor" />
+                 </div>
+                 <div className="flex-1">
+                     <h3 className="text-lg font-bold text-amber-100">Jumuah Mubarak</h3>
+                     <p className="text-xs text-amber-200/70">Don't forget Surah Al-Kahf & Salawat</p>
+                 </div>
+                 <button onClick={() => changeView(ViewState.QURAN)} className="px-4 py-2 bg-amber-500 text-white rounded-xl text-xs font-bold uppercase shadow-lg hover:bg-amber-600 transition-colors">Read Kahf</button>
+             </div>
+         </div>
+      )}
+
+      {/* Hero Card with Border Beam */}
+      <div className="mx-2 relative group rounded-[2.5rem] bg-slate-950 overflow-hidden cursor-default transform-gpu perspective-1000">
+        {/* Moving Border Gradient */}
+        <div className="absolute inset-[-2px] bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 animate-[spin_4s_linear_infinite] opacity-30 group-hover:opacity-50 blur-sm"></div>
+        
+        {/* Card Content */}
+        <div className="relative h-full bg-slate-950 rounded-[2.5rem] p-8 border border-white/5 flex flex-col justify-between min-h-[280px] shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]">
+           <div className="absolute top-0 right-0 p-10 opacity-5 transform rotate-12 group-hover:rotate-0 transition-transform duration-1000"><Sparkles size={180} className="text-white" /></div>
+           
+           <div className="relative z-10 flex justify-between items-start">
+              <div>
+                 <div className="flex items-center gap-3 mb-3">
+                   <span className="text-white/60 font-medium text-xs uppercase tracking-wider">{currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}</span>
+                   <span className="bg-emerald-500/20 px-3 py-1 rounded-full text-[10px] border border-emerald-500/30 text-emerald-300 tracking-wider font-bold uppercase backdrop-blur-sm animate-pulse-slow">🎯 {badgeText}</span>
+                 </div>
+                 <h2 className="text-6xl font-light tracking-tighter font-sans text-white drop-shadow-2xl tabular-nums">{currentTime.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}</h2>
               </div>
-              <h2 className="text-6xl font-light tracking-tighter font-sans text-white drop-shadow-2xl tabular-nums">{currentTime.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' })}</h2>
+              <div className="text-center bg-white/5 p-4 rounded-2xl backdrop-blur-md border border-white/5 min-w-[90px] shadow-lg group-hover:bg-white/10 transition-colors transform group-hover:scale-105 duration-300">
+                  <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">Iman Score</div>
+                  <div className={`text-3xl font-bold ${state.daily.imanScore >= 80 ? 'text-emerald-400' : state.daily.imanScore >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>{Math.round(state.daily.imanScore)}</div>
+               </div>
            </div>
-           <div className="text-center bg-white/5 p-4 rounded-2xl backdrop-blur-md border border-white/5 min-w-[90px] shadow-lg group-hover:bg-white/10 transition-colors">
-               <div className="text-[9px] text-white/40 uppercase tracking-widest mb-1">Iman Score</div>
-               <div className={`text-3xl font-bold ${state.daily.imanScore >= 80 ? 'text-emerald-400' : state.daily.imanScore >= 50 ? 'text-amber-400' : 'text-rose-400'}`}>{Math.round(state.daily.imanScore)}</div>
-            </div>
-        </div>
-        <div className="relative z-10 my-6 pl-4 border-l-2 border-white/10">
-             <p className="text-2xl font-serif leading-relaxed text-white/90 drop-shadow-md text-right" dir="rtl">{dailyDua.arabic}</p>
-             <p className="text-xs text-white/50 leading-relaxed font-medium mt-2 max-w-[90%] italic">{dailyDua.english}</p>
-        </div>
-        <div className="relative z-10 flex items-center gap-4">
-            <span className="text-[10px] font-bold text-white/40 w-12">LVL {state.global.level}</span>
-            <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden relative">
-              <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-400 to-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-1000 ease-out rounded-full" style={{ width: `${xpProgress}%` }} />
-            </div>
-            <span className="text-[10px] font-bold text-white/40 w-14 text-right">{state.global.xp} XP</span>
+           
+           <div className="relative z-10 my-6 pl-4 border-l-2 border-white/10">
+                <p className="text-2xl font-serif leading-relaxed text-white/90 drop-shadow-md text-right" dir="rtl">{dailyDua.arabic}</p>
+                <p className="text-xs text-white/50 leading-relaxed font-medium mt-2 max-w-[90%] italic">{dailyDua.english}</p>
+           </div>
+           
+           <div className="relative z-10 flex items-center gap-4">
+               <span className="text-[10px] font-bold text-white/40 w-12">LVL {state.global.level}</span>
+               <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden relative">
+                 <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-emerald-400 to-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-1000 ease-out rounded-full" style={{ width: `${xpProgress}%` }} />
+               </div>
+               <span className="text-[10px] font-bold text-white/40 w-14 text-right">{state.global.xp} XP</span>
+           </div>
         </div>
       </div>
 
       {/* Ramadan Widget */}
       {state.global.ramadanMode && (
-        <div onClick={() => changeView(ViewState.RAMADAN)} className="mx-2 bg-gradient-to-r from-[#0f172a] to-[#020617] border border-teal-500/30 p-0 rounded-[2.5rem] relative overflow-hidden cursor-pointer active:scale-[0.98] transition-all group shadow-lg shadow-teal-900/10">
+        <div onClick={() => changeView(ViewState.RAMADAN)} className="mx-2 bg-gradient-to-r from-[#0f172a] to-[#020617] border border-teal-500/30 p-0 rounded-[2.5rem] relative overflow-hidden cursor-pointer active:scale-[0.98] transition-all group shadow-lg shadow-teal-900/10 transform-gpu hover:translate-y-[-2px]">
            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')] opacity-5"></div>
            <div className="absolute right-0 top-0 p-6 opacity-20 text-teal-500 group-hover:opacity-30 transition-opacity transform group-hover:scale-110 duration-700"><Tent size={100} /></div>
            <div className="p-6 flex items-center justify-between relative z-10">
@@ -220,7 +247,7 @@ export const Dashboard: React.FC<Props> = ({ state, changeView }) => {
 };
 
 const Widget: React.FC<any> = ({ title, status, statusColor, icon, bgIcon, value, label, streak, maxStreak, onClick, gradient, border, progress }) => (
-  <div onClick={onClick} className={`glass-panel p-5 rounded-[2.2rem] relative overflow-hidden group cursor-pointer transition-all duration-300 active:scale-[0.96] flex flex-col justify-between h-44 ${border} shadow-lg hover:shadow-2xl hover:border-opacity-50`}>
+  <div onClick={onClick} className={`glass-panel p-5 rounded-[2.2rem] relative overflow-hidden group cursor-pointer transition-all duration-500 hover:scale-[1.02] active:scale-[0.96] flex flex-col justify-between h-44 ${border} shadow-lg hover:shadow-2xl hover:border-opacity-50 transform-gpu`}>
     <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-40 transition-opacity duration-500 group-hover:opacity-60`} />
     <div className={`absolute -right-6 -bottom-6 opacity-[0.08] transform rotate-12 group-hover:scale-110 transition-all duration-700 ${statusColor}`}>{bgIcon}</div>
     

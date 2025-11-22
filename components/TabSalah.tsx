@@ -6,6 +6,7 @@ import { AppState, SubView } from '../types';
 import { MASTER_ACHIEVEMENTS, getGrowthStage, getStreakTitle } from '../constants';
 import { BarChart } from './Charts';
 import { TabVisuals, RankCard, AwardsView, TabWrapper } from './SimpleTabs';
+import { StatsCalendar } from './SimpleTabs';
 
 interface Props {
   state: AppState;
@@ -19,11 +20,10 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
   const streak = state.global.streaks.salah;
   const maxStreak = state.global.streaks.maxSalah || streak;
   const stage = getGrowthStage('SALAH', streak);
+  const isFriday = new Date().getDay() === 5;
 
   const renderStats = () => {
-    // Use last 7 entries from history or pad with zeros
     const history = state.global.history ? state.global.history.slice(-7) : [];
-    // Add today to the view
     const combined = [...history, state.daily];
     const displayData = combined.slice(-7);
     
@@ -32,27 +32,23 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
         return day.prayers.filter((p: any) => p.completed).length;
     });
     
-    // Fill missing data if less than 7
     const finalData = [...Array(Math.max(0, 7 - data.length)).fill(0), ...data];
     const labels = ["D-6", "D-5", "D-4", "D-3", "D-2", "Yest", "Today"];
 
     return (
-        <div className="space-y-6 animate-slide-up">
+        <div className="space-y-6 animate-slide-up pb-10">
+            <StatsCalendar 
+              history={state.global.history} 
+              current={state.daily} 
+              color="emerald" 
+              checkDay={(day) => day.prayers.filter(p => p.completed).length === 6}
+              label="Perfect Days"
+            />
+
             <div className="glass-panel p-6 rounded-[2rem]">
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-primary"><BarChart2 size={18} className="text-emerald-500"/> Weekly Performance</h3>
                 <BarChart data={finalData} labels={labels} color="emerald" maxVal={6} />
                 <p className="text-center text-[10px] text-secondary mt-4">Prayers Completed per Day</p>
-            </div>
-            
-            <div className="glass-panel p-6 rounded-[2rem] flex justify-between items-center">
-                <div>
-                    <h4 className="text-sm font-bold text-secondary">Completion Rate</h4>
-                    <p className="text-3xl font-light text-primary">{maxStreak > 0 ? Math.round((streak / maxStreak) * 100) : 100}%</p>
-                </div>
-                <div className="text-right">
-                    <h4 className="text-sm font-bold text-secondary">Max Streak</h4>
-                    <p className="text-3xl font-light text-emerald-400">{maxStreak}d</p>
-                </div>
             </div>
         </div>
     );
@@ -60,14 +56,14 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
 
   const renderDaily = () => (
     <div className="space-y-4 animate-slide-up pb-10">
-      {/* Replaced custom card with standardized RankCard */}
       <RankCard stage={stage} streak={streak} maxStreak={maxStreak} color="emerald" />
 
-      {/* Prayers List */}
       <div className="space-y-3">
         {state.daily.prayers.map((prayer, idx) => {
            const isNext = !prayer.completed && (idx === 0 || state.daily.prayers[idx-1].completed);
-           
+           const displayName = (isFriday && prayer.id === 'dhuhr') ? 'Jumuah' : prayer.name;
+           const displayUrdu = (isFriday && prayer.id === 'dhuhr') ? 'جمعہ' : prayer.urduName;
+
            return (
           <div 
             key={prayer.id} 
@@ -78,11 +74,9 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
                 : 'glass-panel hover:border-emerald-500/20'
             } ${isNext ? 'ring-1 ring-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : ''}`}
           >
-             {/* Animated Background for Next Prayer */}
             {isNext && <div className="absolute inset-0 bg-emerald-500/5 animate-pulse-slow pointer-events-none" />}
 
             <div className="flex flex-row-reverse justify-between items-center p-6 relative z-10">
-              {/* Right side (Urdu & Check) */}
               <div className="flex items-center flex-row-reverse gap-5">
                  <div className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all duration-500 ${
                   prayer.completed 
@@ -97,12 +91,16 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
                 </div>
                 
                 <div className="flex flex-col items-end">
-                     <span className={`text-4xl font-serif font-bold drop-shadow-sm transition-colors duration-300 ${prayer.completed ? 'text-emerald-400' : 'text-primary'}`}>{prayer.urduName}</span>
-                     <span className="text-xs font-medium uppercase tracking-wider text-secondary/60 mt-1">{prayer.name}</span>
+                     <span className={`text-4xl font-serif font-bold drop-shadow-sm transition-colors duration-300 ${prayer.completed ? 'text-emerald-400' : 'text-primary'}`}>{displayUrdu}</span>
+                     <span className="text-xs font-medium uppercase tracking-wider text-secondary/60 mt-1">{displayName}</span>
+                     {prayer.completed && prayer.completedAt && (
+                         <div className="flex items-center gap-1 mt-1 text-[9px] font-bold text-emerald-400/80 animate-fade-in">
+                            <Clock size={8} /> {prayer.completedAt}
+                         </div>
+                     )}
                 </div>
               </div>
 
-              {/* Left side (Jamaah Toggle) */}
               <button 
                 onClick={(e) => {
                   e.stopPropagation();
@@ -123,7 +121,6 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
         );})}
       </div>
        
-      {/* Qada */}
       <div className="glass-panel p-6 rounded-[2.5rem] border-red-500/10 bg-gradient-to-br from-red-950/20 to-transparent mt-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
         <div className="flex justify-between items-center mb-6 relative z-10">

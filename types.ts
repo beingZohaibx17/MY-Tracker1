@@ -41,9 +41,11 @@ export interface Achievement {
   id: string;
   title: string;
   description: string;
-  tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL';
+  tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL' | 'TITAN';
   icon: string;
   category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'DUA' | 'RAMADAN' | 'FITNESS' | 'SOCIAL' | 'MEMORIZE';
+  metric?: 'STREAK' | 'COUNT' | 'VALUE' | 'XP' | 'SPECIAL';
+  value?: number;
 }
 
 export interface CustomDhikr {
@@ -71,6 +73,7 @@ export interface DailyStats {
   };
   surahMulk: boolean;
   surahBaqarah: boolean;
+  surahKahf: boolean; // Friday Special
   
   // Hygiene & Habits
   hygiene: {
@@ -90,7 +93,7 @@ export interface DailyStats {
     weight: number | null;
   };
   
-  // Ramadan (Daily Logic Removed, used for aggregates now)
+  // Ramadan
   ramadan: {
     suhoor: boolean;
     iftar: boolean;
@@ -102,7 +105,7 @@ export interface DailyStats {
   completedDuaReview: boolean;
   
   // STRICT SCORING
-  mdfCheckIn: boolean; // Manual pledge required for 20pts
+  mdfCheckIn: boolean; 
 }
 
 export interface Friend {
@@ -128,7 +131,7 @@ export interface GlobalStats {
     quranSurah: number; 
     ramadan: number;
     
-    // MAX STREAKS FOR ALL CATEGORIES
+    // MAX STREAKS
     maxSalah: number;
     maxDhikr: number;
     maxMdf: number;
@@ -143,8 +146,8 @@ export interface GlobalStats {
   quransRecited: number;
   currentParah: number;
   lastRelapseDate: number | null; 
-  lastMdfRewardDate: number | null; // For auto XP
-  memorizeWeek: number; // Acts as index for content
+  lastMdfRewardDate: number | null;
+  memorizeWeek: number; 
   memorizeProgress: number;
   name: string;
   ramadanMode: boolean;
@@ -183,6 +186,7 @@ export const INITIAL_DAILY_STATE: DailyStats = {
   quranParts: { rub: false, nisf: false, thalatha: false, kamil: false },
   surahMulk: false,
   surahBaqarah: false,
+  surahKahf: false,
   hygiene: { shower: false, brush: false, waterGlasses: 0 },
   habits: { smokingCount: 0, nicotineCount: 0, failedToday: false },
   fitness: { type: 'Rest', log: [], weight: null },
@@ -205,7 +209,7 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   currentParah: 1,
   lastRelapseDate: Date.now() - (1000 * 60 * 60 * 24),
   lastMdfRewardDate: Date.now(),
-  memorizeWeek: 0, // Changed to 0 index based
+  memorizeWeek: 0,
   memorizeProgress: 0,
   name: 'Zohaib',
   ramadanMode: false,

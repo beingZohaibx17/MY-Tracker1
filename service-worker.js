@@ -1,54 +1,73 @@
 
-const CACHE_NAME = 'zohaib-tracker-v2';
+const CACHE_NAME = 'zohaib-tracker-v20';
 
-// Since we are using CDNs, we will use a runtime caching strategy.
-// This Service Worker intercepts network requests. 
-// If the file is in the cache, it serves it (Offline Mode).
-// If not, it fetches it from the internet and saves it to the cache for next time.
+const URLS_TO_CACHE = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  'https://cdn.tailwindcss.com',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap',
+  'https://aistudiocdn.com/react@^19.2.0',
+  'https://aistudiocdn.com/react-dom@^19.2.0/',
+  'https://aistudiocdn.com/lucide-react@^0.554.0'
+];
 
 self.addEventListener('install', (event) => {
-  // Force the waiting service worker to become the active service worker.
   self.skipWaiting();
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        return cache.addAll(URLS_TO_CACHE);
+      })
+  );
 });
 
 self.addEventListener('activate', (event) => {
-  // Claim any clients immediately, so the user doesn't need to refresh twice.
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener('fetch', (event) => {
-  // We only want to handle GET requests
+  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Return cached response if found
-        return cachedResponse;
-      }
-
-      // Otherwise, fetch from network
-      return fetch(event.request).then((networkResponse) => {
-        // Check if we received a valid response
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic' && networkResponse.type !== 'cors') {
-          return networkResponse;
+        // Return cached response immediately if found
+        if (cachedResponse) {
+            return cachedResponse;
         }
 
-        // IMPORTANT: Clone the response. A response is a stream
-        // and because we want the browser to consume the response
-        // as well as the cache consuming the response, we need
-        // to clone it so we have two streams.
-        const responseToCache = networkResponse.clone();
+        // Otherwise fetch from network
+        return fetch(event.request).then((networkResponse) => {
+            // Check if we received a valid response
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+                return networkResponse;
+            }
 
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
+            // Clone the response because it's a stream and can only be consumed once
+            const responseToCache = networkResponse.clone();
+
+            caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, responseToCache);
+            });
+
+            return networkResponse;
+        }).catch(() => {
+             // If both fail, and it's a navigation request, return index.html (SPA fallback)
+             if (event.request.mode === 'navigate') {
+                 return caches.match('/index.html');
+             }
         });
-
-        return networkResponse;
-      }).catch(() => {
-        // If both cache and network fail (offline and not cached), show nothing or a fallback.
-        // For this app, if they installed it, the cache should have the files.
-      });
     })
   );
 });

@@ -14,19 +14,24 @@ export enum ViewState {
   SALAH = 'SALAH',
   DHIKR = 'DHIKR',
   QURAN = 'QURAN',
+  HADEES = 'HADEES', // New
+  NIGHT = 'NIGHT',   // New
   MDF = 'MDF',
   FITNESS = 'FITNESS',
   HYGIENE = 'HYGIENE', 
+  HABITS = 'HABITS',
   MEMORIZE = 'MEMORIZE',
   RAMADAN = 'RAMADAN',
-  SOCIAL = 'SOCIAL',
   SETTINGS = 'SETTINGS',
-  WIDGET = 'WIDGET'
+  WIDGET = 'WIDGET',
+  AI_CHAT = 'AI_CHAT'
 }
 
 export type SubView = 'DAILY' | 'STATS' | 'AWARDS';
 
 export type ThemeMode = 'AUTO' | 'DAY' | 'NIGHT';
+
+export type SpiritualMood = 'BROKEN' | 'LOW' | 'NEUTRAL' | 'HIGH' | 'ECSTATIC' | null;
 
 export interface Prayer {
   id: string;
@@ -43,7 +48,7 @@ export interface Achievement {
   description: string;
   tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL' | 'TITAN';
   icon: string;
-  category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'DUA' | 'RAMADAN' | 'FITNESS' | 'SOCIAL' | 'MEMORIZE';
+  category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'RAMADAN' | 'FITNESS' | 'MEMORIZE' | 'HADEES' | 'NIGHT';
   metric?: 'STREAK' | 'COUNT' | 'VALUE' | 'XP' | 'SPECIAL';
   value?: number;
 }
@@ -53,6 +58,14 @@ export interface CustomDhikr {
   text: string;
   target: number;
   count: number;
+}
+
+export interface Exercise {
+  id: string;
+  name: string;
+  target: number;
+  count: number;
+  sets: number;
 }
 
 export interface DailyStats {
@@ -71,14 +84,23 @@ export interface DailyStats {
     thalatha: boolean;
     kamil: boolean;
   };
-  surahMulk: boolean;
-  surahBaqarah: boolean;
-  surahKahf: boolean; // Friday Special
+  
+  // Night Routine (Formerly partly in Quran)
+  night: {
+    surahMulk: boolean;
+    surahBaqarah: boolean; // Last 2 ayats
+    tasbihFatima: boolean;
+    ayatulKursi: boolean;
+  };
+
+  // Hadees
+  hadeesRead: boolean;
   
   // Hygiene & Habits
   hygiene: {
     shower: boolean;
     brush: boolean;
+    cleanDesk: boolean; // New
     waterGlasses: number;
   };
   habits: {
@@ -87,10 +109,11 @@ export interface DailyStats {
     failedToday: boolean;
   };
   
+  // Fitness (Updated)
   fitness: {
-    type: string; 
-    log: { exercise: string; reps: number }[];
-    weight: number | null;
+    pushups: number;
+    pushupsTarget: number;
+    customWorkouts: Exercise[];
   };
   
   // Ramadan
@@ -102,20 +125,9 @@ export interface DailyStats {
   };
   
   imanScore: number;
+  mood: SpiritualMood;
   completedDuaReview: boolean;
-  
-  // STRICT SCORING
   mdfCheckIn: boolean; 
-}
-
-export interface Friend {
-  id: string;
-  name: string;
-  status: 'online' | 'offline';
-  lastActive: string;
-  streak: number;
-  fajrDone: boolean;
-  avatarColor: string;
 }
 
 export interface GlobalStats {
@@ -130,6 +142,8 @@ export interface GlobalStats {
     habits: number; 
     quranSurah: number; 
     ramadan: number;
+    hadees: number; // New
+    night: number;  // New
     
     // MAX STREAKS
     maxSalah: number;
@@ -140,6 +154,8 @@ export interface GlobalStats {
     maxHabits: number;
     maxQuran: number;
     maxRamadan: number;
+    maxHadees: number;
+    maxNight: number;
   };
   streakFreezes: number;
   qadaBank: number;
@@ -157,12 +173,10 @@ export interface GlobalStats {
     quranKhatams: number;
   };
   theme: ThemeMode;
+  hapticsEnabled: boolean;
   hasSeenOnboarding: boolean;
   unlockedAchievements: string[]; 
   history: DailyStats[];
-  
-  // SOCIAL
-  friends: Friend[];
 }
 
 export interface AppState {
@@ -184,14 +198,14 @@ export const INITIAL_DAILY_STATE: DailyStats = {
   dhikrRabbiInni: 0,
   customDhikr: [],
   quranParts: { rub: false, nisf: false, thalatha: false, kamil: false },
-  surahMulk: false,
-  surahBaqarah: false,
-  surahKahf: false,
-  hygiene: { shower: false, brush: false, waterGlasses: 0 },
+  night: { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false },
+  hadeesRead: false,
+  hygiene: { shower: false, brush: false, cleanDesk: false, waterGlasses: 0 },
   habits: { smokingCount: 0, nicotineCount: 0, failedToday: false },
-  fitness: { type: 'Rest', log: [], weight: null },
+  fitness: { pushups: 0, pushupsTarget: 60, customWorkouts: [] },
   ramadan: { suhoor: false, iftar: false, taraweeh: false, charity: false },
   imanScore: 0,
+  mood: null,
   completedDuaReview: false,
   mdfCheckIn: false,
 };
@@ -200,8 +214,8 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   level: 1,
   xp: 0,
   streaks: {
-    salah: 0, dhikr: 0, mdf: 0, fitness: 0, hygiene: 0, habits: 0, quranSurah: 0, ramadan: 0,
-    maxSalah: 0, maxDhikr: 0, maxMdf: 0, maxFitness: 0, maxHygiene: 0, maxHabits: 0, maxQuran: 0, maxRamadan: 0
+    salah: 0, dhikr: 0, mdf: 0, fitness: 0, hygiene: 0, habits: 0, quranSurah: 0, ramadan: 0, hadees: 0, night: 0,
+    maxSalah: 0, maxDhikr: 0, maxMdf: 0, maxFitness: 0, maxHygiene: 0, maxHabits: 0, maxQuran: 0, maxRamadan: 0, maxHadees: 0, maxNight: 0
   },
   streakFreezes: 1,
   qadaBank: 0,
@@ -214,12 +228,9 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   name: 'Zohaib',
   ramadanMode: false,
   ramadanStats: { fastsDone: 0, taraweehPrayed: 0, quranKhatams: 0 },
-  theme: 'AUTO',
+  theme: 'NIGHT',
+  hapticsEnabled: true,
   hasSeenOnboarding: false,
   unlockedAchievements: [],
-  history: [],
-  friends: [
-    { id: '1', name: 'Hamza', status: 'online', lastActive: 'Now', streak: 14, fajrDone: true, avatarColor: 'bg-blue-500' },
-    { id: '2', name: 'Bilal', status: 'offline', lastActive: '2h ago', streak: 3, fajrDone: false, avatarColor: 'bg-emerald-500' }
-  ]
+  history: []
 };

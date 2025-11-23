@@ -3,14 +3,15 @@ import * as React from 'react';
 
 // Map colors to prevent JIT issues
 const CHART_COLORS: Record<string, any> = {
-   emerald: { from: '#10b981', to: '#059669', text: '#10b981' },
-   amber: { from: '#f59e0b', to: '#d97706', text: '#f59e0b' },
-   cyan: { from: '#06b6d4', to: '#0891b2', text: '#06b6d4' },
-   purple: { from: '#a855f7', to: '#7c3aed', text: '#a855f7' },
-   rose: { from: '#f43f5e', to: '#e11d48', text: '#f43f5e' },
-   orange: { from: '#f97316', to: '#ea580c', text: '#f97316' },
-   pink: { from: '#ec4899', to: '#db2777', text: '#ec4899' },
-   teal: { from: '#14b8a6', to: '#0d9488', text: '#14b8a6' },
+   emerald: { from: '#10b981', to: '#059669', text: '#10b981', bg: 'bg-emerald-500' },
+   amber: { from: '#f59e0b', to: '#d97706', text: '#f59e0b', bg: 'bg-amber-500' },
+   cyan: { from: '#06b6d4', to: '#0891b2', text: '#06b6d4', bg: 'bg-cyan-500' },
+   purple: { from: '#a855f7', to: '#7c3aed', text: '#a855f7', bg: 'bg-purple-500' },
+   rose: { from: '#f43f5e', to: '#e11d48', text: '#f43f5e', bg: 'bg-rose-500' },
+   orange: { from: '#f97316', to: '#ea580c', text: '#f97316', bg: 'bg-orange-500' },
+   pink: { from: '#ec4899', to: '#db2777', text: '#ec4899', bg: 'bg-pink-500' },
+   teal: { from: '#14b8a6', to: '#0d9488', text: '#14b8a6', bg: 'bg-teal-500' },
+   slate: { from: '#64748b', to: '#475569', text: '#64748b', bg: 'bg-slate-500' },
 };
 
 interface BarChartProps {
@@ -91,77 +92,75 @@ export const BarChart: React.FC<BarChartProps> = ({ data, labels, maxVal = 6, co
   );
 };
 
-interface LineChartProps {
-  data: number[];
-  color: string;
+interface HeatmapProps {
+  history: any[];
+  current: any;
 }
 
-export const LineChart: React.FC<LineChartProps> = ({ data, color }) => {
-  if (!data || data.length < 2) return <div className="text-center text-gray-500 text-xs py-10 opacity-50">Not enough data to chart</div>;
-
-  const width = 300;
-  const height = 100;
-  const min = Math.min(...data) * 0.9;
-  const max = Math.max(...data) * 1.1;
-  const range = Math.max(1, max - min);
-  const theme = CHART_COLORS[color] || CHART_COLORS['emerald'];
+export const ActivityHeatmap: React.FC<HeatmapProps> = ({ history, current }) => {
+  // Generate dates for the last 14 weeks (approx 3 months)
+  const weeks = 18;
+  const days = weeks * 7;
+  const today = new Date();
   
-  // Create smooth bezier curve path
-  const points = data.map((val, i) => {
-    const x = (i / (data.length - 1)) * width;
-    const y = height - ((val - min) / range) * height;
-    return [x, y];
+  // Combine history and current day
+  const allData = [...(history || [])];
+  // Ensure current day is in the dataset if not already (checked by date string)
+  if (!allData.find(d => d.date === current.date)) {
+      allData.push(current);
+  }
+
+  // Create a map for fast lookup: "YYYY-MM-DD" -> imanScore
+  const scoreMap = new Map();
+  allData.forEach(day => {
+      scoreMap.set(day.date, day.imanScore || 0);
   });
 
-  const pathD = points.reduce((acc, [x, y], i, arr) => {
-     if (i === 0) return `M ${x},${y}`;
-     const [prevX, prevY] = arr[i-1];
-     const cp1x = prevX + (x - prevX) * 0.5;
-     const cp1y = prevY;
-     const cp2x = x - (x - prevX) * 0.5;
-     const cp2y = y;
-     return `${acc} C ${cp1x},${cp1y} ${cp2x},${cp2y} ${x},${y}`;
-  }, "");
+  const cells = [];
+  // Loop backwards from today
+  for (let i = days - 1; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const score = scoreMap.get(dateStr) || 0;
+      
+      let opacity = 0.1; // Default empty
+      if (score > 0) opacity = 0.3;
+      if (score > 30) opacity = 0.5;
+      if (score > 60) opacity = 0.7;
+      if (score > 80) opacity = 0.9;
+      if (score > 95) opacity = 1;
 
-  const areaD = `${pathD} L ${width},${height} L 0,${height} Z`;
+      cells.push({ date: dateStr, opacity, score });
+  }
 
   return (
-    <div className="w-full h-32 select-none">
-      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full overflow-visible">
-         <defs>
-            <linearGradient id={`grad-${color}`} x1="0" x2="0" y1="0" y2="1">
-              <stop offset="0%" stopColor={theme.from} stopOpacity="0.3" />
-              <stop offset="100%" stopColor={theme.to} stopOpacity="0" />
-            </linearGradient>
-         </defs>
-
-         <path 
-           d={areaD} 
-           fill={`url(#grad-${color})`} 
-           className="opacity-50"
-         >
-             <animate attributeName="opacity" from="0" to="0.5" dur="1s" />
-         </path>
-
-         <path 
-           d={pathD} 
-           fill="none" 
-           stroke={theme.from} 
-           strokeWidth="3" 
-           className="drop-shadow-md"
-           strokeLinecap="round"
-           strokeLinejoin="round"
-         >
-             <animate attributeName="stroke-dasharray" from="0 1000" to="1000 1000" dur="1.5s" />
-         </path>
-         
-         {points.map(([x, y], i) => (
-            <g key={i} className="group">
-              <circle cx={x} cy={y} r="4" fill={theme.from} stroke="white" strokeWidth="2" className="transition-all duration-300 group-hover:r-6" />
-              <text x={x} y={y-10} textAnchor="middle" fill={theme.from} className="text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-opacity">{data[i]}</text>
-            </g>
-         ))}
-      </svg>
+    <div className="w-full overflow-hidden">
+        <div className="flex gap-1 justify-end flex-wrap flex-col h-[100px] content-end">
+            {cells.map((cell, i) => (
+                <div 
+                    key={i} 
+                    className="w-2.5 h-2.5 rounded-[2px] bg-emerald-500 transition-all duration-500 hover:scale-150 hover:z-10 relative group"
+                    style={{ opacity: cell.opacity }}
+                >
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-black/90 text-white text-[9px] px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none">
+                        {cell.date}: {Math.round(cell.score)}%
+                    </div>
+                </div>
+            ))}
+        </div>
+        <div className="flex justify-between items-center mt-2 text-[9px] text-secondary uppercase tracking-widest opacity-60">
+            <span>3 Months Ago</span>
+            <div className="flex items-center gap-1">
+                <span>Less</span>
+                <div className="w-2 h-2 bg-emerald-500/10 rounded-[1px]"></div>
+                <div className="w-2 h-2 bg-emerald-500/40 rounded-[1px]"></div>
+                <div className="w-2 h-2 bg-emerald-500/70 rounded-[1px]"></div>
+                <div className="w-2 h-2 bg-emerald-500 rounded-[1px]"></div>
+                <span>More</span>
+            </div>
+        </div>
     </div>
   );
 };

@@ -1,15 +1,15 @@
 
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Atmosphere } from './components/Atmosphere';
 import { Dashboard } from './components/Dashboard';
-import { BottomNav } from './components/BottomNav';
 import { TabSalah } from './components/TabSalah';
-import { TabDhikr, TabHygiene, TabMDF, TabFitness, TabMemorize, TabQuran, TabRamadan, TabSocial, TabSettings } from './components/SimpleTabs';
-import { AppState, INITIAL_DAILY_STATE, INITIAL_GLOBAL_STATE, ViewState, DailyStats, ThemeMode } from './types';
-import { STREAK_MILESTONES, MASTER_ACHIEVEMENTS } from './constants'; 
-import { X, AlertTriangle, CheckCircle2, Snowflake, Trophy } from 'lucide-react';
+import { TabDhikr, TabHygiene, TabMDF, TabFitness, TabMemorize, TabQuran, TabRamadan, TabSettings, TabHabits, TabHadees, TabNight } from './components/SimpleTabs';
+import { AIAssistant } from './components/AIAssistant';
+import { BottomNav } from './components/BottomNav';
+import { AppState, INITIAL_DAILY_STATE, INITIAL_GLOBAL_STATE, ViewState, DailyStats, SpiritualMood } from './types';
+import { MASTER_ACHIEVEMENTS } from './constants'; 
+import { X, AlertTriangle, Trophy, Snowflake } from 'lucide-react';
 
 const useSound = () => {
   const play = (type: 'click' | 'success' | 'error' | 'pop') => {
@@ -98,6 +98,7 @@ const App: React.FC = () => {
   const [state, setState] = useState<AppState>({ daily: INITIAL_DAILY_STATE, global: INITIAL_GLOBAL_STATE });
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [showWarning, setShowWarning] = useState(false);
+  const [warningMsg, setWarningMsg] = useState("");
   const playSound = useSound();
 
   const addToast = (msg: string, type: Toast['type']) => {
@@ -112,29 +113,37 @@ const App: React.FC = () => {
 
   const requestNotificationPermission = () => {
       if (!('Notification' in window)) {
-          addToast("Notifications not supported on this device", "error");
+          addToast("Notifications not supported", "error");
           return;
       }
       Notification.requestPermission().then(permission => {
           if (permission === 'granted') {
               addToast("Reminders Enabled", "success");
-              new Notification("Zohaib Tracker", { body: "Notifications are set up successfully!", icon: "/icon.png" });
+              new Notification("Zohaib Tracker", { body: "Daily reminders are now active.", icon: "/icon.png" });
           } else {
               addToast("Permission Denied", "error");
           }
       });
   };
 
-  // Simple Notification Loop for PWA (Best Effort)
+  // Improved Notification Logic
   useEffect(() => {
       const interval = setInterval(() => {
           const now = new Date();
-          if (Notification.permission === 'granted') {
-             if (now.getMinutes() === 0) {
-                 new Notification("Tracker Reminder", { body: "Have you logged your progress?", icon: "/icon.png" });
+          const hour = now.getHours();
+          const minute = now.getMinutes();
+
+          // Morning Check (10:00 AM) and Evening Check (8:00 PM)
+          // We use a small window (0-5 minutes) to ensure it triggers but not repeatedly in a loop if the app stays open
+          if (Notification.permission === 'granted' && minute === 0) {
+             if (hour === 10) {
+                 new Notification("Zohaib Tracker", { body: "Good Morning! Have you prayed Fajr and read your Hadees?", icon: "/icon.png" });
+             }
+             if (hour === 20) {
+                 new Notification("Zohaib Tracker", { body: "Evening Review: Complete your daily Dhikr and Night routine.", icon: "/icon.png" });
              }
           }
-      }, 60000);
+      }, 60000); // Check every minute
       return () => clearInterval(interval);
   }, []);
 
@@ -183,7 +192,6 @@ const App: React.FC = () => {
     input.click();
   };
 
-  // Helper to update max streaks
   const syncMaxStreaks = (streaks: typeof INITIAL_GLOBAL_STATE.streaks) => {
      const s = { ...streaks };
      s.maxSalah = Math.max(s.maxSalah || 0, s.salah);
@@ -194,16 +202,21 @@ const App: React.FC = () => {
      s.maxHabits = Math.max(s.maxHabits || 0, s.habits);
      s.maxQuran = Math.max(s.maxQuran || 0, s.quranSurah);
      s.maxRamadan = Math.max(s.maxRamadan || 0, s.ramadan);
+     s.maxHadees = Math.max(s.maxHadees || 0, s.hadees);
+     s.maxNight = Math.max(s.maxNight || 0, s.night);
      return s;
   };
 
-  // --- ACHIEVEMENT SYSTEM ---
+  const getTotalCount = (currentState: AppState, selector: (d: DailyStats) => number) => {
+      const historyTotal = (currentState.global.history || []).reduce((acc, d) => acc + selector(d), 0);
+      return historyTotal + selector(currentState.daily);
+  };
+
   const checkAchievements = (currentState: AppState) => {
-      const { streaks, xp, currentParah, ramadanStats, unlockedAchievements, history } = currentState.global;
+      const { streaks, xp, currentParah, ramadanStats, unlockedAchievements } = currentState.global;
       const unlocked = new Set(unlockedAchievements);
       const newUnlocks: string[] = [];
 
-      // Helper to get current metric value based on category
       const getStreak = (cat: string) => {
           if (cat === 'SALAH') return streaks.salah;
           if (cat === 'DHIKR') return streaks.dhikr;
@@ -212,80 +225,56 @@ const App: React.FC = () => {
           if (cat === 'RAMADAN') return streaks.ramadan;
           if (cat === 'FITNESS') return streaks.fitness;
           if (cat === 'HYGIENE') return streaks.hygiene;
+          if (cat === 'HABITS') return streaks.habits;
+          if (cat === 'HADEES') return streaks.hadees;
+          if (cat === 'NIGHT') return streaks.night;
+          if (cat === 'MEMORIZE') return currentState.global.memorizeWeek;
           return 0;
       };
 
-      const getCount = (id: string) => {
-         if (id.includes('r_fasts')) return ramadanStats.fastsDone;
-         if (id.includes('r_taraweeh')) return ramadanStats.taraweehPrayed;
-         if (id.includes('r_khatam')) return ramadanStats.quranKhatams;
-         return 0;
+      const checkCount = (id: string, targetVal: number) => {
+          let count = 0;
+          if (id.includes('ramadan_fast') || id.includes('fasts')) count = ramadanStats.fastsDone;
+          else if (id.includes('ramadan_taraweeh') || id.includes('taraweeh')) count = ramadanStats.taraweehPrayed;
+          else if (id.includes('ramadan_khatam') || id.includes('quran_khatam')) count = ramadanStats.quranKhatams;
+          else if (id.includes('salah_total')) count = getTotalCount(currentState, (d) => d.prayers.filter(p=>p.completed).length);
+          else if (id.includes('salah_jamaah')) count = getTotalCount(currentState, (d) => d.prayers.filter(p=>p.completed && p.isJamaah).length);
+          else if (id.includes('salah_fajr')) count = getTotalCount(currentState, (d) => d.prayers.find(p => p.id === 'fajr' && p.completed) ? 1 : 0);
+          else if (id.includes('salah_tahajjud')) count = getTotalCount(currentState, (d) => d.prayers.find(p => p.id === 'tahajjud' && p.completed) ? 1 : 0);
+          else if (id.includes('dhikr_total') || id.includes('dhikr_completion')) count = getTotalCount(currentState, (d) => d.dhikrAstaghfirullah + d.dhikrRabbiInni + (d.customDhikr?.reduce((a,b)=>a+b.count,0) || 0));
+          else if (id.includes('fitness_total')) count = getTotalCount(currentState, (d) => d.fitness.pushups);
+          else if (id.includes('hygiene_total')) count = getTotalCount(currentState, (d) => (d.hygiene.waterGlasses >= 8 ? 1 : 0) + (d.hygiene.shower ? 1 : 0) + (d.hygiene.brush ? 1 : 0) + (d.hygiene.cleanDesk ? 1 : 0));
+          else if (id.includes('hygiene_water')) count = getTotalCount(currentState, (d) => d.hygiene.waterGlasses >= 8 ? 1 : 0);
+          else if (id.includes('hadees_total')) count = getTotalCount(currentState, (d) => d.hadeesRead ? 1 : 0);
+          else if (id.includes('night_total')) count = getTotalCount(currentState, (d) => (d.night.surahMulk && d.night.surahBaqarah ? 1 : 0));
+          else if (id.includes('memorize')) count = currentState.global.memorizeProgress || 0;
+          
+          return count >= targetVal;
       };
 
       const getValue = (id: string) => {
-         if (id.includes('q_parah')) return currentParah;
+         if (id.includes('quran_juz')) return currentParah;
+         if (id.includes('quran_khatam')) return currentState.global.quransRecited || 0;
+         if (id.includes('memorize')) return currentState.global.memorizeProgress || 0;
          return 0;
-      };
-
-      // SPECIAL CHECKER FOR HISTORY-BASED TITAN ACHIEVEMENTS
-      const checkSpecial = (id: string, val: number) => {
-          // Helper to count consecutive days fulfilling a condition
-          const countConsecutive = (fn: (d: DailyStats) => boolean) => {
-             let count = 0;
-             if (fn(currentState.daily)) count++;
-             // Iterate backwards through history
-             for (let i = history.length - 1; i >= 0; i--) {
-                 if (fn(history[i])) count++;
-                 else break;
-             }
-             return count;
-          };
-
-          if (id === 's_titan_fajr') {
-              // 40 Days Fajr in Jamaah
-              const consecutive = countConsecutive(d => {
-                 const fajr = d.prayers.find(p => p.id === 'fajr');
-                 return !!(fajr && fajr.completed && fajr.isJamaah);
-              });
-              return consecutive >= val;
-          }
-          if (id === 's_titan_tahajjud') {
-              // 40 Days Tahajjud
-              const consecutive = countConsecutive(d => {
-                 const tahajjud = d.prayers.find(p => p.id === 'tahajjud');
-                 return !!(tahajjud && tahajjud.completed);
-              });
-              return consecutive >= val;
-          }
-          if (id === 's_titan_jamaah') {
-              // 30 Days All 5 Jamaah
-              const consecutive = countConsecutive(d => {
-                 const mandatory = d.prayers.filter(p => p.id !== 'tahajjud');
-                 return mandatory.every(p => p.completed && p.isJamaah);
-              });
-              return consecutive >= val;
-          }
-          return false;
       };
 
       MASTER_ACHIEVEMENTS.forEach(ach => {
           if (unlocked.has(ach.id)) return;
-
           let passed = false;
-
           if (ach.metric === 'STREAK') {
               const streak = getStreak(ach.category);
               if (streak >= (ach.value || 0)) passed = true;
           } else if (ach.metric === 'COUNT') {
-              const count = getCount(ach.id);
-              if (count >= (ach.value || 0)) passed = true;
+              if (checkCount(ach.id, ach.value || 0)) passed = true;
           } else if (ach.metric === 'VALUE') {
               const val = getValue(ach.id);
               if (val >= (ach.value || 0)) passed = true;
           } else if (ach.metric === 'XP') {
               if (xp >= (ach.value || 0)) passed = true;
           } else if (ach.metric === 'SPECIAL') {
-              if (checkSpecial(ach.id, ach.value || 0)) passed = true;
+             const streak = getStreak(ach.category);
+             if (streak >= (ach.value || 0)) passed = true;
           }
 
           if (passed) {
@@ -298,7 +287,11 @@ const App: React.FC = () => {
       if (newUnlocks.length > 0) {
           setState(prev => ({
               ...prev,
-              global: { ...prev.global, unlockedAchievements: [...prev.global.unlockedAchievements, ...newUnlocks] }
+              global: { 
+                  ...prev.global, 
+                  unlockedAchievements: [...prev.global.unlockedAchievements, ...newUnlocks],
+                  xp: prev.global.xp + (newUnlocks.length * 50) // Bonus XP for achievements
+              }
           }));
       }
   };
@@ -307,9 +300,10 @@ const App: React.FC = () => {
     let score = 0;
     const completedPrayers = daily.prayers.filter(p => p.completed).length;
     score += (completedPrayers * 10); 
-    if (daily.quranParts.rub || daily.surahMulk) score += 15;
-    if (daily.surahKahf) score += 20; 
-    if ((daily.dhikrAstaghfirullah + daily.dhikrRabbiInni) >= 4200) score += 15;
+    if ((daily.dhikrAstaghfirullah + daily.dhikrRabbiInni) >= 4200) score += 10;
+    if (Object.values(daily.quranParts).some(Boolean)) score += 10;
+    if (daily.night.surahMulk && daily.night.surahBaqarah) score += 10;
+    if (daily.hadeesRead) score += 10;
     if (!daily.habits.failedToday) score += 10;
     return Math.min(100, score);
   };
@@ -322,7 +316,6 @@ const App: React.FC = () => {
     });
   };
 
-  // Effect to check achievements on state change
   useEffect(() => {
      if (!isLoading) {
          checkAchievements(state);
@@ -330,11 +323,9 @@ const App: React.FC = () => {
   }, [
       state.daily.prayers, 
       state.daily.dhikrAstaghfirullah, 
-      state.daily.dhikrRabbiInni, 
-      state.global.streaks, 
-      state.global.xp, 
-      state.global.ramadanStats,
-      state.global.currentParah
+      state.daily.fitness,
+      state.global.streaks,
+      state.global.ramadanStats
   ]);
 
   const getDaysDiff = (d1: string, d2: string) => {
@@ -358,12 +349,22 @@ const App: React.FC = () => {
         };
         let safeDaily = { ...INITIAL_DAILY_STATE, ...parsed.daily };
 
-        if(typeof safeDaily.surahKahf === 'undefined') safeDaily.surahKahf = false;
+        // Backwards compatibility logic
+        if(typeof safeDaily.mood === 'undefined') safeDaily.mood = null;
+        if(typeof safeDaily.hygiene.cleanDesk === 'undefined') safeDaily.hygiene.cleanDesk = false;
+        if(typeof safeDaily.fitness.pushups === 'undefined') {
+            safeDaily.fitness = { pushups: 0, pushupsTarget: 60, customWorkouts: [] };
+        }
+        if(typeof safeDaily.night === 'undefined') {
+            safeDaily.night = { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false };
+        }
+        if(typeof safeDaily.hadeesRead === 'undefined') safeDaily.hadeesRead = false;
 
         if (parsed.daily.date !== today) {
            const daysPassed = getDaysDiff(parsed.daily.date, today);
            
            if (daysPassed > 1) {
+               // Reset streaks logic if missed more than 1 day
                safeGlobal.streaks.salah = 0;
                safeGlobal.streaks.dhikr = 0;
                safeGlobal.streaks.fitness = 0;
@@ -371,6 +372,18 @@ const App: React.FC = () => {
                safeGlobal.streaks.quranSurah = 0;
                safeGlobal.streaks.habits = 0; 
                safeGlobal.streaks.ramadan = 0;
+               safeGlobal.streaks.hadees = 0;
+               safeGlobal.streaks.night = 0;
+           } else if (daysPassed === 1) {
+               const prevSmoking = parsed.daily.habits?.smokingCount || 0;
+               const prevNicotine = parsed.daily.habits?.nicotineCount || 0;
+               const prevFailed = parsed.daily.habits?.failedToday || false;
+               
+               if (prevSmoking <= 2 && prevNicotine <= 3 && !prevFailed) {
+                   safeGlobal.streaks.habits += 1;
+               } else {
+                   safeGlobal.streaks.habits = 0;
+               }
            }
            
            const newHistory = [...(safeGlobal.history || []), safeDaily];
@@ -384,6 +397,7 @@ const App: React.FC = () => {
                ...INITIAL_DAILY_STATE,
                date: today,
                habits: { smokingCount: 0, nicotineCount: 0, failedToday: false },
+               fitness: { ...safeDaily.fitness, pushups: 0, customWorkouts: safeDaily.fitness.customWorkouts.map((c:any) => ({...c, count: 0})) }, // Reset daily fitness but keep custom workouts list
                customDhikr: (safeDaily.customDhikr || []).map((d: any) => ({ ...d, count: 0 }))
            };
         }
@@ -447,12 +461,16 @@ const App: React.FC = () => {
       isComplete: boolean
   ) => {
       let streaks = { ...prev.global.streaks };
+      let earnedXP = 0;
+
       if (!wasComplete && isComplete) {
           streaks[category] = (streaks[category] as number) + 1;
+          earnedXP = 10; // XP per completion
           triggerConfetti();
       } 
       else if (wasComplete && !isComplete) {
           streaks[category] = Math.max(0, (streaks[category] as number) - 1);
+          earnedXP = -10;
       }
       
       if (category === 'salah') streaks.maxSalah = Math.max(streaks.maxSalah || 0, streaks.salah);
@@ -460,6 +478,13 @@ const App: React.FC = () => {
       if (category === 'fitness') streaks.maxFitness = Math.max(streaks.maxFitness || 0, streaks.fitness);
       if (category === 'hygiene') streaks.maxHygiene = Math.max(streaks.maxHygiene || 0, streaks.hygiene);
       if (category === 'quranSurah') streaks.maxQuran = Math.max(streaks.maxQuran || 0, streaks.quranSurah);
+      if (category === 'habits') streaks.maxHabits = Math.max(streaks.maxHabits || 0, streaks.habits);
+      if (category === 'hadees') streaks.maxHadees = Math.max(streaks.maxHadees || 0, streaks.hadees);
+      if (category === 'night') streaks.maxNight = Math.max(streaks.maxNight || 0, streaks.night);
+      if (category === 'ramadan') streaks.maxRamadan = Math.max(streaks.maxRamadan || 0, streaks.ramadan);
+      
+      // Update global XP silently here, will be returned
+      prev.global.xp = Math.max(0, prev.global.xp + earnedXP);
       
       return streaks;
   };
@@ -524,33 +549,51 @@ const App: React.FC = () => {
   const handleHygiene = (key: any) => {
       playSound('click');
       updateState(prev => {
-          const wasComplete = prev.daily.hygiene.waterGlasses >= 5;
+          // Check previous state
+          const h = prev.daily.hygiene;
+          const wasComplete = h.waterGlasses >= 8 && h.shower && h.brush && h.cleanDesk;
+          
           const updatedHygiene = { ...prev.daily.hygiene };
           if (key === 'reset_water') updatedHygiene.waterGlasses = 0;
           else if (key === 'water') updatedHygiene.waterGlasses = (updatedHygiene.waterGlasses || 0) + 1;
           else if (key === 'shower') updatedHygiene.shower = !updatedHygiene.shower;
           else if (key === 'brush') updatedHygiene.brush = !updatedHygiene.brush;
-          const isComplete = updatedHygiene.waterGlasses >= 5;
+          else if (key === 'cleanDesk') updatedHygiene.cleanDesk = !updatedHygiene.cleanDesk;
+          
+          const u = updatedHygiene;
+          const isComplete = u.waterGlasses >= 8 && u.shower && u.brush && u.cleanDesk;
+          
           const newStreaks = checkAndToggleStreak(prev, 'hygiene', wasComplete, isComplete);
           return { ...prev, global: { ...prev.global, streaks: newStreaks }, daily: { ...prev.daily, hygiene: updatedHygiene } };
       });
   };
 
   const handleHabitUpdate = (habit: string) => {
+    playSound('click');
     const key = habit === 'smoking' ? 'smokingCount' : 'nicotineCount';
     const limit = habit === 'smoking' ? 2 : 3;
-    if (state.daily.habits[key as 'smokingCount' | 'nicotineCount'] + 1 > limit) {
+    const currentVal = state.daily.habits[key as 'smokingCount' | 'nicotineCount'];
+    
+    if (currentVal + 1 > limit) {
         playSound('error');
+        setWarningMsg("Limit Exceeded! Streak Reset.");
         setShowWarning(true);
         updateState(prev => ({
             ...prev,
             global: { ...prev.global, streaks: { ...prev.global.streaks, habits: 0 } }, 
-            daily: { ...prev.daily, habits: { ...prev.daily.habits, failedToday: true, [key]: prev.daily.habits[key as 'smokingCount' | 'nicotineCount'] + 1 } }
+            daily: { 
+                ...prev.daily, 
+                habits: { 
+                    ...prev.daily.habits, 
+                    failedToday: true, 
+                    [key]: currentVal + 1 
+                } 
+            }
         }));
-        setTimeout(() => setShowWarning(false), 5000);
+        setTimeout(() => setShowWarning(false), 4000);
     } else {
         updateState(prev => {
-             const newDaily = { ...prev.daily, habits: { ...prev.daily.habits, [key]: prev.daily.habits[key as 'smokingCount' | 'nicotineCount'] + 1 } };
+             const newDaily = { ...prev.daily, habits: { ...prev.daily.habits, [key]: currentVal + 1 } };
              return { ...prev, daily: newDaily };
         });
     }
@@ -564,6 +607,36 @@ const App: React.FC = () => {
       }));
   };
 
+  const handleRamadanDailyToggle = (key: keyof DailyStats['ramadan']) => {
+      playSound('click');
+      updateState(prev => {
+         const oldVal = prev.daily.ramadan[key];
+         const newVal = !oldVal;
+         
+         // Auto-update global stats counters for convenience
+         let newRamadanStats = { ...prev.global.ramadanStats };
+         if (newVal) {
+             if (key === 'iftar') newRamadanStats.fastsDone += 1;
+             if (key === 'taraweeh') newRamadanStats.taraweehPrayed += 1;
+         } else {
+             if (key === 'iftar') newRamadanStats.fastsDone = Math.max(0, newRamadanStats.fastsDone - 1);
+             if (key === 'taraweeh') newRamadanStats.taraweehPrayed = Math.max(0, newRamadanStats.taraweehPrayed - 1);
+         }
+         
+         const newDaily = { ...prev.daily, ramadan: { ...prev.daily.ramadan, [key]: newVal } };
+         
+         const wasDayComplete = prev.daily.ramadan.suhoor && prev.daily.ramadan.iftar && prev.daily.ramadan.taraweeh;
+         const isDayComplete = newDaily.ramadan.suhoor && newDaily.ramadan.iftar && newDaily.ramadan.taraweeh;
+         const newStreaks = checkAndToggleStreak(prev, 'ramadan', wasDayComplete, isDayComplete);
+         
+         return {
+             ...prev,
+             global: { ...prev.global, streaks: newStreaks, ramadanStats: newRamadanStats },
+             daily: newDaily
+         };
+      });
+  };
+
   const handleQuranProgress = (part: string) => {
     if (!['rub', 'nisf', 'thalatha', 'kamil'].includes(part)) return;
     playSound('click');
@@ -572,15 +645,31 @@ const App: React.FC = () => {
         const newParts = { ...prev.daily.quranParts, [part]: !prev.daily.quranParts[part as keyof typeof prev.daily.quranParts] };
         const isComplete = Object.values(newParts).some(Boolean);
         const newStreaks = checkAndToggleStreak(prev, 'quranSurah', wasComplete, isComplete);
+        
         const allDone = newParts.rub && newParts.nisf && newParts.thalatha && newParts.kamil;
+        
         if (allDone) {
             playSound('success');
             let newParah = prev.global.currentParah + 1;
-            if (newParah > 30) newParah = 1;
-            addToast("Parah Completed! +10 XP", "success");
+            let currentKhatams = prev.global.quransRecited || 0;
+            
+            if (newParah > 30) {
+                newParah = 1;
+                currentKhatams += 1;
+                addToast("Alhamdulillah! Quran Khatam Completed!", "success");
+            } else {
+                addToast(`Parah ${prev.global.currentParah} Completed!`, "success");
+            }
+            
             return {
                 ...prev,
-                global: { ...prev.global, currentParah: newParah, xp: prev.global.xp + 10, streaks: newStreaks },
+                global: { 
+                    ...prev.global, 
+                    currentParah: newParah, 
+                    quransRecited: currentKhatams,
+                    xp: prev.global.xp + 50, 
+                    streaks: newStreaks 
+                },
                 daily: { ...prev.daily, quranParts: { rub: false, nisf: false, thalatha: false, kamil: false } }
             };
         } else {
@@ -589,16 +678,29 @@ const App: React.FC = () => {
     });
   };
 
-  const handleSurahUpdate = (surah: string) => {
-    playSound('click');
-    const key = surah === 'mulk' ? 'surahMulk' : (surah === 'baqarah' ? 'surahBaqarah' : 'surahKahf');
+  const handleMarkHadees = () => {
+    playSound('success');
     updateState(prev => {
-        const wasComplete = prev.daily.surahMulk || prev.daily.surahBaqarah || prev.daily.surahKahf;
-        const newDaily = { ...prev.daily, [key]: !prev.daily[key as 'surahMulk' | 'surahBaqarah' | 'surahKahf'] };
-        const isComplete = newDaily.surahMulk || newDaily.surahBaqarah || newDaily.surahKahf;
-        const newStreaks = checkAndToggleStreak(prev, 'quranSurah', wasComplete, isComplete);
-        return { ...prev, global: {...prev.global, streaks: newStreaks}, daily: newDaily };
+        const wasComplete = false; 
+        const isComplete = true;
+        const newStreaks = checkAndToggleStreak(prev, 'hadees', wasComplete, isComplete);
+        return {
+            ...prev,
+            global: { ...prev.global, streaks: newStreaks },
+            daily: { ...prev.daily, hadeesRead: true }
+        };
     });
+  };
+
+  const handleNightUpdate = (key: 'surahMulk' | 'surahBaqarah') => {
+      playSound('click');
+      updateState(prev => {
+          const wasComplete = prev.daily.night.surahMulk && prev.daily.night.surahBaqarah;
+          const newDaily = { ...prev.daily, night: { ...prev.daily.night, [key]: !prev.daily.night[key] } };
+          const isComplete = newDaily.night.surahMulk && newDaily.night.surahBaqarah;
+          const newStreaks = checkAndToggleStreak(prev, 'night', wasComplete, isComplete);
+          return { ...prev, global: { ...prev.global, streaks: newStreaks }, daily: newDaily };
+      });
   };
   
   const handleMemorizeNext = () => {
@@ -607,24 +709,73 @@ const App: React.FC = () => {
       updateState(prev => ({ ...prev, global: { ...prev.global, memorizeProgress: (prev.global.memorizeProgress || 0) + 1, xp: prev.global.xp + 20 } }));
   };
   
-  const handleFitnessType = (t: string) => {
+  const handleUpdatePushups = (amt: number) => {
+      playSound('click');
       updateState(prev => {
-          const wasComplete = prev.daily.fitness.type !== 'Rest';
-          const isComplete = t !== 'Rest';
+          const wasComplete = prev.daily.fitness.pushups >= prev.daily.fitness.pushupsTarget;
+          const newCount = prev.daily.fitness.pushups + amt;
+          const isComplete = newCount >= prev.daily.fitness.pushupsTarget;
+          
+          if (!wasComplete && isComplete) playSound('success');
+          
           const newStreaks = checkAndToggleStreak(prev, 'fitness', wasComplete, isComplete);
           return {
               ...prev,
               global: { ...prev.global, streaks: newStreaks },
-              daily: { ...prev.daily, fitness: { ...prev.daily.fitness, type: t } }
+              daily: { ...prev.daily, fitness: { ...prev.daily.fitness, pushups: newCount } }
           };
       });
-  }
+  };
+
+  const handleAddCustomExercise = (name: string, target: number) => {
+      playSound('pop');
+      updateState(prev => ({
+          ...prev,
+          daily: { 
+              ...prev.daily, 
+              fitness: { 
+                  ...prev.daily.fitness, 
+                  customWorkouts: [...prev.daily.fitness.customWorkouts, { id: Date.now().toString(), name, target, count: 0, sets: 0 }] 
+              } 
+          }
+      }));
+  };
+
+  const handleUpdateCustomExercise = (id: string, amt: number) => {
+      playSound('click');
+      updateState(prev => ({
+          ...prev,
+          daily: {
+              ...prev.daily,
+              fitness: {
+                  ...prev.daily.fitness,
+                  customWorkouts: prev.daily.fitness.customWorkouts.map(ex => ex.id === id ? { ...ex, count: ex.count + amt } : ex)
+              }
+          }
+      }));
+  };
+
+  const handleWeightUpdate = (weight: number) => {
+      updateState(prev => ({
+          ...prev,
+          daily: { ...prev.daily, fitness: { ...prev.daily.fitness, weight } }
+      }));
+      addToast("Weight Logged", "success");
+  };
+
+  const handleMoodUpdate = (mood: SpiritualMood) => {
+    playSound('pop');
+    updateState(prev => ({
+      ...prev,
+      daily: { ...prev.daily, mood }
+    }));
+  };
 
   if (isLoading) return <LoadingScreen />;
 
   return (
     <>
-      <Atmosphere mode={state.global.theme} />
+      <Atmosphere mode={state.global.theme} view={view} />
       <ToastContainer toasts={toasts} />
       
       {showWarning && (
@@ -632,7 +783,7 @@ const App: React.FC = () => {
             <div className="bg-gradient-to-b from-red-900 to-black border border-red-500 rounded-3xl p-8 max-w-sm text-center shadow-2xl shadow-red-500/50 animate-slide-up">
                 <AlertTriangle size={60} className="text-red-500 mx-auto mb-4 animate-pulse" />
                 <h2 className="text-3xl font-bold text-white mb-2">LIMIT EXCEEDED</h2>
-                <p className="text-red-300 mb-6">Warning: Daily limit exceeded. Streak reset to 0. Please reflect.</p>
+                <p className="text-red-300 mb-6">{warningMsg || "Warning: Daily limit exceeded. Streak reset to 0."}</p>
                 <button onClick={() => setShowWarning(false)} className="w-full py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-500">I Understand</button>
             </div>
         </div>
@@ -641,20 +792,30 @@ const App: React.FC = () => {
       {view === ViewState.WIDGET && <WidgetView state={state} onClose={() => setView(ViewState.DASHBOARD)} />}
 
       {view !== ViewState.WIDGET && (
-        <div className="min-h-screen relative z-10 max-w-md mx-auto">
-          {view === ViewState.DASHBOARD && <Dashboard state={state} changeView={setView} />}
+        <div className="min-h-screen relative z-10 max-w-md mx-auto pb-32">
+          {view === ViewState.DASHBOARD && <Dashboard state={state} changeView={setView} updateMood={handleMoodUpdate} />}
           {view === ViewState.SALAH && <TabSalah state={state} updatePrayer={handleUpdatePrayer} updateQada={(amt) => updateState(prev => ({ ...prev, global: { ...prev.global, qadaBank: Math.max(0, prev.global.qadaBank + amt) } }))} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.DHIKR && <TabDhikr state={state} updateDhikr={handleDhikr} addCustomDhikr={handleAddCustomDhikr} />}
-          {view === ViewState.QURAN && <TabQuran state={state} updatePart={handleQuranProgress} updateSurah={handleSurahUpdate} />}
-          {view === ViewState.MDF && <TabMDF state={state} resetRelapse={() => updateState(prev => ({...prev, global: {...prev.global, lastRelapseDate: Date.now(), streaks: {...prev.global.streaks, mdf: 0}}, daily: {...prev.daily, habits: {...prev.daily.habits, failedToday: true}}}))} />}
-          {view === ViewState.SOCIAL && <TabSocial state={state} />}
-          {view === ViewState.HYGIENE && <TabHygiene state={state} updateHygiene={handleHygiene} updateHabit={handleHabitUpdate} />}
-          {view === ViewState.FITNESS && <TabFitness state={state} updateType={handleFitnessType} />}
-          {view === ViewState.MEMORIZE && <TabMemorize state={state} markLearned={handleMemorizeNext} />}
-          {view === ViewState.RAMADAN && <TabRamadan state={state} updateRamadanStat={handleRamadanStatUpdate} />}
+          {view === ViewState.DHIKR && <TabDhikr state={state} updateDhikr={handleDhikr} addCustomDhikr={handleAddCustomDhikr} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.AI_CHAT && <AIAssistant state={state} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.QURAN && <TabQuran state={state} updatePart={handleQuranProgress} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.HADEES && <TabHadees state={state} markRead={handleMarkHadees} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.NIGHT && <TabNight state={state} updateNight={handleNightUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.MDF && <TabMDF state={state} resetRelapse={() => updateState(prev => ({...prev, global: {...prev.global, lastRelapseDate: Date.now(), streaks: {...prev.global.streaks, mdf: 0}}, daily: {...prev.daily, habits: {...prev.daily.habits, failedToday: true}}}))} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.HABITS && <TabHabits state={state} updateHabit={handleHabitUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.HYGIENE && <TabHygiene state={state} updateHygiene={handleHygiene} updateHabit={handleHabitUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.FITNESS && <TabFitness state={state} updatePushups={handleUpdatePushups} addCustomExercise={handleAddCustomExercise} updateCustomExercise={handleUpdateCustomExercise} updateWeight={handleWeightUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.MEMORIZE && <TabMemorize state={state} markLearned={handleMemorizeNext} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.RAMADAN && <TabRamadan state={state} toggleRamadanDaily={handleRamadanDailyToggle} updateRamadanStat={handleRamadanStatUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} resetApp={hardReset} requestNotify={requestNotificationPermission} />}
-          <BottomNav currentView={view} changeView={setView} ramadanMode={state.global.ramadanMode} />
         </div>
+      )}
+      
+      {view !== ViewState.WIDGET && (
+        <BottomNav 
+            currentView={view} 
+            changeView={(v) => { playSound('click'); setView(v); }} 
+            ramadanMode={state.global.ramadanMode} 
+        />
       )}
     </>
   );

@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Zohaib Tracker">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#2E1065">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/4358/4358665.png">
     
@@ -28,11 +28,16 @@
             animation: {
               'fade-in': 'fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
               'float': 'float 8s ease-in-out infinite',
+              'float-delayed': 'float 8s ease-in-out 4s infinite',
               'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
               'shimmer': 'shimmer 2s infinite linear',
               'slide-up': 'slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
               'scale-in': 'scaleIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)',
-              'aurora': 'aurora 20s infinite alternate linear',
+              'swing': 'swing 3s ease-in-out infinite alternate',
+              'wave': 'wave 10s linear infinite',
+              'drift': 'drift 20s ease-in-out infinite alternate',
+              'drift-slow': 'drift 30s ease-in-out infinite alternate',
+              'aura': 'aura 3s infinite linear',
             },
             keyframes: {
               fadeIn: {
@@ -48,21 +53,26 @@
                 '100%': { opacity: '1', transform: 'scale(1)' },
               },
               float: {
-                '0%, 100%': { transform: 'translateY(0) scale(1)' },
-                '50%': { transform: 'translateY(-20px) scale(1.05)' },
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-20px)' },
               },
-              shimmer: {
-                '0%': { backgroundPosition: '-1000px 0' },
-                '100%': { backgroundPosition: '1000px 0' },
+              swing: {
+                '0%': { transform: 'rotate(-5deg)' },
+                '100%': { transform: 'rotate(5deg)' },
               },
-              aurora: {
-                '0%': { filter: 'hue-rotate(0deg)' },
-                '100%': { filter: 'hue-rotate(30deg)' },
+              drift: {
+                '0%': { transform: 'translateX(-5%)' },
+                '100%': { transform: 'translateX(5%)' },
+              },
+              aura: {
+                '0%': { boxShadow: '0 0 0 0px rgba(16, 185, 129, 0.2)' },
+                '100%': { boxShadow: '0 0 0 10px rgba(16, 185, 129, 0)' }
               }
             },
             colors: {
               primary: 'var(--text-primary)',
               secondary: 'var(--text-secondary)',
+              accent: 'var(--accent)',
             }
           }
         }
@@ -70,44 +80,41 @@
     </script>
     <style>
       :root {
-        /* --- NIGHT MODE (Default) --- */
-        --glass-bg: rgba(20, 20, 25, 0.65);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --text-primary: #ffffff;
-        --text-secondary: rgba(255, 255, 255, 0.6);
-        
-        /* Footer - Deep Onyx */
-        --nav-bg: rgba(18, 18, 22, 0.75); 
-        --nav-border: rgba(255, 255, 255, 0.08);
-        
-        --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        --accent-glow: rgba(255,255,255,0.05);
+        /* --- NIGHT MODE (Default: Deep Navy) --- */
+        --glass-bg: rgba(15, 23, 42, 0.6); 
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --text-primary: #F8FAFC;
+        --text-secondary: #94A3B8;
+        --nav-bg: #0F172A; 
+        --nav-border: rgba(255, 255, 255, 0.05);
+        --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --accent: #FDBA74; /* Peach/Orange */
       }
 
       body.theme-day {
-        /* --- DAY MODE (Executive Navy & Ice) --- */
-        --glass-bg: rgba(255, 255, 255, 0.75); 
-        --glass-border: rgba(0, 0, 0, 0.04);
-        --text-primary: #0f172a; /* Slate 900 */
-        --text-secondary: #64748b; /* Slate 500 */
-        
-        /* Footer - Ice White */
-        --nav-bg: rgba(255, 255, 255, 0.85); 
-        --nav-border: rgba(0, 0, 0, 0.05);
-        
-        --card-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
-        --accent-glow: rgba(0, 0, 0, 0.03);
+        /* --- DAY MODE (Updated: Royal Purple & Gold) --- */
+        --glass-bg: rgba(59, 7, 100, 0.65); /* Purple 950 glass */
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --text-primary: #FFFFFF;
+        --text-secondary: #E9D5FF; /* Purple 200 */
+        --nav-bg: #2E1065; /* Purple 950 */
+        --nav-border: rgba(255, 255, 255, 0.15);
+        --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        --accent: #FBBF24; /* Amber 400 */
       }
 
       body {
-        background-color: #000;
+        background-color: #0F172A; /* Fallback night */
         color: var(--text-primary);
         -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
         overscroll-behavior-y: none;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
         transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s ease;
+      }
+      
+      body.theme-day {
+        background-color: #2E1065; /* Royal Purple */
       }
 
       .no-scrollbar::-webkit-scrollbar {
@@ -120,8 +127,8 @@
 
       .glass-panel {
         background: var(--glass-bg);
-        backdrop-filter: blur(20px) saturate(180%); 
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        backdrop-filter: blur(20px); 
+        -webkit-backdrop-filter: blur(20px);
         border: 1px solid var(--glass-border);
         box-shadow: var(--card-shadow);
         transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.3s ease;
@@ -129,10 +136,13 @@
       
       .glass-nav {
         background: var(--nav-bg);
-        backdrop-filter: blur(25px) saturate(180%);
-        -webkit-backdrop-filter: blur(25px) saturate(180%);
-        border: 1px solid var(--nav-border);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-top: 1px solid var(--nav-border);
+      }
+      
+      .pb-safe {
+          padding-bottom: env(safe-area-inset-bottom, 20px);
       }
     </style>
     <script type="importmap">
@@ -145,7 +155,8 @@
     "vite": "https://aistudiocdn.com/vite@^7.2.4",
     "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0"
   }
 }
 </script>
@@ -154,15 +165,14 @@
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
     <script>
-      // PWA Service Worker Registration
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js')
             .then(registration => {
-              console.log('ServiceWorker registration successful');
+              console.log('SW registered: ', registration);
             })
-            .catch(err => {
-              console.log('ServiceWorker registration failed: ', err);
+            .catch(registrationError => {
+              console.log('SW registration failed: ', registrationError);
             });
         });
       }

@@ -1,11 +1,13 @@
 
+
 import * as React from 'react';
 import { useState } from 'react';
-import { Moon, CheckCircle2, Users, ChevronLeft, Clock, Trophy, BarChart2, Cloud, Star, Sparkles, AlertTriangle, BookOpen } from 'lucide-react';
+import { Moon, CheckCircle2, Users, ChevronLeft, Clock, Trophy, BarChart2, Cloud, Star, Sparkles, AlertTriangle } from 'lucide-react';
 import { AppState, SubView } from '../types';
 import { MASTER_ACHIEVEMENTS, getGrowthStage, getStreakTitle } from '../constants';
 import { BarChart } from './Charts';
-import { RankCard, AwardsView, TabWrapper, StatsCalendar, HeroCard, RANK_IMAGES, JUMUAH_IMAGE } from './SimpleTabs';
+import { TabVisuals, RankCard, AwardsView, TabWrapper } from './SimpleTabs';
+import { StatsCalendar } from './SimpleTabs';
 
 interface Props {
   state: AppState;
@@ -36,17 +38,15 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
 
     return (
         <div className="space-y-6 animate-slide-up pb-10">
-            <RankCard stage={stage} streak={streak} maxStreak={maxStreak} color="emerald" bgImage={isFriday ? JUMUAH_IMAGE : RANK_IMAGES.SALAH} />
-
             <StatsCalendar 
               history={state.global.history} 
               current={state.daily} 
               color="emerald" 
-              checkDay={(day: any) => day.prayers.filter((p: any) => p.completed).length === 6}
+              checkDay={(day) => day.prayers.filter(p => p.completed).length === 6}
               label="Perfect Days"
             />
 
-            <div className="glass-panel p-6 rounded-[2rem] hover:scale-[1.02] transition-transform duration-300 shadow-lg">
+            <div className="glass-panel p-6 rounded-[2rem]">
                 <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-primary"><BarChart2 size={18} className="text-emerald-500"/> Weekly Performance</h3>
                 <BarChart data={finalData} labels={labels} color="emerald" maxVal={6} />
                 <p className="text-center text-[10px] text-secondary mt-4">Prayers Completed per Day</p>
@@ -55,19 +55,10 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
     );
   };
 
-  const renderDaily = () => {
-    const nextPrayer = state.daily.prayers.find(p => !p.completed);
-    return (
+  const renderDaily = () => (
     <div className="space-y-4 animate-slide-up pb-10">
-      <HeroCard 
-        title={isFriday ? "Jumuah" : "Salah"} 
-        subtitle={isFriday ? "Blessed Friday" : "Daily Prayers"} 
-        stat={nextPrayer ? nextPrayer.name : "All Done"} 
-        statLabel={nextPrayer ? "Next Prayer" : "Status"} 
-        icon={<Moon size={14} />} 
-        bgImage={isFriday ? JUMUAH_IMAGE : RANK_IMAGES.SALAH} 
-      />
-      
+      <RankCard stage={stage} streak={streak} maxStreak={maxStreak} color="emerald" />
+
       <div className="space-y-3">
         {state.daily.prayers.map((prayer, idx) => {
            const isNext = !prayer.completed && (idx === 0 || state.daily.prayers[idx-1].completed);
@@ -82,7 +73,7 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
               prayer.completed 
                 ? 'bg-gradient-to-r from-emerald-900/60 to-emerald-800/40 border-emerald-500/30 shadow-lg shadow-emerald-900/30 animate-aura' 
                 : 'glass-panel hover:border-emerald-500/20'
-            } ${isNext ? 'ring-1 ring-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.15)] scale-[1.02]' : ''}`}
+            } ${isNext ? 'ring-1 ring-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.15)]' : ''}`}
           >
             {isNext && <div className="absolute inset-0 bg-emerald-500/5 animate-pulse-slow pointer-events-none" />}
 
@@ -101,8 +92,8 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
                 </div>
                 
                 <div className="flex flex-col items-end">
-                     <span className={`text-3xl font-serif font-bold drop-shadow-sm transition-colors duration-300 ${prayer.completed ? 'text-emerald-400' : 'text-primary'}`}>{displayUrdu}</span>
-                     <span className="text-xs font-bold uppercase tracking-wider text-secondary/60 mt-1">{displayName}</span>
+                     <span className={`text-4xl font-serif font-bold drop-shadow-sm transition-colors duration-300 ${prayer.completed ? 'text-emerald-400' : 'text-primary'}`}>{displayUrdu}</span>
+                     <span className="text-xs font-medium uppercase tracking-wider text-secondary/60 mt-1">{displayName}</span>
                      {prayer.completed && prayer.completedAt && (
                          <div className="flex items-center gap-1 mt-1 text-[9px] font-bold text-emerald-400/80 animate-fade-in">
                             <Clock size={8} /> {prayer.completedAt}
@@ -131,12 +122,12 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
         );})}
       </div>
        
-      <div className="glass-panel p-6 rounded-[2.5rem] border-red-500/10 bg-gradient-to-br from-red-950/20 to-transparent mt-6 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300 shadow-lg">
+      <div className="glass-panel p-6 rounded-[2.5rem] border-red-500/10 bg-gradient-to-br from-red-950/20 to-transparent mt-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
         <div className="flex justify-between items-center mb-6 relative z-10">
           <div>
              <h3 className="font-bold text-red-400 text-sm flex items-center gap-2"><AlertTriangle size={16}/> Qada Bank</h3>
-             <p className="text-[10px] text-red-400/50 uppercase tracking-wide font-bold">Missed Prayers</p>
+             <p className="text-[10px] text-red-400/50 uppercase tracking-wide">Missed Prayers</p>
           </div>
           <span className="text-4xl font-mono font-bold text-red-500 drop-shadow-md">{state.global.qadaBank}</span>
         </div>
@@ -150,10 +141,10 @@ export const TabSalah: React.FC<Props> = ({ state, updatePrayer, updateQada, onB
         </div>
       </div>
     </div>
-  );};
+  );
 
   return (
-    <TabWrapper themeColor="emerald" subView={subView} setSubView={setSubView} visualType="SALAH" onBack={onBack}>
+    <TabWrapper themeColor="emerald" subView={subView} setSubView={setSubView} visualType="SALAH">
       {subView === 'DAILY' && renderDaily()}
       {subView === 'STATS' && renderStats()}
       {subView === 'AWARDS' && <AwardsView categories={['SALAH']} unlocked={state.global.unlockedAchievements} />}

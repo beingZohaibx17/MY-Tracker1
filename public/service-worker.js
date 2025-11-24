@@ -1,8 +1,6 @@
 
 
-
-
-const CACHE_NAME = 'zohaib-tracker-v16';
+const CACHE_NAME = 'zohaib-tracker-v22';
 
 const URLS_TO_CACHE = [
   '/',
@@ -43,16 +41,33 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((response) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          if(networkResponse && networkResponse.status === 200) {
-             cache.put(event.request, networkResponse.clone());
-          }
-          return networkResponse;
+    caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+
+        return fetch(event.request).then((networkResponse) => {
+            // Allow caching of valid responses (200) and opaque responses (0) from CDNs
+            if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
+                return networkResponse;
+            }
+
+            // Only cache images and font/css files dynamically, avoid caching API calls or dynamic pages aggressively
+            const url = event.request.url;
+            if (url.match(/\.(js|css|png|jpg|jpeg|svg|woff2)$/) || url.includes('googleapis') || url.includes('gstatic')) {
+                const responseToCache = networkResponse.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, responseToCache);
+                });
+            }
+            
+            return networkResponse;
+        }).catch(() => {
+             // Fallback for navigation requests
+             if (event.request.mode === 'navigate') {
+                 return caches.match('/index.html');
+             }
         });
-        return response || fetchPromise;
-      });
     })
   );
 });

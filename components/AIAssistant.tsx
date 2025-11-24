@@ -1,10 +1,10 @@
 
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, User, Bot, Loader2, RefreshCw } from 'lucide-react';
+import { Send, Sparkles, User, Bot, Loader2, Trash2 } from 'lucide-react';
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import { TabWrapper, HeroCard, RANK_IMAGES } from './SimpleTabs';
-import { AppState, ViewState } from '../types';
+import { AppState } from '../types';
 
 interface Props {
   state: AppState;
@@ -47,6 +47,8 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
       - Dhikr Streak: ${state.global.streaks.dhikr} days
       - Current Mood: ${state.daily.mood || 'Unknown'}
       - Iman Score: ${state.daily.imanScore}%
+      - Date: ${new Date().toDateString()}
+      - Is Ramadan: ${state.global.ramadanMode ? 'Yes' : 'No'}
       
       Rules:
       1. Keep responses concise, encouraging, and rooted in Islamic wisdom (Quran & Sunnah).
@@ -56,10 +58,6 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
       5. Do not hallucinate app features. You can only track what is listed in the stats.
       `;
 
-      // Construct history for context
-      // Note: In a real app we might pass full history, but for simplicity/tokens we'll pass the last few interactions + system instruction logic via prompt structure or a fresh chat.
-      // We will use a chat session.
-      
       const chat = ai.chats.create({
         model: 'gemini-2.5-flash',
         config: {
@@ -93,35 +91,52 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
     }
   };
 
-  const suggestions = [
-      "Give me motivation for Fajr",
-      "Suggest a Dua for anxiety",
-      "How to improve Khushu in Salah?",
-      "Explain the benefits of Dhikr"
-  ];
+  const getSuggestions = () => {
+      const s = [];
+      const hour = new Date().getHours();
+      
+      if (hour < 7) s.push("Motivation for Fajr");
+      else if (hour > 20) s.push("Night Adhkar");
+      else if (new Date().getDay() === 5) s.push("Sunnahs of Friday");
+      else s.push("Dua for anxiety");
+      
+      if (state.global.streaks.salah < 3) s.push("How to focus in Salah?");
+      s.push("Explain Tawakkul");
+      return s;
+  };
 
   return (
     <TabWrapper themeColor="blue" subView="DAILY" setSubView={() => {}} onBack={onBack} visualType="AI_CHAT">
-      <div className="space-y-4 pb-24">
-        <HeroCard 
-            title="Zohaib AI" 
-            subtitle="Spiritual Companion" 
-            stat="Online" 
-            statLabel="Status" 
-            icon={<Sparkles size={14} />} 
-            bgImage={RANK_IMAGES.AI_CHAT} 
-        />
+      <div className="space-y-4 pb-24 relative min-h-full">
+        <div className="flex justify-between items-start">
+             <HeroCard 
+                title="Zohaib AI" 
+                subtitle="Spiritual Guide" 
+                stat="Online" 
+                statLabel="Status" 
+                icon={<Sparkles size={14} />} 
+                bgImage={RANK_IMAGES.AI_CHAT} 
+            />
+            {messages.length > 2 && (
+                <button 
+                    onClick={() => setMessages([{ role: 'model', text: "Assalamu Alaikum, Zohaib. How can I help you?" }])}
+                    className="absolute top-6 right-6 p-2 rounded-full bg-white/10 text-white/50 hover:text-white hover:bg-white/20 transition-all z-20"
+                >
+                    <Trash2 size={16} />
+                </button>
+            )}
+        </div>
 
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-6 px-1">
             {messages.map((msg, idx) => (
-                <div key={idx} className={`flex items-start gap-3 animate-slide-up ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border border-white/10 ${msg.role === 'user' ? 'bg-emerald-500 text-white' : 'bg-blue-600 text-white'}`}>
-                        {msg.role === 'user' ? <User size={14} /> : <Bot size={14} />}
+                <div key={idx} className={`flex items-start gap-4 animate-slide-up ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                    <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 border border-white/10 shadow-lg ${msg.role === 'user' ? 'bg-gradient-to-br from-indigo-500 to-blue-600 text-white' : 'bg-white/10 backdrop-blur-md text-emerald-400'}`}>
+                        {msg.role === 'user' ? <User size={18} /> : <Bot size={20} />}
                     </div>
-                    <div className={`p-4 rounded-2xl max-w-[80%] text-sm leading-relaxed shadow-md backdrop-blur-md border border-white/5 ${
+                    <div className={`p-5 rounded-[1.5rem] max-w-[85%] text-sm leading-7 shadow-xl backdrop-blur-md border border-white/5 ${
                         msg.role === 'user' 
-                        ? 'bg-emerald-500/20 text-emerald-100 rounded-tr-none border-emerald-500/20' 
-                        : 'bg-white/10 text-white/90 rounded-tl-none'
+                        ? 'bg-blue-600 text-white rounded-tr-none shadow-blue-900/20' 
+                        : 'bg-slate-900/60 text-slate-100 rounded-tl-none shadow-black/20'
                     }`}>
                          {/* Simple whitespace handling */}
                         <div style={{ whiteSpace: 'pre-wrap' }}>{msg.text}</div>
@@ -129,43 +144,50 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
                 </div>
             ))}
             {isLoading && (
-                 <div className="flex items-center gap-2 text-blue-400 text-xs pl-12 animate-pulse">
-                     <Loader2 size={12} className="animate-spin" /> Thinking...
+                 <div className="flex items-center gap-3 text-blue-300 text-xs pl-14 animate-pulse">
+                     <div className="flex gap-1">
+                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.15s' }}></div>
+                         <div className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.3s' }}></div>
+                     </div>
+                     <span className="uppercase tracking-widest opacity-70">Thinking</span>
                  </div>
             )}
             <div ref={messagesEndRef} />
         </div>
 
         {/* Suggestions */}
-        {messages.length < 3 && !isLoading && (
-            <div className="flex flex-wrap gap-2 mt-4">
-                {suggestions.map((s, i) => (
-                    <button key={i} onClick={() => { setInput(s); setTimeout(handleSend, 100); }} className="px-4 py-2 rounded-full bg-white/5 border border-white/5 text-[10px] text-secondary hover:bg-white/10 hover:text-white transition-all active:scale-95">
+        {messages.length < 4 && !isLoading && (
+            <div className="flex flex-wrap gap-2 mt-6 px-2 justify-center">
+                {getSuggestions().map((s, i) => (
+                    <button key={i} onClick={() => { setInput(s); setTimeout(handleSend, 100); }} className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/5 text-[10px] font-bold uppercase tracking-wider text-slate-300 hover:bg-white/10 hover:text-white transition-all active:scale-95 hover:border-white/20">
                         {s}
                     </button>
                 ))}
             </div>
         )}
 
-        {/* Input Area - Fixed at bottom of the scroll view effectively, but within flow for mobile */}
-        <div className="pt-4">
-             <div className="glass-panel p-2 rounded-[1.5rem] flex items-center gap-2 border-blue-500/20 shadow-lg relative z-20">
-                 <input 
-                    type="text" 
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder="Ask for guidance..." 
-                    className="flex-1 bg-transparent border-none outline-none text-white px-4 py-3 placeholder:text-secondary/50 text-sm font-medium"
-                    disabled={isLoading}
-                 />
-                 <button 
-                    onClick={handleSend}
-                    disabled={!input.trim() || isLoading}
-                    className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-500 transition-all active:scale-90 shadow-lg shadow-blue-900/50"
-                 >
-                     <Send size={18} />
-                 </button>
+        {/* Floating Input Area */}
+        <div className="fixed bottom-24 left-0 right-0 px-6 z-50 pointer-events-none">
+             <div className="max-w-md mx-auto pointer-events-auto">
+                 <div className="glass-panel p-2 rounded-[2rem] flex items-center gap-2 border-white/10 shadow-2xl bg-[#0f172a]/80 backdrop-blur-xl ring-1 ring-white/5">
+                     <input 
+                        type="text" 
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                        placeholder="Ask for guidance..." 
+                        className="flex-1 bg-transparent border-none outline-none text-white px-4 py-3 placeholder:text-slate-400/50 text-sm font-medium"
+                        disabled={isLoading}
+                     />
+                     <button 
+                        onClick={handleSend}
+                        disabled={!input.trim() || isLoading}
+                        className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 transition-all active:scale-95 shadow-lg shadow-blue-900/50"
+                     >
+                         {isLoading ? <Loader2 size={20} className="animate-spin" /> : <Send size={20} />}
+                     </button>
+                 </div>
              </div>
         </div>
       </div>

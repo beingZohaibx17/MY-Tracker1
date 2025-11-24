@@ -1,91 +1,97 @@
 
+
 import React, { useState } from 'react';
 import { AppState, SubView, Exercise } from '../types';
 import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS } from '../constants';
 import { BarChart } from './Charts';
 import { 
-  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, Flame, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Play, ChevronRight, Star, Bell, Download, Upload, Trash2, Smartphone, Sunrise, Sunset, Heart, Cloud, Maximize2, Minimize2, X, Save, FileUp
+  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock
 } from 'lucide-react';
 
-// Curated High-Quality Unsplash Images based on user request
+// High-Quality Unsplash Images (Dark & Moody Aesthetics) - UPDATED
 export const RANK_IMAGES: Record<string, string> = {
-    SALAH: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3Dmuslim%2Bprayer&psig=AOvVaw2VULdvOuKYEPmoPXDWOV76&ust=1764007642699000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCKDSl9vuiJEDFQAAAAAdAAAAABAEq=80&w=1974&auto=format&fit=crop", // Prayer/Mosque
-    DHIKR: "https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.ramadhanguide.com%2Fsome-of-the-virtues-and-benefits-of-remembering-god-dhikr-of-allah-almighty%2F&psig=AOvVaw0xyOgBFBki637e5reYSrKK&ust=1764007738500000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCNivzYfviJEDFQAAAAAdAAAAABAE?q=80&w=2070&auto=format&fit=crop", // Tasbeeh/Beads
-    HYGIENE: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=1932&auto=format&fit=crop", // Water/Clean
-    FITNESS: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070&auto=format&fit=crop", // Gym/Weights
-    HABITS: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=2070&auto=format&fit=crop", // Nature/Clean
-    MDF: "https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=2069&auto=format&fit=crop", // Shield/Abstract
-    NIGHT: "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop", // Islamic Night/Stars
-    HADEES: "https://images.unsplash.com/photo-1585918760799-234208d132cb?q=80&w=1935&auto=format&fit=crop", // Islamic Books/Wisdom
-    MEMORIZE: "https://images.unsplash.com/photo-1606236922967-b52479f6e696?q=80&w=1974&auto=format&fit=crop", // Hands Praying/Dua
-    RAMADAN: "https://images.unsplash.com/photo-1589133496350-0a88b81324cb?q=80&w=1974&auto=format&fit=crop", // Lanterns
-    QURAN: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=2070&auto=format&fit=crop", // Quran Book
-    AI_CHAT: "https://images.unsplash.com/photo-1616763355603-9755a640a287?q=80&w=2070&auto=format&fit=crop" // Abstract/Modern
+    SALAH: "https://images.unsplash.com/photo-1542816417-0983c9c9ad53?q=80&w=2070&auto=format&fit=crop", 
+    DHIKR: "https://images.unsplash.com/photo-1598556776374-3b794a096288?q=80&w=1936&auto=format&fit=crop", 
+    HYGIENE: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=1964&auto=format&fit=crop", 
+    FITNESS: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop", 
+    HABITS: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=2070&auto=format&fit=crop", 
+    MDF: "https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=1974&auto=format&fit=crop", // Distinct Purity Image
+    NIGHT: "https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1974&auto=format&fit=crop", 
+    HADEES: "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=1887&auto=format&fit=crop", 
+    MEMORIZE: "https://images.unsplash.com/photo-1585036156171-384164a8c675?q=80&w=2070&auto=format&fit=crop", 
+    RAMADAN: "https://images.unsplash.com/photo-1589998059171-988d887df646?q=80&w=2076&auto=format&fit=crop", // Distinct Ramadan Image
+    QURAN: "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?q=80&w=2070&auto=format&fit=crop", 
+    AI_CHAT: "https://images.unsplash.com/photo-1635830625698-3b9bd74671ca?q=80&w=2070&auto=format&fit=crop" 
 };
 
-// Jumuah Specific Image
-export const JUMUAH_IMAGE = "https://images.unsplash.com/photo-1584553195825-4161945a886f?q=80&w=2070&auto=format&fit=crop"; 
+export const JUMUAH_IMAGE = "https://images.unsplash.com/photo-1564769629178-58784aa67763?q=80&w=2070&auto=format&fit=crop";
 
-// Reusable Components
-const TaskCard = ({ title, subtitle, isCompleted, onClick, icon, actionIcon }: any) => (
-    <div onClick={onClick} className={`relative flex items-center justify-between p-5 rounded-[1.5rem] border transition-all duration-300 cursor-pointer animate-slide-up group overflow-hidden shadow-lg transform ${
+const TaskCard = ({ title, subtitle, isCompleted, onClick, icon, actionIcon }: any) => {
+    const [justChecked, setJustChecked] = useState(false);
+
+    const handleClick = () => {
+        if (!isCompleted) {
+            setJustChecked(true);
+            setTimeout(() => setJustChecked(false), 500);
+        }
+        onClick();
+    };
+
+    return (
+    <div onClick={handleClick} className={`relative flex items-center justify-between p-5 rounded-[1.5rem] border transition-all duration-300 cursor-pointer animate-slide-up group overflow-hidden shadow-lg transform ${
         isCompleted 
-          ? 'bg-emerald-500/10 border-emerald-500/30 scale-[0.98]' 
-          : 'glass-panel border-transparent hover:border-accent/30 hover:bg-white/5 hover:scale-[1.01]'
-    } active:scale-95`}>
-        {/* Subtle glow on completion */}
+          ? 'bg-emerald-500/10 border-emerald-500/30' 
+          : 'glass-panel border-white/5 hover:border-white/20 hover:bg-white/5 active:scale-[0.98]'
+    }`}>
         {isCompleted && (
-            <div className="absolute inset-0 bg-emerald-500/5 blur-xl animate-pulse-slow">
-                <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent"></div>
-            </div>
+            <div className="absolute inset-0 bg-emerald-500/5 animate-pulse-slow pointer-events-none"></div>
         )}
         
         <div className="relative z-10 flex items-center gap-5">
             <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 relative ${
-                isCompleted ? 'bg-emerald-500 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)] scale-110' : 'border border-secondary/20 text-secondary bg-secondary/5 group-hover:bg-white/10 group-hover:border-white/20'
-            }`}>
-                {isCompleted ? <CheckCircle2 size={24} strokeWidth={3} className="animate-scale-in" /> : icon || <div className="w-3 h-3 rounded-full bg-secondary/30" />}
-                {isCompleted && <div className="absolute inset-0 bg-white/20 rounded-full animate-ping opacity-20"></div>}
+                isCompleted ? 'bg-gradient-to-br from-emerald-400 to-emerald-600 text-white shadow-[0_0_20px_rgba(16,185,129,0.5)] scale-110' : 'border border-white/10 text-secondary bg-white/5'
+            } ${justChecked ? 'animate-pop' : ''}`}>
+                {isCompleted ? <CheckCircle2 size={22} strokeWidth={3} className="animate-check-stroke" /> : icon || <div className="w-3 h-3 rounded-full bg-white/10" />}
             </div>
             <div>
-                <h3 className={`text-lg font-bold transition-colors ${isCompleted ? 'text-emerald-400' : 'text-primary'}`}>{title}</h3>
-                {subtitle && <p className="text-[10px] font-bold uppercase tracking-widest text-secondary/60 group-hover:text-secondary/80 transition-colors">{subtitle}</p>}
+                <h3 className={`text-base font-bold transition-colors ${isCompleted ? 'text-emerald-400 text-glow' : 'text-primary'}`}>{title}</h3>
+                {subtitle && <p className="text-[10px] font-bold uppercase tracking-widest text-secondary/60">{subtitle}</p>}
             </div>
         </div>
         {actionIcon && <div className={`text-secondary/50 transition-colors ${isCompleted ? 'text-emerald-500' : ''}`}>{actionIcon}</div>}
     </div>
-);
+    );
+};
 
 export const HeroCard: React.FC<any> = ({ title, subtitle, stat, statLabel, bgImage, icon }) => (
-    <div className="relative rounded-[2.5rem] p-8 shadow-2xl overflow-hidden min-h-[260px] flex flex-col justify-between border border-white/10 group mb-6 animate-scale-in transform transition-all hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)]">
+    <div className="relative rounded-[2.5rem] p-8 shadow-2xl overflow-hidden min-h-[240px] flex flex-col justify-between border border-white/10 group mb-6 animate-scale-in bg-black">
         {/* Background Image with Zoom Effect */}
-        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] ease-in-out group-hover:scale-110" style={{ backgroundImage: `url(${bgImage})` }}></div>
+        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[20s] ease-linear group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-80" style={{ backgroundImage: `url(${bgImage})` }}></div>
         
-        {/* Cinematic Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent opacity-80"></div>
+        {/* Cinematic Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-transparent"></div>
+        
+        {/* Metallic Shine Effect */}
+        <div className="absolute inset-0 bg-shine-gradient bg-[length:200%_100%] animate-shine opacity-10 pointer-events-none mix-blend-overlay"></div>
 
-        {/* Content */}
-        <div className="relative z-10 flex justify-between items-start">
-            <div className="space-y-2">
-                {icon && (
-                    <div className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white/90 border border-white/10 shadow-lg animate-fade-in">
-                       {icon} <span>{subtitle}</span>
-                    </div>
-                )}
-                <h1 className="text-4xl md:text-5xl font-serif font-bold text-white drop-shadow-xl leading-[1.1] max-w-[80%] animate-slide-up">{title}</h1>
-            </div>
+        <div className="relative z-10">
+            {icon && (
+                <div className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-white/90 border border-white/10 shadow-lg mb-4 animate-slide-up">
+                   {icon} <span>{subtitle}</span>
+                </div>
+            )}
+            <h1 className="text-5xl font-serif font-bold text-white drop-shadow-2xl leading-tight animate-slide-up" style={{ animationDelay: '0.1s' }}>{title}</h1>
         </div>
 
-        {/* Stats Footer */}
         {stat !== undefined && (
-            <div className="relative z-10 mt-auto pt-6 border-t border-white/10 flex items-end justify-between animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <div className="relative z-10 flex items-end justify-between border-t border-white/10 pt-4 mt-4 animate-slide-up" style={{ animationDelay: '0.2s' }}>
                  <div>
-                     <div className="text-5xl font-mono font-bold text-white drop-shadow-lg tracking-tighter">{stat}</div>
-                     <div className="text-[10px] uppercase tracking-[0.2em] text-white/60 font-bold mt-1">{statLabel}</div>
+                     <div className="text-5xl font-mono font-bold text-white drop-shadow-lg tracking-tighter text-glow">{stat}</div>
+                     <div className="text-[10px] uppercase tracking-[0.2em] text-white/50 font-bold mt-1">{statLabel}</div>
                  </div>
-                 <div className="h-12 w-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-xl group-hover:scale-110 transition-transform duration-300">
-                    <Trophy size={20} className="text-yellow-400 drop-shadow-md" />
+                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400/20 to-yellow-600/10 backdrop-blur-md flex items-center justify-center border border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)] animate-float">
+                     <Trophy size={20} className="text-yellow-400" />
                  </div>
             </div>
         )}
@@ -118,23 +124,27 @@ export const TabWrapper: React.FC<{
   const styles = THEME_STYLES[themeColor] || THEME_STYLES['emerald'];
   return (
     <div className="flex flex-col h-full relative">
-      <div className="flex items-center justify-between px-6 py-6 animate-fade-in z-50 sticky top-0 bg-gradient-to-b from-[#0F172A] via-[#0F172A]/90 to-transparent pointer-events-none">
+      <div className="flex items-center justify-between px-6 py-6 animate-fade-in z-50 sticky top-0 bg-[#0F172A]/0 backdrop-blur-none border-b border-white/0">
           <button 
             onClick={onBack} 
-            className={`w-10 h-10 rounded-full glass-panel border border-white/10 flex items-center justify-center text-primary active:scale-90 transition-transform hover:bg-white/10 pointer-events-auto`}
+            className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-primary active:scale-90 transition-all hover:bg-white/10 backdrop-blur-md shadow-lg"
           >
             <ChevronLeft size={20} />
           </button>
           
-          <div className="glass-panel rounded-full p-1.5 flex gap-1 shadow-2xl border border-white/10 pointer-events-auto backdrop-blur-xl">
+          <div className="bg-white/5 backdrop-blur-xl rounded-full p-1.5 flex gap-1 border border-white/10 shadow-lg ring-1 ring-white/5">
             {(['DAILY', 'STATS', 'AWARDS'] as SubView[]).map((v) => (
-              <button key={v} onClick={() => setSubView(v)} className={`px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-300 ${subView === v ? `${styles.bg} text-white shadow-lg scale-105` : 'text-secondary hover:bg-white/5'}`}>{v}</button>
+              <button key={v} onClick={() => setSubView(v)} className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-300 relative overflow-hidden ${subView === v ? 'text-white shadow-lg scale-105' : 'text-secondary hover:text-primary'}`}>
+                {subView === v && <div className={`absolute inset-0 ${styles.bg} opacity-100`}></div>}
+                {subView === v && <div className="absolute inset-0 bg-white/20 animate-shine"></div>}
+                <span className="relative z-10">{v}</span>
+              </button>
             ))}
           </div>
           
           <div className="w-10" /> 
       </div>
-      <div className="px-5 pb-32 flex-1 overflow-y-auto no-scrollbar">{children}</div>
+      <div className="px-5 pb-32 pt-4 flex-1 overflow-y-auto no-scrollbar">{children}</div>
     </div>
   );
 };
@@ -146,46 +156,38 @@ export const RankCard: React.FC<any> = ({ stage, streak, maxStreak, color, bgIma
     const percentage = Math.min(100, Math.max(0, ((streak - prevThreshold) / (nextThreshold - prevThreshold)) * 100));
     
     return (
-        <div className={`glass-panel p-6 rounded-[2.5rem] border-primary/5 relative overflow-hidden mb-6 group animate-slide-up hover:scale-[1.02] transition-transform duration-500 shadow-xl`}>
-            {/* Background Image Fade */}
+        <div className="relative rounded-[2.5rem] p-6 overflow-hidden mb-6 border border-white/10 shadow-2xl animate-slide-up group h-52 flex items-center bg-[#020617]">
             {bgImage && (
-                <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-1000 mix-blend-overlay">
-                    <img src={bgImage} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-1000" />
+                <div className="absolute inset-0">
+                    <img src={bgImage} className="w-full h-full object-cover opacity-40 grayscale mix-blend-overlay transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
+                    {/* Animated Particles */}
+                    <div className="absolute inset-0 opacity-30">
+                        <div className="absolute top-10 left-10 w-2 h-2 bg-white rounded-full animate-float"></div>
+                        <div className="absolute bottom-10 right-20 w-1 h-1 bg-white rounded-full animate-float-slow"></div>
+                    </div>
                 </div>
             )}
             
-            {/* Subtle background glow */}
-            <div className={`absolute top-[-50%] right-[-10%] w-64 h-64 ${styles.bg} opacity-20 blur-[80px] rounded-full pointer-events-none`}></div>
-
-            <div className="flex justify-between items-center relative z-10">
-                 <div className="flex flex-col items-center gap-2">
-                     <div className={`w-16 h-16 rounded-full ${styles.bg} flex items-center justify-center text-3xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border-2 border-white/20 text-white animate-float`}>
-                        {stage.current.icon}
-                     </div>
-                     <span className={`text-[9px] font-black uppercase ${styles.color} drop-shadow-sm tracking-[0.2em]`}>{stage.current.label}</span>
+            <div className="relative z-10 flex items-center gap-6 w-full">
+                 <div className={`w-24 h-24 rounded-2xl ${styles.bg} flex items-center justify-center text-4xl shadow-[0_0_30px_rgba(0,0,0,0.5)] border border-white/20 text-white transform rotate-3 group-hover:rotate-0 transition-all duration-500 relative overflow-hidden`}>
+                    <div className="absolute inset-0 bg-white/20 animate-shine"></div>
+                    <span className="relative z-10 drop-shadow-md animate-pulse-slow">{stage.current.icon}</span>
                  </div>
                  
-                 <div className="flex-1 px-6 flex flex-col items-center">
-                     <div className="flex justify-between w-full mb-2">
-                         <span className="text-[9px] text-secondary font-bold uppercase tracking-widest">Streak</span>
-                         <span className={`text-[12px] font-bold ${styles.color} font-mono`}>{streak} Days</span>
+                 <div className="flex-1">
+                     <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 mb-1">Current Rank</div>
+                     <h2 className={`text-3xl font-black uppercase italic ${styles.color} mb-3 text-glow`}>{stage.current.label}</h2>
+                     
+                     <div className="flex justify-between text-[10px] font-bold text-white/80 mb-1">
+                         <span>Streak: {streak}</span>
+                         <span>Next: {stage.next?.label || 'Max'}</span>
                      </div>
-                     <div className="h-3 w-full bg-black/40 rounded-full overflow-hidden border border-white/5 backdrop-blur-sm shadow-inner">
-                        <div className={`h-full ${styles.bg} transition-all duration-1000 relative shadow-[0_0_15px_currentColor]`} style={{ width: `${percentage}%` }}>
-                            <div className="absolute inset-0 bg-white/20 animate-shimmer" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)' }}></div>
+                     <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
+                        <div className={`h-full ${styles.bg} rounded-full transition-all duration-1000 relative shadow-[0_0_10px_currentColor]`} style={{ width: `${percentage}%` }}>
+                            <div className="absolute inset-0 bg-white/40 animate-shimmer"></div>
                         </div>
                      </div>
-                     <div className="flex justify-between w-full mt-2">
-                         <span className="text-[8px] text-secondary/40 font-mono">Lvl {stage.current.threshold}</span>
-                         <span className="text-[8px] text-secondary/40 font-mono">Lvl {nextThreshold}</span>
-                     </div>
-                 </div>
-
-                 <div className="flex flex-col items-center gap-2 opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all">
-                     <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-lg border border-white/5 shadow-inner">
-                        {stage.next ? stage.next.icon : '👑'}
-                     </div>
-                     <span className="text-[8px] font-bold uppercase text-secondary tracking-widest">{stage.next ? 'Next' : 'Max'}</span>
                  </div>
             </div>
         </div>
@@ -196,21 +198,22 @@ export const StatsCalendar: React.FC<any> = ({ history, current, color, checkDay
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
     const styles = THEME_STYLES[color];
     return (
-        <div className="glass-panel p-6 rounded-[2rem] hover:scale-[1.02] transition-transform duration-300 animate-slide-up shadow-lg border-white/5">
-            <h4 className="text-[10px] font-bold uppercase tracking-wider text-secondary mb-6 flex justify-between items-center">
+        <div className="glass-panel p-6 rounded-[2rem] border-white/5 animate-slide-up shadow-lg relative overflow-hidden">
+            <div className={`absolute -top-10 -right-10 w-32 h-32 ${styles.bg} opacity-10 blur-[50px] rounded-full`}></div>
+            <h4 className="text-[10px] font-bold uppercase tracking-wider text-secondary mb-6 flex justify-between items-center relative z-10">
                 <span>Last 7 Days</span>
-                <span className={`px-2 py-1 rounded-md bg-white/5 ${styles.color}`}>{label}</span>
+                <span className={`px-2 py-1 rounded-md bg-white/5 ${styles.color} border border-white/5`}>{label}</span>
             </h4>
-            <div className="flex justify-between items-center px-1">
+            <div className="flex justify-between items-center relative z-10">
                 {days.map((d, i) => (
-                    <div key={i} className="flex flex-col items-center gap-3">
-                        <span className="text-[9px] font-bold text-secondary opacity-60">{d}</span>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all ${
+                    <div key={i} className="flex flex-col items-center gap-2">
+                        <span className="text-[9px] font-bold text-secondary opacity-50">{d}</span>
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-[10px] font-bold border transition-all duration-500 ${
                             i === 6 
-                            ? (checkDay(current) ? `${styles.bg} text-white border-transparent shadow-lg scale-110 animate-pulse-slow` : 'bg-secondary/5 text-secondary border-secondary/10')
-                            : 'bg-secondary/5 text-secondary border-secondary/10 opacity-40'
+                            ? (checkDay(current) ? `${styles.bg} text-white border-transparent shadow-[0_0_15px_currentColor] scale-110` : 'bg-white/5 text-secondary border-white/10')
+                            : 'bg-white/5 text-secondary border-white/10 opacity-50'
                         }`}>
-                           {i === 6 && checkDay(current) && <Check size={12} strokeWidth={3} />}
+                           {i === 6 && checkDay(current) && <Check size={14} strokeWidth={3} />}
                         </div>
                     </div>
                 ))}
@@ -219,33 +222,79 @@ export const StatsCalendar: React.FC<any> = ({ history, current, color, checkDay
     );
 };
 
-export const AwardsView: React.FC<{ categories: string[]; unlocked: string[] }> = ({ categories, unlocked }) => (
-  <div className="space-y-4 animate-slide-up pb-10">
-    <div className="glass-panel p-6 rounded-[2rem] text-center mb-6 relative overflow-hidden group border-yellow-500/10">
-       <div className="absolute inset-0 bg-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-       <Trophy size={40} className="mx-auto text-yellow-400 mb-3 drop-shadow-lg animate-float" />
-       <h3 className="text-lg font-bold text-white tracking-tight">Achievements</h3>
-       <p className="text-xs text-secondary mt-1 uppercase tracking-widest font-bold">Unlocked: {unlocked.length}</p>
-    </div>
-    <div className="grid grid-cols-1 gap-3">
-        {MASTER_ACHIEVEMENTS.filter(a => categories.includes(a.category)).map((ach, i) => {
-        const isUnlocked = unlocked.includes(ach.id);
-        return (
-            <div key={ach.id} className={`p-5 rounded-[1.5rem] border transition-all duration-300 relative overflow-hidden flex gap-5 items-center group animate-slide-up ${isUnlocked ? 'glass-panel border-yellow-500/20 bg-yellow-500/5 hover:bg-yellow-500/10' : 'bg-white/[0.02] border-white/5 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'}`} style={{ animationDelay: `${i*0.05}s` }}>
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-inner transition-transform group-hover:scale-110 ${isUnlocked ? 'bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 text-yellow-400 border border-yellow-500/20' : 'bg-white/5 text-secondary'}`}>
-                {ach.icon}
+// Awards View with Professional Grid & Difficulty Handling
+export const AwardsView: React.FC<{ categories: string[]; unlocked: string[] }> = ({ categories, unlocked }) => {
+    const relevantAchievements = MASTER_ACHIEVEMENTS.filter(a => categories.includes(a.category));
+    const unlockedCount = relevantAchievements.filter(a => unlocked.includes(a.id)).length;
+    const progress = (unlockedCount / relevantAchievements.length) * 100;
+
+    const getTierStyle = (tier: string, unlocked: boolean) => {
+        if (!unlocked) return 'border-white/5 bg-white/[0.02] opacity-60 grayscale';
+        switch(tier) {
+            case 'BRONZE': return 'border-orange-700/50 bg-orange-900/10 text-orange-400 shadow-[0_0_15px_rgba(194,65,12,0.1)]';
+            case 'SILVER': return 'border-slate-400/50 bg-slate-800/20 text-slate-300 shadow-[0_0_15px_rgba(148,163,184,0.1)]';
+            case 'GOLD': return 'border-yellow-500/50 bg-yellow-900/10 text-yellow-400 shadow-[0_0_20px_rgba(234,179,8,0.2)]';
+            case 'PLATINUM': return 'border-cyan-400/50 bg-cyan-900/10 text-cyan-300 shadow-[0_0_25px_rgba(34,211,238,0.3)]';
+            case 'DIAMOND': return 'border-blue-400/50 bg-blue-900/10 text-blue-300 shadow-[0_0_30px_rgba(96,165,250,0.4)]';
+            case 'TITAN': return 'border-rose-500/50 bg-rose-900/10 text-rose-400 shadow-[0_0_40px_rgba(244,63,94,0.5)] animate-pulse-slow';
+            case 'LEGEND': return 'border-emerald-500/50 bg-emerald-900/10 text-emerald-400 shadow-[0_0_40px_rgba(16,185,129,0.5)]';
+            case 'ETERNAL': return 'border-purple-500/50 bg-purple-900/10 text-purple-400 shadow-[0_0_40px_rgba(168,85,247,0.5)]';
+            default: return 'border-emerald-500/50 bg-emerald-900/20 text-emerald-400';
+        }
+    };
+
+    return (
+        <div className="space-y-6 animate-slide-up pb-10">
+            <div className="glass-panel p-6 rounded-[2rem] text-center relative overflow-hidden group border-white/5">
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                    <Trophy size={40} className="mx-auto text-yellow-400 mb-3 drop-shadow-lg animate-float" />
+                    <h3 className="text-xl font-bold text-white tracking-tight">Trophy Case</h3>
+                    <div className="flex items-center justify-center gap-2 mt-2">
+                         <div className="h-1.5 w-32 bg-white/10 rounded-full overflow-hidden">
+                             <div className="h-full bg-gradient-to-r from-yellow-500 to-amber-600" style={{ width: `${progress}%` }}></div>
+                         </div>
+                         <span className="text-[10px] text-secondary font-bold">{unlockedCount} / {relevantAchievements.length}</span>
+                    </div>
+                </div>
             </div>
-            <div className="flex-1">
-                <h4 className={`font-bold text-sm ${isUnlocked ? 'text-white' : 'text-secondary'}`}>{ach.title}</h4>
-                <p className="text-[10px] text-secondary mt-1 leading-relaxed">{ach.description}</p>
+
+            <div className="grid grid-cols-2 gap-3">
+                {relevantAchievements.map((ach, i) => {
+                    const isUnlocked = unlocked.includes(ach.id);
+                    return (
+                        <div key={ach.id} className={`p-4 rounded-[1.5rem] border transition-all duration-300 relative overflow-hidden flex flex-col items-center text-center gap-3 group animate-slide-up hover:scale-[1.02] ${getTierStyle(ach.tier, isUnlocked)}`} style={{ animationDelay: `${(i % 10) * 0.05}s` }}>
+                            {/* Shine Effect for Unlocked */}
+                            {isUnlocked && <div className="absolute inset-0 bg-white/5 animate-shine pointer-events-none mix-blend-overlay"></div>}
+                            
+                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl relative transition-transform duration-500 ${isUnlocked ? 'scale-110' : 'bg-black/20'}`}>
+                                {isUnlocked ? ach.icon : <Lock size={16} className="text-white/20" />}
+                            </div>
+                            
+                            <div>
+                                <h4 className={`font-bold text-xs leading-tight mb-1 ${isUnlocked ? 'text-white' : 'text-white/40'}`}>{ach.title}</h4>
+                                <p className="text-[9px] text-secondary/50 leading-relaxed line-clamp-2">{ach.description}</p>
+                            </div>
+                            
+                            {isUnlocked && (
+                                <div className="mt-auto pt-2 border-t border-white/5 w-full">
+                                    <span className="text-[8px] font-black uppercase tracking-widest opacity-60">{ach.tier}</span>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
             </div>
-            {isUnlocked && <div className="p-2 rounded-full bg-emerald-500/20 text-emerald-400 animate-scale-in shadow-lg shadow-emerald-500/20"><CheckCircle2 size={16} strokeWidth={3} /></div>}
-            </div>
-        );
-        })}
-    </div>
-  </div>
-);
+            
+            {relevantAchievements.length === 0 && (
+                <div className="text-center py-10 opacity-50">
+                    <Lock size={40} className="mx-auto mb-4" />
+                    <p className="text-sm font-bold">No achievements available for this category yet.</p>
+                </div>
+            )}
+        </div>
+    );
+};
 
 const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, getValue, maxVal, label, labelTotal, totalValue }) => {
     const streak = state.global.streaks[category.toLowerCase()] || state.global.streaks[category === 'QURAN' ? 'quranSurah' : category.toLowerCase()];
@@ -264,11 +313,11 @@ const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, get
             <RankCard stage={stage} streak={streak} maxStreak={maxStreak || streak} color={color} bgImage={bgImage} />
 
             <div className="grid grid-cols-2 gap-3 mb-2">
-                 <div className={`glass-panel p-6 rounded-[2rem] text-center border-white/5 hover:scale-[1.05] transition-transform duration-300 shadow-lg`}>
+                 <div className={`glass-panel p-6 rounded-[2rem] text-center border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg`}>
                     <div className="text-[9px] uppercase tracking-widest text-secondary mb-2 font-bold">Current Streak</div>
                     <div className={`text-4xl font-mono font-bold text-${color}-500 drop-shadow-sm`}>{streak}</div>
                  </div>
-                 <div className={`glass-panel p-6 rounded-[2rem] text-center border-white/5 hover:scale-[1.05] transition-transform duration-300 shadow-lg`}>
+                 <div className={`glass-panel p-6 rounded-[2rem] text-center border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg`}>
                     <div className="text-[9px] uppercase tracking-widest text-secondary mb-2 font-bold">Lifetime {labelTotal}</div>
                     <div className="text-4xl font-mono font-bold text-white drop-shadow-sm">{calculatedTotal}</div>
                  </div>
@@ -283,55 +332,49 @@ const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, get
     );
 }
 
-// --- TAB IMPLEMENTATIONS ---
-
-export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, onBack }) => {
+export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const [showAddModal, setShowAddModal] = useState(false);
     const [focusMode, setFocusMode] = useState<{id: string, label: string, target: number, current: number} | null>(null);
     const currentCount = state.daily.dhikrAstaghfirullah + state.daily.dhikrRabbiInni + state.daily.customDhikr.reduce((acc:number, curr:any) => acc + curr.count, 0);
+    const themeColor = themeOverride || "amber";
 
     const handleFocusTap = () => {
         if (!focusMode) return;
         updateDhikr(focusMode.id, 1);
         setFocusMode(prev => prev ? ({ ...prev, current: prev.current + 1 }) : null);
         try {
-            if(navigator.vibrate) navigator.vibrate(10);
+            if(navigator.vibrate) navigator.vibrate(5);
         } catch(e) {}
     };
 
     if (focusMode) {
         return (
             <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center animate-fade-in" onClick={handleFocusTap}>
-                 {/* Fullscreen Touch Area */}
-                 <div className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none transition-transform duration-[20s] scale-125" style={{ backgroundImage: `url(${RANK_IMAGES.DHIKR})` }}></div>
-                 <div className="absolute inset-0 bg-gradient-to-t from-amber-950/90 to-black/80 pointer-events-none"></div>
+                 <div className="absolute inset-0 bg-cover bg-center opacity-40 transition-transform duration-[20s] scale-125" style={{ backgroundImage: `url(${RANK_IMAGES.DHIKR})` }}></div>
+                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
 
                  <button onClick={(e) => { e.stopPropagation(); setFocusMode(null); }} className="absolute top-8 left-6 p-4 rounded-full bg-white/10 border border-white/10 text-white z-50 hover:bg-white/20 transition-all"><X size={24} /></button>
                  
                  <div className="relative z-10 flex flex-col items-center justify-center w-full h-full space-y-12 pointer-events-none">
                       <div className="text-center space-y-3">
-                           <h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-500 drop-shadow-lg">{focusMode.label}</h2>
+                           <h2 className={`text-4xl md:text-5xl font-serif font-bold text-${themeColor}-500 drop-shadow-lg animate-float`} dir="auto">{focusMode.label}</h2>
                            <p className="text-xs uppercase tracking-[0.3em] text-white/50 font-bold">Tap anywhere to count</p>
                       </div>
 
-                      <div className="relative w-72 h-72 flex items-center justify-center">
-                           {/* Simple Circular Progress using CSS borders */}
+                      <div className="relative w-80 h-80 flex items-center justify-center">
                            <div className="absolute inset-0 rounded-full border-8 border-white/5"></div>
-                           <div className="absolute inset-0 rounded-full border-8 border-amber-500/30 border-t-amber-500 transition-all duration-200 shadow-[0_0_30px_rgba(245,158,11,0.3)]" style={{ transform: `rotate(${(focusMode.current / focusMode.target) * 360}deg)` }}></div>
+                           <div className={`absolute inset-0 rounded-full border-8 border-${themeColor}-500/30 border-t-${themeColor}-500 transition-all duration-100 shadow-[0_0_30px_rgba(245,158,11,0.3)]`} style={{ transform: `rotate(${(focusMode.current / focusMode.target) * 360}deg)` }}></div>
                            
-                           {/* Ripple Effect Container */}
-                           <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-full h-full rounded-full bg-amber-500/5 animate-pulse"></div>
+                           <div className={`absolute inset-0 flex items-center justify-center`}>
+                                <div className={`w-full h-full rounded-full bg-${themeColor}-500/5 animate-pulse`}></div>
                            </div>
 
                            <div className="text-center z-20">
-                                <div className="text-8xl font-mono font-bold text-white tracking-tighter drop-shadow-2xl">{focusMode.current}</div>
-                                <div className="text-sm font-bold text-amber-400 mt-2 uppercase tracking-widest">Target: {focusMode.target}</div>
+                                <div className="text-9xl font-mono font-bold text-white tracking-tighter drop-shadow-2xl">{focusMode.current}</div>
+                                <div className={`text-sm font-bold text-${themeColor}-400 mt-4 uppercase tracking-widest`}>Target: {focusMode.target}</div>
                            </div>
                       </div>
-                      
-                      <div className="text-[10px] text-white/30 uppercase tracking-[0.5em] animate-pulse">Focus Mode Active</div>
                  </div>
             </div>
         );
@@ -350,20 +393,20 @@ export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, on
             
             <div className="space-y-3">
                 <DhikrCard 
-                    label="Astaghfirullah" 
+                    label="أَسْتَغْفِرُ اللَّهَ" 
                     count={state.daily.dhikrAstaghfirullah} 
                     target={2100} 
                     onTap={(n:any) => updateDhikr('astaghfirullah', n)} 
-                    onFocus={() => setFocusMode({ id: 'astaghfirullah', label: 'Astaghfirullah', target: 2100, current: state.daily.dhikrAstaghfirullah })}
-                    color="amber" 
+                    onFocus={() => setFocusMode({ id: 'astaghfirullah', label: 'أَسْتَغْفِرُ اللَّهَ', target: 2100, current: state.daily.dhikrAstaghfirullah })}
+                    color={themeColor} 
                 />
                 <DhikrCard 
-                    label="Rabbi Inni" 
+                    label="رَبِّ اشْرَحْ لِي صَدْرِي" 
                     count={state.daily.dhikrRabbiInni} 
                     target={2100} 
                     onTap={(n:any) => updateDhikr('rabbiInni', n)} 
-                    onFocus={() => setFocusMode({ id: 'rabbiInni', label: 'Rabbi Inni', target: 2100, current: state.daily.dhikrRabbiInni })}
-                    color="amber" 
+                    onFocus={() => setFocusMode({ id: 'rabbiInni', label: 'رَبِّ اشْرَحْ لِي صَدْرِي', target: 2100, current: state.daily.dhikrRabbiInni })}
+                    color={themeColor} 
                 />
                 {state.daily.customDhikr.map((d: any) => (
                     <DhikrCard 
@@ -373,28 +416,27 @@ export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, on
                         target={d.target} 
                         onTap={(n:any) => updateDhikr(d.id, n)} 
                         onFocus={() => setFocusMode({ id: d.id, label: d.text, target: d.target, current: d.count })}
-                        color="amber" 
+                        color={themeColor} 
                     />
                 ))}
             </div>
-            <button onClick={() => setShowAddModal(true)} className="w-full py-5 rounded-[1.5rem] border border-dashed border-secondary/30 text-secondary hover:text-primary hover:border-primary/50 flex items-center justify-center gap-2 text-xs uppercase tracking-widest mt-4 hover:bg-white/5 transition-all active:scale-95"><Plus size={16} /> Add Custom Dhikr</button>
+            <button onClick={() => setShowAddModal(true)} className="w-full py-5 rounded-[1.5rem] border border-dashed border-white/10 text-secondary hover:text-white hover:border-white/30 flex items-center justify-center gap-2 text-xs uppercase tracking-widest mt-4 hover:bg-white/5 transition-all active:scale-95"><Plus size={16} /> Add Custom Dhikr</button>
         </div>
     );
 
     return (
-        <TabWrapper themeColor="amber" subView={subView} setSubView={setSubView} onBack={onBack}>
+        <TabWrapper themeColor={themeColor} subView={subView} setSubView={setSubView} onBack={onBack}>
             {subView === 'DAILY' && renderDaily()}
-            {subView === 'STATS' && <GenericStatsView state={state} category="DHIKR" color="amber" checkDay={(d: any) => (d.dhikrAstaghfirullah + d.dhikrRabbiInni) >= 4200} getValue={(d: any) => d.dhikrAstaghfirullah + d.dhikrRabbiInni} maxVal={5000} label="Count" labelTotal="Lifetime" />}
+            {subView === 'STATS' && <GenericStatsView state={state} category="DHIKR" color={themeColor} checkDay={(d: any) => (d.dhikrAstaghfirullah + d.dhikrRabbiInni) >= 4200} getValue={(d: any) => d.dhikrAstaghfirullah + d.dhikrRabbiInni} maxVal={5000} label="Count" labelTotal="Lifetime" />}
             {subView === 'AWARDS' && <AwardsView categories={['DHIKR']} unlocked={state.global.unlockedAchievements} />}
             {showAddModal && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fade-in">
-                    <div className="glass-panel border border-amber-500/30 rounded-[2rem] p-6 w-full max-w-sm shadow-2xl animate-scale-in">
-                        <h3 className="text-sm font-bold text-amber-500 mb-6 uppercase tracking-widest text-center">Select Dhikr</h3>
+                    <div className={`glass-panel border border-${themeColor}-500/30 rounded-[2rem] p-6 w-full max-w-sm shadow-2xl animate-scale-in`}>
+                        <h3 className={`text-sm font-bold text-${themeColor}-500 mb-6 uppercase tracking-widest text-center`}>Select Dhikr</h3>
                         <div className="space-y-2 max-h-[60vh] overflow-y-auto no-scrollbar">
                             {PREDEFINED_DHIKR.map((d, i) => (
-                                <button key={i} onClick={() => { addCustomDhikr(d.arabic, 100); setShowAddModal(false); }} className="w-full p-4 rounded-xl bg-white/5 hover:bg-amber-500/20 border border-white/5 text-left transition-colors flex items-center justify-between group">
-                                    <div className="text-[10px] text-secondary group-hover:text-white uppercase tracking-wider">{d.label}</div>
-                                    <div className="font-serif text-lg text-primary">{d.arabic}</div>
+                                <button key={i} onClick={() => { addCustomDhikr(d.arabic, 100); setShowAddModal(false); }} className={`w-full p-4 rounded-xl bg-white/5 hover:bg-${themeColor}-500/20 border border-white/5 text-left transition-colors flex items-center justify-between group`}>
+                                    <div className="font-serif text-xl text-primary" dir="auto">{d.arabic}</div>
                                 </button>
                             ))}
                         </div>
@@ -407,29 +449,27 @@ export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, on
 };
 
 const DhikrCard: React.FC<any> = ({ label, count, target, onTap, onFocus, color }) => (
-    <div className={`relative flex items-center justify-between p-6 rounded-[2rem] border transition-all duration-300 group overflow-hidden animate-slide-up shadow-lg ${count >= target ? 'bg-amber-500/20 border-amber-500/40' : 'glass-panel border-transparent hover:border-amber-500/20'} active:scale-95`}>
-        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/5">
-            <div className="h-full bg-amber-500 transition-all duration-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]" style={{ width: `${Math.min(100, (count/target)*100)}%` }}></div>
+    <div className={`relative flex items-center justify-between p-6 rounded-[2rem] border transition-all duration-300 group overflow-hidden animate-slide-up shadow-lg ${count >= target ? `bg-${color}-500/10 border-${color}-500/30` : 'glass-panel border-white/5 hover:border-white/10'}`}>
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/5">
+            <div className={`h-full bg-${color}-500 transition-all duration-500 shadow-[0_0_10px_rgba(245,158,11,0.5)]`} style={{ width: `${Math.min(100, (count/target)*100)}%` }}></div>
         </div>
         
-        {/* Click Area for Quick Add */}
         <div className="flex-1 cursor-pointer" onClick={() => onTap(100)}>
             <div className="relative z-10">
-                <h3 className={`text-xl font-bold font-serif mb-1 ${count >= target ? 'text-amber-400' : 'text-primary'}`}>{label}</h3>
+                <h3 className={`text-2xl font-bold font-serif mb-1 ${count >= target ? `text-${color}-400 text-glow` : 'text-primary'}`} dir="auto">{label}</h3>
                 <p className="text-[9px] uppercase tracking-widest text-secondary font-bold group-hover:text-white/60 transition-colors">Target: {target}</p>
             </div>
             <div className="text-4xl font-mono font-bold text-white relative z-10 drop-shadow-sm mt-3 tracking-tight">{count}</div>
         </div>
 
-        {/* Focus Mode Button */}
         <button 
             onClick={(e) => { e.stopPropagation(); onFocus(); }}
-            className="p-3.5 rounded-2xl bg-white/5 hover:bg-amber-500 hover:text-white text-secondary transition-all active:scale-95 z-20 border border-white/5 shadow-md"
+            className={`p-3.5 rounded-2xl bg-white/5 hover:bg-${color}-500 hover:text-white text-secondary transition-all active:scale-95 z-20 border border-white/5 shadow-md`}
         >
             <Maximize2 size={20} />
         </button>
 
-        <div className="absolute inset-0 bg-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+        {count >= target && <div className={`absolute inset-0 bg-${color}-500/5 animate-pulse-slow pointer-events-none`}></div>}
     </div>
 );
 
@@ -448,17 +488,18 @@ export const TabHygiene: React.FC<any> = ({ state, updateHygiene, onBack }) => {
             bgImage={RANK_IMAGES.HYGIENE}
           />
           
-          <div className="glass-panel p-6 rounded-[2rem] border-cyan-500/20 flex flex-col gap-4 mb-2 shadow-lg">
-              <div className="flex justify-between items-center">
+          <div className="glass-panel p-6 rounded-[2rem] border-cyan-500/20 flex flex-col gap-4 mb-2 shadow-lg relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-[40px] animate-pulse-slow"></div>
+              <div className="flex justify-between items-center relative z-10">
                   <h3 className="text-sm font-bold text-primary flex items-center gap-2"><Droplets size={16} className="text-cyan-400"/> Hydration</h3>
                   <span className="text-xs font-mono text-cyan-400 font-bold">{Math.round((waterProgress/8)*100)}%</span>
               </div>
-              <div className="flex gap-2 h-12">
+              <div className="flex gap-2 h-12 relative z-10">
                   {[...Array(8)].map((_, i) => (
-                      <div key={i} className={`flex-1 rounded-full transition-all duration-500 ${i < waterProgress ? 'bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.5)]' : 'bg-white/5'}`}></div>
+                      <div key={i} className={`flex-1 rounded-full transition-all duration-500 ${i < waterProgress ? 'bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.5)] scale-110' : 'bg-white/5'}`}></div>
                   ))}
               </div>
-              <div className="flex gap-3 mt-2">
+              <div className="flex gap-3 mt-2 relative z-10">
                    <button onClick={() => updateHygiene('water')} className="flex-1 py-4 rounded-xl bg-cyan-500 text-white flex items-center justify-center active:scale-95 shadow-lg shadow-cyan-900/50 hover:bg-cyan-400 transition-all font-bold text-xs uppercase tracking-wider gap-2"><Plus size={16} /> Add Water</button>
                    <button onClick={() => updateHygiene('reset_water')} className="px-5 rounded-xl bg-white/5 text-secondary flex items-center justify-center active:scale-90 hover:bg-white/10 transition-all border border-white/5"><RotateCcw size={20} /></button>
               </div>
@@ -504,8 +545,7 @@ export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExerc
                 bgImage={RANK_IMAGES.FITNESS} 
             />
             
-            {/* Pushup Card */}
-            <div className={`relative p-6 rounded-[2rem] border overflow-hidden transition-all duration-300 animate-slide-up group shadow-lg ${state.daily.fitness.pushups >= state.daily.fitness.pushupsTarget ? 'bg-orange-500/10 border-orange-500/30' : 'glass-panel border-transparent'}`}>
+            <div className={`relative p-6 rounded-[2rem] border overflow-hidden transition-all duration-300 animate-slide-up group shadow-lg ${state.daily.fitness.pushups >= state.daily.fitness.pushupsTarget ? 'bg-orange-500/10 border-orange-500/30' : 'glass-panel border-white/5'}`}>
                 {state.daily.fitness.pushups >= state.daily.fitness.pushupsTarget && <div className="absolute inset-0 bg-orange-500/5 animate-pulse"></div>}
                 <div className="flex justify-between items-start relative z-10 mb-6">
                     <div>
@@ -521,7 +561,6 @@ export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExerc
                 </div>
             </div>
 
-             {/* Quick Add Presets Carousel */}
              <div className="overflow-x-auto no-scrollbar flex gap-2 py-2">
                  {PREDEFINED_WORKOUTS.map((w, i) => (
                      <button 
@@ -534,9 +573,8 @@ export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExerc
                  ))}
              </div>
 
-            {/* Custom Exercises */}
             {state.daily.fitness.customWorkouts.map((ex: Exercise) => (
-                 <div key={ex.id} className={`relative p-6 rounded-[2rem] border overflow-hidden transition-all duration-300 animate-slide-up group shadow-lg ${ex.count >= ex.target ? 'bg-orange-500/10 border-orange-500/30' : 'glass-panel border-transparent'}`}>
+                 <div key={ex.id} className={`relative p-6 rounded-[2rem] border overflow-hidden transition-all duration-300 animate-slide-up group shadow-lg ${ex.count >= ex.target ? 'bg-orange-500/10 border-orange-500/30' : 'glass-panel border-white/5'}`}>
                     {ex.count >= ex.target && <div className="absolute inset-0 bg-orange-500/5 animate-pulse"></div>}
                     <div className="flex justify-between items-start relative z-10 mb-4">
                         <div>
@@ -589,7 +627,7 @@ export const TabHabits: React.FC<any> = ({ state, updateHabit, onBack }) => {
             
             <div className="grid grid-cols-2 gap-3">
                 {[{k:'smoking', l:'Smoking', max:2}, {k:'nicotine', l:'Nicotine', max:3}].map((h:any) => (
-                    <div key={h.k} onClick={() => updateHabit(h.k)} className={`glass-panel p-6 rounded-[2rem] border relative overflow-hidden group cursor-pointer active:scale-95 transition-all duration-300 animate-slide-up shadow-lg ${state.daily.habits[h.k+'Count'] > h.max ? 'border-red-500/50 bg-red-500/10' : 'border-transparent hover:border-slate-500/30'}`}>
+                    <div key={h.k} onClick={() => updateHabit(h.k)} className={`glass-panel p-6 rounded-[2rem] border relative overflow-hidden group cursor-pointer active:scale-95 transition-all duration-300 animate-slide-up shadow-lg ${state.daily.habits[h.k+'Count'] > h.max ? 'border-red-500/50 bg-red-500/10' : 'border-white/5 hover:border-slate-500/30'}`}>
                         <div className="flex flex-col items-center relative z-10 text-center">
                             <h3 className="text-secondary font-bold uppercase tracking-widest text-[10px] mb-4">{h.l}</h3>
                             <div className={`text-6xl font-mono font-bold mb-4 drop-shadow-lg ${state.daily.habits[h.k+'Count'] > h.max ? 'text-red-500' : 'text-primary'}`}>{state.daily.habits[h.k+'Count']}</div>
@@ -625,9 +663,6 @@ export const TabMDF: React.FC<any> = ({ state, resetRelapse, onBack }) => {
            />
            
            <div className="glass-panel p-10 rounded-[2.5rem] border-rose-500/10 text-center flex flex-col items-center gap-8 mt-4 bg-gradient-to-b from-rose-900/10 to-transparent animate-slide-up shadow-2xl relative overflow-hidden">
-               {/* Background effect */}
-               <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
-               
                <div className="w-28 h-28 rounded-full bg-rose-500/10 flex items-center justify-center border border-rose-500/20 shadow-[0_0_40px_rgba(244,63,94,0.15)] animate-pulse-slow">
                     <ShieldAlert size={48} className="text-rose-400 drop-shadow-md" />
                </div>
@@ -645,11 +680,12 @@ export const TabMDF: React.FC<any> = ({ state, resetRelapse, onBack }) => {
            {subView === 'STATS' && <GenericStatsView state={state} category="MDF" color="rose" checkDay={() => true} getValue={() => streak} maxVal={365} label="Streak" labelTotal="Max" totalValue={state.global.streaks.maxMdf} />}
            {subView === 'AWARDS' && <AwardsView categories={['MDF']} unlocked={state.global.unlockedAchievements} />}
        </TabWrapper>
-   );
+    );
 };
 
-export const TabQuran: React.FC<any> = ({ state, updatePart, onBack }) => {
+export const TabQuran: React.FC<any> = ({ state, updatePart, onBack, themeOverride }) => {
   const [subView, setSubView] = useState<SubView>('DAILY');
+  const themeColor = themeOverride || "purple";
 
   const renderDaily = () => {
     const currentParahArabic = PARAH_NAMES_ARABIC[state.global.currentParah - 1];
@@ -686,20 +722,21 @@ export const TabQuran: React.FC<any> = ({ state, updatePart, onBack }) => {
   };
 
   return (
-      <TabWrapper themeColor="purple" subView={subView} setSubView={setSubView} onBack={onBack}>
+      <TabWrapper themeColor={themeColor} subView={subView} setSubView={setSubView} onBack={onBack}>
           {subView === 'DAILY' && renderDaily()}
-          {subView === 'STATS' && <GenericStatsView state={state} category="QURAN" color="purple" checkDay={(d:any) => Object.values(d.quranParts).some(Boolean)} getValue={(d:any) => Object.values(d.quranParts).filter(Boolean).length} maxVal={4} label="Parts" labelTotal="Read" />}
+          {subView === 'STATS' && <GenericStatsView state={state} category="QURAN" color={themeColor} checkDay={(d:any) => Object.values(d.quranParts).some(Boolean)} getValue={(d:any) => Object.values(d.quranParts).filter(Boolean).length} maxVal={4} label="Parts" labelTotal="Read" />}
           {subView === 'AWARDS' && <AwardsView categories={['QURAN']} unlocked={state.global.unlockedAchievements} />}
       </TabWrapper>
   );
 };
 
-export const TabNight: React.FC<any> = ({ state, updateNight, onBack }) => {
+export const TabNight: React.FC<any> = ({ state, updateNight, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const streak = state.global.streaks.night;
+    const themeColor = themeOverride || "indigo";
 
     return (
-        <TabWrapper themeColor="indigo" subView={subView} setSubView={setSubView} onBack={onBack}>
+        <TabWrapper themeColor={themeColor} subView={subView} setSubView={setSubView} onBack={onBack}>
             {subView === 'DAILY' && (
                 <div className="space-y-4 animate-slide-up pb-10">
                     <HeroCard 
@@ -713,6 +750,20 @@ export const TabNight: React.FC<any> = ({ state, updateNight, onBack }) => {
                     
                     <div className="space-y-3">
                         <TaskCard 
+                            title="Ayatul Kursi" 
+                            subtitle="Protection" 
+                            icon={<ShieldCheck size={20} />} 
+                            isCompleted={state.daily.night.ayatulKursi} 
+                            onClick={() => updateNight('ayatulKursi')} 
+                        />
+                         <TaskCard 
+                            title="4 Quls" 
+                            subtitle="Ikhlas, Falaq, Nas, Kafirun" 
+                            icon={<BookOpen size={20} />} 
+                            isCompleted={state.daily.night.fourQuls} 
+                            onClick={() => updateNight('fourQuls')} 
+                        />
+                        <TaskCard 
                             title="Surah Al-Mulk" 
                             subtitle="Protection from Grave" 
                             icon={<Moon size={20} />} 
@@ -722,22 +773,26 @@ export const TabNight: React.FC<any> = ({ state, updateNight, onBack }) => {
                         <TaskCard 
                             title="Surah Baqarah" 
                             subtitle="Last 2 Verses" 
-                            icon={<BookOpen size={20} />} 
+                            icon={<Scroll size={20} />} 
                             isCompleted={state.daily.night.surahBaqarah} 
                             onClick={() => updateNight('surahBaqarah')} 
                         />
                     </div>
                 </div>
             )}
-            {subView === 'STATS' && <GenericStatsView state={state} category="NIGHT" color="indigo" checkDay={(d:any) => d.night.surahMulk} getValue={(d:any) => (d.night.surahMulk?1:0)} maxVal={2} label="Tasks" labelTotal="Total" />}
+            {subView === 'STATS' && <GenericStatsView state={state} category="NIGHT" color={themeColor} checkDay={(d:any) => d.night.surahMulk} getValue={(d:any) => (d.night.surahMulk?1:0)} maxVal={4} label="Tasks" labelTotal="Total" />}
             {subView === 'AWARDS' && <AwardsView categories={['NIGHT']} unlocked={state.global.unlockedAchievements} />}
         </TabWrapper>
     );
 };
 
-export const TabHadees: React.FC<any> = ({ state, markRead, onBack }) => {
+export const TabHadees: React.FC<any> = ({ state, markRead, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
-    const hadees = HADEES_COLLECTION[new Date().getDate() % HADEES_COLLECTION.length];
+    // Cycle through a large collection based on day of year to ensure daily unique hadees
+    const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+    const hadeesIndex = dayOfYear % HADEES_COLLECTION.length;
+    const hadees = HADEES_COLLECTION[hadeesIndex];
+    const themeColor = themeOverride || "gold";
 
     const renderDaily = () => (
         <div className="space-y-4 animate-slide-up pb-10">
@@ -750,27 +805,33 @@ export const TabHadees: React.FC<any> = ({ state, markRead, onBack }) => {
                 bgImage={RANK_IMAGES.HADEES}
             />
             
-            <div className="glass-panel p-8 rounded-[2.5rem] border-yellow-500/10 text-center flex flex-col items-center gap-8 relative overflow-hidden animate-slide-up shadow-2xl">
-                 <div className="absolute top-0 right-0 p-10 bg-yellow-500/10 blur-[60px] rounded-full"></div>
-                 <div className="opacity-80 text-yellow-500 animate-pulse-slow"><Sparkles size={32} /></div>
-                 <h3 className="font-serif text-2xl leading-relaxed text-primary/90 drop-shadow-md" dir="auto">"{hadees}"</h3>
-                 <button onClick={markRead} disabled={state.daily.hadeesRead} className={`w-full py-4 rounded-xl font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 ${state.daily.hadeesRead ? 'bg-emerald-500/10 text-emerald-500 cursor-default border border-emerald-500/20' : 'bg-yellow-500 hover:bg-yellow-600 text-white shadow-xl shadow-yellow-900/30 active:scale-95'}`}>{state.daily.hadeesRead ? <><CheckCircle2 size={16}/> Completed</> : "Mark as Read"}</button>
+            <div className={`glass-panel p-8 rounded-[2.5rem] border-${themeColor}-500/10 text-center flex flex-col items-center gap-8 relative overflow-hidden animate-slide-up shadow-2xl`}>
+                 <div className={`absolute top-0 right-0 p-10 bg-${themeColor}-500/10 blur-[60px] rounded-full`}></div>
+                 <div className={`opacity-80 text-${themeColor}-500 animate-pulse-slow`}><Sparkles size={32} /></div>
+                 <h3 className="font-serif text-2xl leading-relaxed text-primary/90 drop-shadow-md font-arabic" dir="rtl">{hadees}</h3>
+                 <button onClick={markRead} disabled={state.daily.hadeesRead} className={`w-full py-4 rounded-xl font-bold transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 ${state.daily.hadeesRead ? 'bg-emerald-500/10 text-emerald-500 cursor-default border border-emerald-500/20' : `bg-${themeColor}-500 hover:bg-${themeColor}-600 text-white shadow-xl shadow-${themeColor}-900/30 active:scale-95`}`}>{state.daily.hadeesRead ? <><CheckCircle2 size={16}/> Completed</> : "Mark as Read"}</button>
             </div>
         </div>
     );
     return (
-        <TabWrapper themeColor="gold" subView={subView} setSubView={setSubView} onBack={onBack}>
+        <TabWrapper themeColor={themeColor} subView={subView} setSubView={setSubView} onBack={onBack}>
             {subView === 'DAILY' && renderDaily()}
-            {subView === 'STATS' && <GenericStatsView state={state} category="HADEES" color="gold" checkDay={(d:any) => d.hadeesRead} getValue={(d:any) => d.hadeesRead?1:0} maxVal={1} label="Read" labelTotal="Total" />}
+            {subView === 'STATS' && <GenericStatsView state={state} category="HADEES" color={themeColor} checkDay={(d:any) => d.hadeesRead} getValue={(d:any) => d.hadeesRead?1:0} maxVal={1} label="Read" labelTotal="Total" />}
             {subView === 'AWARDS' && <AwardsView categories={['HADEES']} unlocked={state.global.unlockedAchievements} />}
         </TabWrapper>
     );
 };
 
-export const TabMemorize: React.FC<any> = ({ state, markLearned, onBack }) => {
+export const TabMemorize: React.FC<any> = ({ state, markLearned, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const streak = state.global.memorizeWeek;
-    const currentDua = MEMORIZE_CONTENT[state.global.memorizeWeek % MEMORIZE_CONTENT.length];
+    
+    // Weekly Rotation Logic
+    const currentWeekIndex = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
+    const contentIndex = currentWeekIndex % MEMORIZE_CONTENT.length;
+    const currentDua = MEMORIZE_CONTENT[contentIndex];
+    
+    const themeColor = themeOverride || "pink";
 
     const renderDaily = () => (
         <div className="space-y-4 animate-slide-up pb-10">
@@ -783,30 +844,31 @@ export const TabMemorize: React.FC<any> = ({ state, markLearned, onBack }) => {
                 bgImage={RANK_IMAGES.MEMORIZE} 
             />
             
-            <div className="glass-panel p-10 rounded-[2.5rem] border-pink-500/20 text-center flex flex-col gap-8 relative overflow-hidden animate-slide-up shadow-2xl">
-                <div className="absolute top-[-20px] left-[-20px] w-40 h-40 bg-pink-500/10 rounded-full blur-[50px]"></div>
+            <div className={`glass-panel p-10 rounded-[2.5rem] border-${themeColor}-500/20 text-center flex flex-col gap-8 relative overflow-hidden animate-slide-up shadow-2xl`}>
+                <div className={`absolute top-[-20px] left-[-20px] w-40 h-40 bg-${themeColor}-500/10 rounded-full blur-[50px]`}></div>
                 <div className="relative z-10">
-                    <p className="text-3xl font-serif leading-loose text-primary/90 drop-shadow-sm" dir="rtl">{currentDua.arabic}</p>
-                    <div className="w-16 h-1 bg-pink-500/30 rounded-full mx-auto my-6"></div>
+                    <p className="text-3xl font-serif leading-loose text-primary/90 drop-shadow-sm font-arabic" dir="rtl">{currentDua.arabic}</p>
+                    <div className={`w-16 h-1 bg-${themeColor}-500/30 rounded-full mx-auto my-6`}></div>
                     <p className="text-sm text-secondary italic leading-relaxed font-medium">"{currentDua.english}"</p>
                 </div>
-                <button onClick={markLearned} className="w-full py-4 rounded-xl bg-pink-600 hover:bg-pink-500 text-white font-bold shadow-lg shadow-pink-900/30 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs border border-white/5"><CheckCircle2 size={16} /> I've Memorized This</button>
+                <button onClick={markLearned} className={`w-full py-4 rounded-xl bg-${themeColor}-600 hover:bg-${themeColor}-500 text-white font-bold shadow-lg shadow-${themeColor}-900/30 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-xs border border-white/5`}><CheckCircle2 size={16} /> I've Memorized This</button>
             </div>
         </div>
     );
     return (
-        <TabWrapper themeColor="pink" subView={subView} setSubView={setSubView} onBack={onBack}>
+        <TabWrapper themeColor={themeColor} subView={subView} setSubView={setSubView} onBack={onBack}>
             {subView === 'DAILY' && renderDaily()}
-            {subView === 'STATS' && <GenericStatsView state={state} category="MEMORIZE" color="pink" checkDay={() => false} getValue={() => 1} maxVal={1} label="Duas" labelTotal="Total" />}
+            {subView === 'STATS' && <GenericStatsView state={state} category="MEMORIZE" color={themeColor} checkDay={() => false} getValue={() => 1} maxVal={1} label="Duas" labelTotal="Total" />}
             {subView === 'AWARDS' && <AwardsView categories={['MEMORIZE', 'QURAN']} unlocked={state.global.unlockedAchievements} />}
         </TabWrapper>
     );
 };
 
-export const TabRamadan: React.FC<any> = ({ state, toggleRamadanDaily, updateRamadanStat, onBack }) => {
+export const TabRamadan: React.FC<any> = ({ state, toggleRamadanDaily, updateRamadanStat, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const streak = state.global.streaks.ramadan;
     const day = Math.min(30, state.global.ramadanStats.fastsDone + 1);
+    const themeColor = themeOverride || "purple";
 
     const tasks = [
         { key: 'suhoor', label: 'Suhoor', urdu: 'سحور', icon: <Sunrise size={20} /> },
@@ -839,23 +901,23 @@ export const TabRamadan: React.FC<any> = ({ state, toggleRamadanDaily, updateRam
                 ))}
             </div>
             
-             <div onClick={() => updateRamadanStat('quranKhatams', 1)} className="glass-panel p-5 rounded-[2rem] border-transparent hover:border-purple-500/20 flex items-center justify-between mt-4 cursor-pointer active:scale-95 transition-transform bg-purple-500/5 animate-slide-up shadow-md">
+             <div onClick={() => updateRamadanStat('quranKhatams', 1)} className={`glass-panel p-5 rounded-[2rem] border-transparent hover:border-${themeColor}-500/20 flex items-center justify-between mt-4 cursor-pointer active:scale-95 transition-transform bg-${themeColor}-500/5 animate-slide-up shadow-md`}>
                    <div className="flex items-center gap-4">
-                       <div className="p-3 bg-purple-500/20 rounded-2xl text-purple-400"><BookOpen size={20} /></div>
+                       <div className={`p-3 bg-${themeColor}-500/20 rounded-2xl text-${themeColor}-400`}><BookOpen size={20} /></div>
                        <div>
                            <div className="text-sm font-bold text-primary">Quran Khatams</div>
                            <div className="text-[10px] text-secondary font-bold uppercase tracking-wider">Tap to increment</div>
                        </div>
                    </div>
-                   <div className="text-4xl font-mono font-bold text-purple-500 drop-shadow-sm">{state.global.ramadanStats.quranKhatams}</div>
+                   <div className={`text-4xl font-mono font-bold text-${themeColor}-500 drop-shadow-sm`}>{state.global.ramadanStats.quranKhatams}</div>
              </div>
         </div>
     );
     
     return (
-        <TabWrapper themeColor="purple" subView={subView} setSubView={setSubView} onBack={onBack}>
+        <TabWrapper themeColor={themeColor} subView={subView} setSubView={setSubView} onBack={onBack}>
             {subView === 'DAILY' && renderDaily()}
-            {subView === 'STATS' && <GenericStatsView state={state} category="RAMADAN" color="purple" checkDay={(d:any) => d.ramadan.suhoor} getValue={(d:any) => d.ramadan.suhoor?1:0} maxVal={1} label="Fasts" labelTotal="Total" />}
+            {subView === 'STATS' && <GenericStatsView state={state} category="RAMADAN" color={themeColor} checkDay={(d:any) => d.ramadan.suhoor} getValue={(d:any) => d.ramadan.suhoor?1:0} maxVal={1} label="Fasts" labelTotal="Total" />}
             {subView === 'AWARDS' && <AwardsView categories={['RAMADAN']} unlocked={state.global.unlockedAchievements} />}
         </TabWrapper>
     );
@@ -871,7 +933,7 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
                 <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Appearance</h3>
                 <div className="grid grid-cols-3 gap-3">
                     {['AUTO', 'DAY', 'NIGHT'].map((m) => (
-                        <button key={m} onClick={() => setTheme(m)} className={`py-4 rounded-2xl border text-[10px] font-bold transition-all ${state.global.theme === m ? 'bg-primary text-white border-transparent shadow-lg' : 'glass-panel text-secondary border-transparent hover:bg-primary/5'}`}>{m}</button>
+                        <button key={m} onClick={() => setTheme(m)} className={`py-4 rounded-2xl border text-[10px] font-bold transition-all ${state.global.theme === m ? 'bg-primary text-black border-transparent shadow-lg' : 'glass-panel text-secondary border-white/5 hover:bg-white/5'}`}>{m}</button>
                     ))}
                 </div>
             </section>
@@ -917,7 +979,7 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
             
             <section className="pt-6">
                 <button onClick={resetApp} className="w-full py-4 border border-red-500/30 bg-red-500/5 text-red-500 rounded-2xl hover:bg-red-500/10 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"><Trash2 size={16} /> Reset All Progress</button>
-                <p className="text-center text-[9px] text-secondary mt-4 opacity-50">Zohaib Tracker v3.2 • Built with ❤️</p>
+                <p className="text-center text-[9px] text-secondary mt-4 opacity-50">Zohaib Tracker v4.1 • Built with ❤️</p>
             </section>
         </div>
         </TabWrapper>

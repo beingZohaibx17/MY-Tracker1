@@ -14,8 +14,8 @@ export enum ViewState {
   SALAH = 'SALAH',
   DHIKR = 'DHIKR',
   QURAN = 'QURAN',
-  HADEES = 'HADEES', // New
-  NIGHT = 'NIGHT',   // New
+  HADEES = 'HADEES', 
+  NIGHT = 'NIGHT',   
   MDF = 'MDF',
   FITNESS = 'FITNESS',
   HYGIENE = 'HYGIENE', 
@@ -85,12 +85,13 @@ export interface DailyStats {
     kamil: boolean;
   };
   
-  // Night Routine (Formerly partly in Quran)
+  // Night Routine
   night: {
     surahMulk: boolean;
     surahBaqarah: boolean; // Last 2 ayats
     tasbihFatima: boolean;
     ayatulKursi: boolean;
+    fourQuls: boolean; // New
   };
 
   // Hadees
@@ -100,7 +101,7 @@ export interface DailyStats {
   hygiene: {
     shower: boolean;
     brush: boolean;
-    cleanDesk: boolean; // New
+    cleanDesk: boolean; 
     waterGlasses: number;
   };
   habits: {
@@ -109,7 +110,7 @@ export interface DailyStats {
     failedToday: boolean;
   };
   
-  // Fitness (Updated)
+  // Fitness
   fitness: {
     pushups: number;
     pushupsTarget: number;
@@ -142,8 +143,8 @@ export interface GlobalStats {
     habits: number; 
     quranSurah: number; 
     ramadan: number;
-    hadees: number; // New
-    night: number;  // New
+    hadees: number; 
+    night: number;  
     
     // MAX STREAKS
     maxSalah: number;
@@ -198,7 +199,7 @@ export const INITIAL_DAILY_STATE: DailyStats = {
   dhikrRabbiInni: 0,
   customDhikr: [],
   quranParts: { rub: false, nisf: false, thalatha: false, kamil: false },
-  night: { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false },
+  night: { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false, fourQuls: false },
   hadeesRead: false,
   hygiene: { shower: false, brush: false, cleanDesk: false, waterGlasses: 0 },
   habits: { smokingCount: 0, nicotineCount: 0, failedToday: false },
@@ -228,7 +229,7 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   name: 'Zohaib',
   ramadanMode: false,
   ramadanStats: { fastsDone: 0, taraweehPrayed: 0, quranKhatams: 0 },
-  theme: 'NIGHT',
+  theme: 'DAY', // Default Day Mode
   hapticsEnabled: true,
   hasSeenOnboarding: false,
   unlockedAchievements: [],

@@ -1,5 +1,4 @@
-
-const CACHE_NAME = 'zohaib-tracker-v20';
+const CACHE_NAME = 'zohaib-tracker-v21';
 
 const URLS_TO_CACHE = [
   '/',
@@ -9,7 +8,8 @@ const URLS_TO_CACHE = [
   'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap',
   'https://aistudiocdn.com/react@^19.2.0',
   'https://aistudiocdn.com/react-dom@^19.2.0/',
-  'https://aistudiocdn.com/lucide-react@^0.554.0'
+  'https://aistudiocdn.com/lucide-react@^0.554.0',
+  'https://cdn-icons-png.flaticon.com/512/4358/4358665.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -37,33 +37,27 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-        // Return cached response immediately if found
         if (cachedResponse) {
             return cachedResponse;
         }
 
-        // Otherwise fetch from network
         return fetch(event.request).then((networkResponse) => {
-            // Check if we received a valid response
-            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+            // Allow caching of valid responses (200) and opaque responses (0) for CORS/CDNs
+            if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
                 return networkResponse;
             }
 
-            // Clone the response because it's a stream and can only be consumed once
             const responseToCache = networkResponse.clone();
-
             caches.open(CACHE_NAME).then((cache) => {
                 cache.put(event.request, responseToCache);
             });
-
             return networkResponse;
         }).catch(() => {
-             // If both fail, and it's a navigation request, return index.html (SPA fallback)
+             // Fallback for navigation requests to support SPA offline
              if (event.request.mode === 'navigate') {
                  return caches.match('/index.html');
              }

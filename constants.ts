@@ -1,4 +1,5 @@
 
+
 import { Achievement, Exercise } from './types';
 
 export const URDU_CONCEPTS = [
@@ -36,19 +37,18 @@ export const DAILY_QUOTES = [
   "Speak good or remain silent."
 ];
 
+// Updated PREDEFINED_DHIKR with ARABIC TEXT ONLY for titles
 export const PREDEFINED_DHIKR = [
-    { label: "SubhanAllah", arabic: "سُبْحَانَ اللَّهِ" },
-    { label: "Alhamdulillah", arabic: "الْحَمْدُ لِلَّهِ" },
-    { label: "Allahu Akbar", arabic: "اللَّهُ أَكْبَرُ" },
-    { label: "La ilaha illallah", arabic: "لَا إِلَٰهَ إِلَّا ٱللَّٰهُ" },
-    { label: "SubhanAllah wa bihamdihi", arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ" },
-    { label: "SubhanAllah al-Adheem", arabic: "سُبْحَانَ اللَّهِ الْعَظِيمِ" },
-    { label: "Astaghfirullah", arabic: "أَسْتَغْفِرُ اللَّهَ" },
-    { label: "Durood Ibrahimi", arabic: "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ" },
-    { label: "La Hawla Wala Quwwata", arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِٱللَّٰهِ" },
-    { label: "HasbunAllah", arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ" },
-    { label: "Ayatul Kursi", arabic: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ" },
-    { label: "Kalima Tayyiba", arabic: "لَا إِلَٰهَ إِلَّا ٱللَّٰهُ مُحَمَّدٌ رَسُولُ ٱللَّٰهِ" }
+    { label: "سُبْحَانَ اللَّهِ", arabic: "سُبْحَانَ اللَّهِ" },
+    { label: "الْحَمْدُ لِلَّهِ", arabic: "الْحَمْدُ لِلَّهِ" },
+    { label: "اللَّهُ أَكْبَرُ", arabic: "اللَّهُ أَكْبَرُ" },
+    { label: "لَا إِلَٰهَ إِلَّا ٱللَّٰهُ", arabic: "لَا إِلَٰهَ إِلَّا ٱللَّٰهُ" },
+    { label: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ" },
+    { label: "أَسْتَغْفِرُ اللَّهَ", arabic: "أَسْتَغْفِرُ اللَّهَ" },
+    { label: "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ", arabic: "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ" },
+    { label: "حَسْبُنَا اللَّهُ", arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ" },
+    { label: "لَا حَوْلَ وَلَا قُوَّةَ", arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِٱللَّٰهِ" },
+    { label: "يَا حَيُّ يَا قَيُّومُ", arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ" }
 ];
 
 export const PREDEFINED_WORKOUTS = [
@@ -61,26 +61,10 @@ export const PREDEFINED_WORKOUTS = [
     { name: "Cobra Stretch", target: 1 }
 ];
 
-export const PARAH_NAMES = [
-  "Alif Lam Meem", "Sayaqool", "Tilkal Rusull", "Lan Tana Loo", "Wal Mohsanat", "La Yuhibbullah", "Wa Iza Samiu", "Wa Lau Annana", "Qalal Malao", "Wa A'lamu",
-  "Yatazeroon", "Wa Mamin Da'abat", "Wa Ma Ubrioo", "Rubama", "Subhanallazi", "Qala Alam", "Iqtaraba", "Qadd Aflaha", "Wa Qalallazina", "A'man Khalaqa",
-  "Utlu Ma Oohi", "Wa Manyaqnut", "Wa Mali", "Faman Azlam", "Elahe Yuruddo", "Ha'a Meem", "Qala Fama Khatbukum", "Qadd Sami Allah", "Tabarakallazi", "Amma Yatasa'aloon"
-];
-
 export const PARAH_NAMES_ARABIC = [
   "الم", "سيقول", "تلك الرسل", "لن تنالوا", "والمحصنات", "لا يحب الله", "وإذا سمعوا", "ولو أننا", "قال الملأ", "واعلموا",
   "يعتذرون", "وما من دابة", "وما أبرئ", "ربما", "سبحان الذي", "قال ألم", "اقترب", "قد أفلح", "وقال الذين", "أمن خلق",
   "اتل ما أوحي", "ومن يقنت", "وما لي", "فمن أظلم", "إليه يرد", "حم", "قال فما خطبكم", "قد سمع الله", "تبارك الذي", "عم يتساءلون"
-];
-
-export const RAMADAN_TIPS = [
-    { day: 1, desc: "Hydrate well during Suhoor to avoid headaches." },
-    { day: 2, desc: "Eat slow-digesting carbs like oats/barley." },
-    { day: 3, desc: "Reduce caffeine intake gradually." },
-    { day: 4, desc: "Plan your Dua list for Iftar time." },
-    { day: 5, desc: "Give small charity daily, even if just a smile." },
-    { day: 6, desc: "Recite Quran with meaning, quality over quantity." },
-    { day: 7, desc: "Take a short nap (Qailulah) to energize for Taraweeh." }
 ];
 
 export const QURAN_PART_LABELS = {
@@ -90,29 +74,122 @@ export const QURAN_PART_LABELS = {
     kamil: "Kamil (Parah)"
 };
 
+// Massive collection of Urdu Hadees (Sample size increased for variety)
 export const HADEES_COLLECTION = [
-    "Actions are judged by intentions.",
-    "None of you truly believes until he loves for his brother what he loves for himself.",
-    "Cleanliness is half of faith.",
-    "A good word is charity.",
-    "The strong man is not the good wrestler; the strong man is only the one who controls himself when he is angry.",
-    "Be in this world as if you were a stranger or a traveler.",
-    "Kindness is a mark of faith, and whoever is not kind has no faith."
+    "اعمال کا دارومدار نیتوں پر ہے۔ (بخاری)",
+    "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے۔ (بخاری)",
+    "مسلمان وہ ہے جس کے ہاتھ اور زبان سے دوسرے مسلمان محفوظ رہیں۔ (بخاری)",
+    "صفائی نصف ایمان ہے۔ (مسلم)",
+    "خاموشی میں نجات ہے۔ (ترمذی)",
+    "غصہ شیطان کی طرف سے ہے۔ (ابو داؤد)",
+    "جو چھوٹوں پر رحم نہیں کرتا وہ ہم میں سے نہیں۔ (ابو داؤد)",
+    "نماز دین کا ستون ہے۔ (بیہقی)",
+    "جنت ماں کے قدموں تلے ہے۔ (نسائی)",
+    "دعا مومن کا ہتھیار ہے۔ (مسند حاکم)",
+    "دنیا مومن کے لیے قید خانہ اور کافر کے لیے جنت ہے۔ (مسلم)",
+    "پہلوان وہ نہیں جو پچھاڑ دے، پہلوان وہ ہے جو غصے کے وقت خود پر قابو رکھے۔ (بخاری)",
+    "تم میں سے کوئی مومن نہیں ہو سکتا جب تک کہ اپنے بھائی کے لیے وہی نہ پسند کرے جو اپنے لیے کرتا ہے۔ (بخاری)",
+    "حیا ایمان کا حصہ ہے۔ (بخاری)",
+    "علم حاصل کرنا ہر مسلمان پر فرض ہے۔ (ابن ماجہ)",
+    "بہترین صدقہ وہ ہے جو تم صحت مندی کی حالت میں کرو۔ (بخاری)",
+    "مظلوم کی بددعا سے بچو، کیونکہ اس کے اور اللہ کے درمیان کوئی پردہ نہیں ہوتا۔ (بخاری)",
+    "مسکرانا بھی صدقہ ہے۔ (ترمذی)",
+    "جو اللہ پر اور آخرت کے دن پر ایمان رکھتا ہو وہ اچھی بات کہے یا خاموش رہے۔ (بخاری)",
+    "اللہ خوبصورت ہے اور خوبصورتی کو پسند کرتا ہے۔ (مسلم)",
+    "سب سے افضل عمل وقت پر نماز پڑھنا ہے۔ (بخاری)",
+    "جس نے ملاوٹ کی وہ ہم میں سے نہیں۔ (مسلم)",
+    "جھوٹ سے بچو، کیونکہ جھوٹ گناہ کی طرف لے جاتا ہے۔ (بخاری)",
+    "اللہ کے نزدیک بہترین عمل وہ ہے جو ہمیشہ کیا جائے چاہے وہ تھوڑا ہی کیوں نہ ہو۔ (مسلم)",
+    "قیامت کے دن سب سے پہلے نماز کا حساب ہوگا۔ (ترمذی)"
 ];
 
+// Expanded Weekly Memorization Content
 export const MEMORIZE_CONTENT = [
     { arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا", english: "O Allah, I ask You for beneficial knowledge." },
     { arabic: "رَبِّ زِدْنِي عِلْمًا", english: "My Lord, increase me in knowledge." },
-    { arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي", english: "O Allah, benefit me with what You have taught me." }
+    { arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي", english: "O Allah, benefit me with what You have taught me." },
+    { arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", english: "O Allah, help me to remember You, to thank You, and to worship You in the best of manners." },
+    { arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", english: "Our Lord! Give us in this world that which is good and in the Hereafter that which is good, and save us from the torment of the Fire!" },
+    { arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", english: "O Allah, I seek refuge in You from anxiety and sorrow." },
+    { arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", english: "O Turner of the hearts, keep my heart firm upon Your religion." },
+    { arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ", english: "Glory be to Allah and His is the praise, (and) Allah, the Greatest is free from imperfection." },
+    { arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ", english: "I seek forgiveness from Allah and repent to Him." },
+    { arabic: "لَا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ", english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers." }
 ];
 
-export const STREAK_MILESTONES = [3, 7, 30, 100, 365];
-
 export const getGrowthStage = (category: string, streak: number) => {
-    if (streak > 365) return { current: { label: 'Legend', threshold: 365, icon: '👑' }, next: { label: 'Titan', threshold: 730, icon: '⚔️' } };
-    if (streak > 100) return { current: { label: 'Master', threshold: 100, icon: '🏆' }, next: { label: 'Legend', threshold: 365, icon: '👑' } };
-    if (streak > 30) return { current: { label: 'Habitual', threshold: 30, icon: '🛡️' }, next: { label: 'Master', threshold: 100, icon: '🏆' } };
-    if (streak > 7) return { current: { label: 'Initiate', threshold: 7, icon: '🌿' }, next: { label: 'Habitual', threshold: 30, icon: '🛡️' } };
+    const c = category.toUpperCase();
+  
+    if (c === 'SALAH') {
+       if (streak > 365) return { current: { label: 'Muqim as-Salah', threshold: 365, icon: '🕋' }, next: { label: 'Jannah Bound', threshold: 1000, icon: '🕊️' } };
+       if (streak > 100) return { current: { label: 'Devout', threshold: 100, icon: '🕌' }, next: { label: 'Muqim as-Salah', threshold: 365, icon: '🕋' } };
+       if (streak > 40) return { current: { label: 'Committed', threshold: 40, icon: '🤲' }, next: { label: 'Devout', threshold: 100, icon: '🕌' } };
+       if (streak > 7) return { current: { label: 'Regular', threshold: 7, icon: '🧎' }, next: { label: 'Committed', threshold: 40, icon: '🤲' } };
+       return { current: { label: 'Starter', threshold: 0, icon: '🚶' }, next: { label: 'Regular', threshold: 7, icon: '🧎' } };
+    }
+  
+    if (c === 'DHIKR') {
+       if (streak > 365) return { current: { label: 'Zakireen', threshold: 365, icon: '✨' }, next: { label: 'Awliya', threshold: 1000, icon: '👑' } };
+       if (streak > 100) return { current: { label: 'Connected', threshold: 100, icon: '💖' }, next: { label: 'Zakireen', threshold: 365, icon: '✨' } };
+       if (streak > 30) return { current: { label: 'Mindful', threshold: 30, icon: '📿' }, next: { label: 'Connected', threshold: 100, icon: '💖' } };
+       return { current: { label: 'Forgetful', threshold: 0, icon: '🌫️' }, next: { label: 'Mindful', threshold: 30, icon: '📿' } };
+    }
+  
+    if (c === 'QURAN') {
+       if (streak > 365) return { current: { label: 'Walking Quran', threshold: 365, icon: '⭐' }, next: { label: 'Companion of Quran', threshold: 1000, icon: '👑' } };
+       if (streak > 100) return { current: { label: 'Hafiz (In Progress)', threshold: 100, icon: '🧠' }, next: { label: 'Walking Quran', threshold: 365, icon: '⭐' } };
+       if (streak > 30) return { current: { label: 'Reciter', threshold: 30, icon: '📖' }, next: { label: 'Hafiz', threshold: 100, icon: '🧠' } };
+       return { current: { label: 'Student', threshold: 0, icon: '📚' }, next: { label: 'Reciter', threshold: 30, icon: '📖' } };
+    }
+  
+    if (c === 'MDF') {
+       if (streak > 365) return { current: { label: 'Pure Soul', threshold: 365, icon: '🕊️' }, next: { label: 'Angel', threshold: 1000, icon: '😇' } };
+       if (streak > 90) return { current: { label: 'Guardian', threshold: 90, icon: '🛡️' }, next: { label: 'Pure Soul', threshold: 365, icon: '🕊️' } };
+       if (streak > 30) return { current: { label: 'Warrior', threshold: 30, icon: '⚔️' }, next: { label: 'Guardian', threshold: 90, icon: '🛡️' } };
+       if (streak > 7) return { current: { label: 'Strong', threshold: 7, icon: '💪' }, next: { label: 'Warrior', threshold: 30, icon: '⚔️' } };
+       return { current: { label: 'Struggler', threshold: 0, icon: '🪵' }, next: { label: 'Strong', threshold: 7, icon: '💪' } };
+    }
+  
+    if (c === 'HYGIENE') {
+       if (streak > 100) return { current: { label: 'Pure', threshold: 100, icon: '✨' }, next: { label: 'Radiant', threshold: 365, icon: '🌟' } };
+       if (streak > 30) return { current: { label: 'Clean', threshold: 30, icon: '🚿' }, next: { label: 'Pure', threshold: 100, icon: '✨' } };
+       return { current: { label: 'Tidy', threshold: 0, icon: '🧹' }, next: { label: 'Clean', threshold: 30, icon: '🚿' } };
+    }
+  
+    if (c === 'HADEES' || c === 'WISDOM') {
+       if (streak > 100) return { current: { label: 'Scholar', threshold: 100, icon: '👳' }, next: { label: 'Sage', threshold: 365, icon: '🧙' } };
+       if (streak > 30) return { current: { label: 'Seeker', threshold: 30, icon: '🔭' }, next: { label: 'Scholar', threshold: 100, icon: '👳' } };
+       return { current: { label: 'Student', threshold: 0, icon: '📝' }, next: { label: 'Seeker', threshold: 30, icon: '🔭' } };
+    }
+  
+    if (c === 'NIGHT') {
+       if (streak > 100) return { current: { label: 'Tahajjud Regular', threshold: 100, icon: '🌌' }, next: { label: 'Night Guardian', threshold: 365, icon: '🛡️' } };
+       if (streak > 30) return { current: { label: 'Vigilant', threshold: 30, icon: '🦉' }, next: { label: 'Tahajjud Regular', threshold: 100, icon: '🌌' } };
+       return { current: { label: 'Sleeper', threshold: 0, icon: '😴' }, next: { label: 'Vigilant', threshold: 30, icon: '🦉' } };
+    }
+  
+    if (c === 'FITNESS') {
+       if (streak > 100) return { current: { label: 'Titan', threshold: 100, icon: '🦾' }, next: { label: 'Olympian', threshold: 365, icon: '🏛️' } };
+       if (streak > 30) return { current: { label: 'Athlete', threshold: 30, icon: '🏃' }, next: { label: 'Titan', threshold: 100, icon: '🦾' } };
+       return { current: { label: 'Mover', threshold: 0, icon: '🤸' }, next: { label: 'Athlete', threshold: 30, icon: '🏃' } };
+    }
+    
+    if (c === 'HABITS' || c === 'DETOX') {
+       if (streak > 100) return { current: { label: 'Lungs of Steel', threshold: 100, icon: '🫁' }, next: { label: 'New Life', threshold: 365, icon: '🌱' } };
+       if (streak > 30) return { current: { label: 'Healed', threshold: 30, icon: '❤️‍🩹' }, next: { label: 'Lungs of Steel', threshold: 100, icon: '🫁' } };
+       if (streak > 7) return { current: { label: 'Recovering', threshold: 7, icon: '🩹' }, next: { label: 'Healed', threshold: 30, icon: '❤️‍🩹' } };
+       return { current: { label: 'Trying', threshold: 0, icon: '🚬' }, next: { label: 'Recovering', threshold: 7, icon: '🩹' } };
+    }
+  
+    if (c === 'RAMADAN') {
+       return { current: { label: 'Fasting', threshold: 0, icon: '🏮' }, next: { label: 'Rayyan', threshold: 30, icon: '🚪' } };
+    }
+    
+    if (c === 'MEMORIZE') {
+       return { current: { label: 'Hafiz', threshold: 0, icon: '🧠' }, next: { label: 'Scholar', threshold: 100, icon: '📚' } };
+    }
+  
+    // Fallback
     return { current: { label: 'Novice', threshold: 0, icon: '🌱' }, next: { label: 'Initiate', threshold: 7, icon: '🌿' } };
 };
 
@@ -125,376 +202,131 @@ export const getStreakTitle = (streak: number) => {
     return "Novice";
 };
 
-// Comprehensive list
+// --- MASSIVE ACHIEVEMENTS LIST ---
 export const MASTER_ACHIEVEMENTS: Achievement[] = [
-    // RAMADAN
-    { id: 'ram_1', title: 'First Fast Complete', description: 'Complete Day 1 of Fasting.', tier: 'BRONZE', icon: '🌙', category: 'RAMADAN', metric: 'COUNT', value: 1 },
-    { id: 'ram_2', title: 'First Taraweeh', description: 'Complete Day 1 of Taraweeh.', tier: 'BRONZE', icon: '✨', category: 'RAMADAN', metric: 'COUNT', value: 1 },
-    { id: 'ram_3', title: 'First Parah Complete', description: 'Complete the Quran Min 1 Parah goal on Day 1.', tier: 'BRONZE', icon: '📖', category: 'RAMADAN', metric: 'COUNT', value: 1 },
-    { id: 'ram_4', title: 'Fasting Week', description: 'Complete 7 consecutive Fasts.', tier: 'SILVER', icon: '🍽️', category: 'RAMADAN', metric: 'STREAK', value: 7 },
-    { id: 'ram_5', title: 'Taraweeh Week', description: 'Complete 7 consecutive Taraweeh prayers.', tier: 'SILVER', icon: '🕌', category: 'RAMADAN', metric: 'STREAK', value: 7 },
-    { id: 'ram_6', title: 'Quran Week', description: 'Complete 7 consecutive days of 1 Parah reading.', tier: 'SILVER', icon: '📚', category: 'RAMADAN', metric: 'STREAK', value: 7 },
-    { id: 'ram_7', title: 'The Ten Day Star', description: 'Complete all three tasks (Fast, Taraweeh, Parah) for 10 consecutive days.', tier: 'GOLD', icon: '🏆', category: 'RAMADAN', metric: 'STREAK', value: 10 },
-    { id: 'ram_8', title: 'The Halfway Mark', description: 'Complete all three tasks for 15 consecutive days.', tier: 'GOLD', icon: '🌟', category: 'RAMADAN', metric: 'STREAK', value: 15 },
-    { id: 'ram_9', title: 'The Last Ten', description: 'Complete all three tasks for the final 10 days of Ramadan (Day 21-30).', tier: 'PLATINUM', icon: '🥇', category: 'RAMADAN', metric: 'STREAK', value: 10 },
-    { id: 'ram_10', title: 'Ramadan Perfect', description: 'Complete all three tasks for all 30 days of Ramadan.', tier: 'LEGEND', icon: '👑', category: 'RAMADAN', metric: 'STREAK', value: 30 },
-    { id: 'ram_11', title: 'The Fasting Hero', description: 'Complete 30 total Fasts.', tier: 'GOLD', icon: '🔗', category: 'RAMADAN', metric: 'COUNT', value: 30 },
-    { id: 'ram_12', title: 'The Congregation Pillar', description: 'Complete 30 total Taraweeh prayers.', tier: 'GOLD', icon: '🤝', category: 'RAMADAN', metric: 'COUNT', value: 30 },
-    { id: 'ram_13', title: 'The Khatam Achieved', description: 'Complete 30 Parah (1 full Khatam) reading goal within Ramadan.', tier: 'PLATINUM', icon: '💎', category: 'RAMADAN', metric: 'COUNT', value: 30 },
-    { id: 'ram_14', title: 'Double The Effort', description: 'Complete 60 Parah (2 full Khatams) within Ramadan.', tier: 'DIAMOND', icon: '🚀', category: 'RAMADAN', metric: 'COUNT', value: 60 },
-    { id: 'ram_15', title: 'The Night of Power', description: 'Log an exceptional act of worship on Laylatul Qadr.', tier: 'DIAMOND', icon: '💡', category: 'RAMADAN', metric: 'SPECIAL', value: 1 },
-    { id: 'ram_16', title: 'Ramadan Readiness', description: 'Complete a 30-day prayer streak before Ramadan starts.', tier: 'PLATINUM', icon: '🛡️', category: 'RAMADAN', metric: 'STREAK', value: 30 },
-    { id: 'ram_17', title: 'The Month of Purity', description: 'Achieve Ramadan Perfect and 30-day MDF streak.', tier: 'LEGEND', icon: '🟢', category: 'RAMADAN', metric: 'SPECIAL', value: 1 },
-    { id: 'ram_18', title: 'The Dhikr Fast', description: 'Complete Ramadan Perfect and Master Dhikr streak.', tier: 'LEGEND', icon: '🎯', category: 'RAMADAN', metric: 'SPECIAL', value: 1 },
-    { id: 'ram_19', title: 'The Eid Gift', description: 'Log all 3 tasks on the final day of Ramadan.', tier: 'SILVER', icon: '✅', category: 'RAMADAN', metric: 'COUNT', value: 1 },
-    { id: 'ram_20', title: 'The 5-Day Start', description: 'Complete all three tasks for 5 consecutive days.', tier: 'BRONZE', icon: '🗓️', category: 'RAMADAN', metric: 'STREAK', value: 5 },
-    { id: 'ram_21', title: 'The 12-Day Focus', description: 'Complete all three tasks for 12 consecutive days.', tier: 'SILVER', icon: '💯', category: 'RAMADAN', metric: 'STREAK', value: 12 },
-    { id: 'ram_22', title: 'The Final Five', description: 'Complete all three tasks for the final 5 days of Ramadan.', tier: 'GOLD', icon: '🔑', category: 'RAMADAN', metric: 'STREAK', value: 5 },
-    { id: 'ram_23', title: 'The First 20', description: 'Complete all three tasks for the first 20 days of Ramadan.', tier: 'PLATINUM', icon: '🏆', category: 'RAMADAN', metric: 'STREAK', value: 20 },
-    { id: 'ram_24', title: 'Fasting Fortnight', description: 'Complete 14 consecutive Fasts.', tier: 'SILVER', icon: '🍽️', category: 'RAMADAN', metric: 'STREAK', value: 14 },
-    { id: 'ram_25', title: 'Taraweeh Fortnight', description: 'Complete 14 consecutive Taraweeh prayers.', tier: 'SILVER', icon: '🕌', category: 'RAMADAN', metric: 'STREAK', value: 14 },
-    { id: 'ram_26', title: 'The Two-Week All-Star', description: 'Complete all three tasks for 14 consecutive days.', tier: 'GOLD', icon: '🌟', category: 'RAMADAN', metric: 'STREAK', value: 14 },
-    { id: 'ram_27', title: 'Ramadan Perfect II', description: 'Complete all three tasks for 30 days, 2 Ramadans total.', tier: 'LEGEND', icon: '👑', category: 'RAMADAN', metric: 'COUNT', value: 60 },
-    { id: 'ram_28', title: 'The Triple Task I', description: 'Complete all three tasks 5 total times.', tier: 'BRONZE', icon: '🔗', category: 'RAMADAN', metric: 'COUNT', value: 5 },
-    { id: 'ram_29', title: 'The Triple Task II', description: 'Complete all three tasks 10 total times.', tier: 'SILVER', icon: '🤝', category: 'RAMADAN', metric: 'COUNT', value: 10 },
-    { id: 'ram_30', title: 'The Triple Task III', description: 'Complete all three tasks 15 total times.', tier: 'GOLD', icon: '💎', category: 'RAMADAN', metric: 'COUNT', value: 15 },
-    { id: 'ram_31', title: 'The Fasting Titan', description: 'Complete 60 total Fasts (across years).', tier: 'PLATINUM', icon: '🚀', category: 'RAMADAN', metric: 'COUNT', value: 60 },
-    { id: 'ram_32', title: 'The Taraweeh Master', description: 'Complete 60 total Taraweeh prayers (across years).', tier: 'PLATINUM', icon: '💡', category: 'RAMADAN', metric: 'COUNT', value: 60 },
-    { id: 'ram_33', title: 'The Triple Khatam', description: 'Complete 90 Parah (3 full Khatams) within Ramadan.', tier: 'DIAMOND', icon: '⚖️', category: 'RAMADAN', metric: 'COUNT', value: 90 },
-    { id: 'ram_34', title: 'The Guiding Light', description: 'Complete the Night routine every night of Ramadan.', tier: 'PLATINUM', icon: '🛡️', category: 'RAMADAN', metric: 'STREAK', value: 30 },
-    { id: 'ram_35', title: 'The Purity Path', description: 'Maintain the MDF task every day of Ramadan.', tier: 'PLATINUM', icon: '🟢', category: 'RAMADAN', metric: 'STREAK', value: 30 },
-    { id: 'ram_36', title: 'Ramadan & Night', description: 'Complete the Night routine on the same day as all 3 Ramadan tasks, 10 times.', tier: 'GOLD', icon: '🎯', category: 'RAMADAN', metric: 'COUNT', value: 10 },
-    { id: 'ram_37', title: 'Ramadan & Wisdom', description: 'Read Hadees on the same day as all 3 Ramadan tasks, 10 times.', tier: 'GOLD', icon: '✅', category: 'RAMADAN', metric: 'COUNT', value: 10 },
-    { id: 'ram_38', title: 'The 15-Day Vow', description: 'Complete all three tasks for 15 consecutive days, 2 times.', tier: 'PLATINUM', icon: '🗓️', category: 'RAMADAN', metric: 'COUNT', value: 30 },
-    { id: 'ram_39', title: 'The 24-Day Climb', description: 'Complete all three tasks for 24 consecutive days.', tier: 'PLATINUM', icon: '💯', category: 'RAMADAN', metric: 'STREAK', value: 24 },
-    { id: 'ram_40', title: 'The Core 10', description: 'Complete the 1 Parah goal every day for the first 10 days.', tier: 'GOLD', icon: '🔑', category: 'RAMADAN', metric: 'STREAK', value: 10 },
-    { id: 'ram_41', title: 'The 4 Khatam Grand Master', description: 'Complete 120 Parah (4 full Khatams) within Ramadan.', tier: 'TITAN', icon: '💎', category: 'RAMADAN', metric: 'COUNT', value: 120 },
-    { id: 'ram_42', title: 'Ramadan & MDF', description: 'Complete the MDF task on the same day as all 3 Ramadan tasks, 20 times.', tier: 'PLATINUM', icon: '⚖️', category: 'RAMADAN', metric: 'COUNT', value: 20 },
-    { id: 'ram_43', title: 'Ramadan & Hygiene', description: 'Complete all 4 Hygiene tasks on the same day as all 3 Ramadan tasks, 20 times.', tier: 'PLATINUM', icon: '🛡️', category: 'RAMADAN', metric: 'COUNT', value: 20 },
-    { id: 'ram_44', title: 'The 30 Fast Century', description: 'Complete 100 total Fasts.', tier: 'LEGEND', icon: '🕌', category: 'RAMADAN', metric: 'COUNT', value: 100 },
-    { id: 'ram_45', title: 'The Ultimate Ramadan', description: 'Complete all three tasks 100 total times.', tier: 'TITAN', icon: '🥇', category: 'RAMADAN', metric: 'COUNT', value: 100 },
+    // --- RAMADAN (EASY TO TITAN) ---
+    { id: 'ram_1', title: 'First Fast', description: 'Complete Day 1.', tier: 'BRONZE', icon: '🌙', category: 'RAMADAN', metric: 'COUNT', value: 1 },
+    { id: 'ramadan_fast_3', title: 'Three Days', description: '3 Fasts.', tier: 'BRONZE', icon: '🌙', category: 'RAMADAN', metric: 'COUNT', value: 3 },
+    { id: 'ramadan_fast_10', title: 'First Ashra', description: '10 Fasts.', tier: 'SILVER', icon: '🌙', category: 'RAMADAN', metric: 'COUNT', value: 10 },
+    { id: 'ramadan_fast_20', title: 'Second Ashra', description: '20 Fasts.', tier: 'GOLD', icon: '🌙', category: 'RAMADAN', metric: 'COUNT', value: 20 },
+    { id: 'ram_30', title: 'Ramadan Perfect', description: '30 Days Complete.', tier: 'PLATINUM', icon: '👑', category: 'RAMADAN', metric: 'STREAK', value: 30 },
+    { id: 'ram_taraweeh_1', title: 'First Taraweeh', description: 'Attend 1 Taraweeh.', tier: 'BRONZE', icon: '🕌', category: 'RAMADAN', metric: 'COUNT', value: 1 },
+    { id: 'ram_taraweeh_10', title: 'Taraweeh Regular', description: '10 Taraweehs.', tier: 'SILVER', icon: '🕌', category: 'RAMADAN', metric: 'COUNT', value: 10 },
+    { id: 'ram_taraweeh_20', title: 'Night Stand', description: '20 Taraweehs.', tier: 'GOLD', icon: '🕌', category: 'RAMADAN', metric: 'COUNT', value: 20 },
+    { id: 'ram_taraweeh_30', title: 'Taraweeh Master', description: '30 Taraweehs.', tier: 'PLATINUM', icon: '🕌', category: 'RAMADAN', metric: 'COUNT', value: 30 },
 
-    // MEMORIZE
-    { id: 'mem_1', title: 'The First Du\'a', description: 'Successfully memorize your first Du\'a of the week.', tier: 'BRONZE', icon: '🤲', category: 'MEMORIZE', metric: 'COUNT', value: 1 },
-    { id: 'mem_2', title: 'The Monthly Treasure', description: 'Memorize 4 Du\'as in one calendar month.', tier: 'SILVER', icon: '🔑', category: 'MEMORIZE', metric: 'COUNT', value: 4 },
-    { id: 'mem_3', title: 'The Quarterly Student', description: 'Memorize 13 Du\'as total.', tier: 'GOLD', icon: '📚', category: 'MEMORIZE', metric: 'COUNT', value: 13 },
-    { id: 'mem_4', title: 'The Half-Year Hafiz', description: 'Memorize 26 Du\'as total.', tier: 'PLATINUM', icon: '🏆', category: 'MEMORIZE', metric: 'COUNT', value: 26 },
-    { id: 'mem_5', title: 'The Annual Scholar', description: 'Memorize 52 Du\'as total.', tier: 'LEGEND', icon: '👑', category: 'MEMORIZE', metric: 'COUNT', value: 52 },
-    { id: 'mem_6', title: 'The Consistent Learner', description: 'Successfully memorize a Du\'a every week for 4 consecutive months.', tier: 'PLATINUM', icon: '🎯', category: 'MEMORIZE', metric: 'STREAK', value: 16 },
-    { id: 'mem_7', title: 'The Guided Mind', description: 'Successfully memorize 10 consecutive Du\'as.', tier: 'GOLD', icon: '💡', category: 'MEMORIZE', metric: 'STREAK', value: 10 },
-    { id: 'mem_8', title: 'The Prayer Link', description: 'Memorize a Du\'a specifically used in Salah.', tier: 'BRONZE', icon: '🤝', category: 'MEMORIZE', metric: 'COUNT', value: 1 },
-    { id: 'mem_9', title: 'The Scroll of Du\'as', description: 'Memorize 100 total Du\'as.', tier: 'DIAMOND', icon: '📜', category: 'MEMORIZE', metric: 'COUNT', value: 100 },
-    { id: 'mem_10', title: 'The Ultimate Scholar', description: 'Memorize 200 total Du\'as.', tier: 'TITAN', icon: '👑', category: 'MEMORIZE', metric: 'COUNT', value: 200 },
-    { id: 'mem_11', title: 'The Versatile Mind', description: 'Memorize 3 different types of Du\'a.', tier: 'SILVER', icon: '🌟', category: 'MEMORIZE', metric: 'COUNT', value: 3 },
-    { id: 'mem_12', title: 'The Two-Week Prep', description: 'Memorize 2 Du\'as total.', tier: 'BRONZE', icon: '🟢', category: 'MEMORIZE', metric: 'COUNT', value: 2 },
-    { id: 'mem_13', title: 'The Six-Week Challenge', description: 'Memorize 6 Du\'as total.', tier: 'SILVER', icon: '🗓️', category: 'MEMORIZE', metric: 'COUNT', value: 6 },
-    { id: 'mem_14', title: 'The 10 Du\'a Marker', description: 'Memorize 10 Du\'as total.', tier: 'SILVER', icon: '🛡️', category: 'MEMORIZE', metric: 'COUNT', value: 10 },
-    { id: 'mem_15', title: 'The 20 Du\'a Marker', description: 'Memorize 20 Du\'as total.', tier: 'GOLD', icon: '💎', category: 'MEMORIZE', metric: 'COUNT', value: 20 },
-    { id: 'mem_16', title: 'The 30 Du\'a Marker', description: 'Memorize 30 Du\'as total.', tier: 'GOLD', icon: '🚀', category: 'MEMORIZE', metric: 'COUNT', value: 30 },
-    { id: 'mem_17', title: 'Knowledge Resilience I', description: 'Restart a 4-week memorization streak.', tier: 'SILVER', icon: '🔄', category: 'MEMORIZE', metric: 'COUNT', value: 1 },
-    { id: 'mem_18', title: 'The 5 Du\'a Builder', description: 'Memorize 5 Du\'as total.', tier: 'BRONZE', icon: '📚', category: 'MEMORIZE', metric: 'COUNT', value: 5 },
-    { id: 'mem_19', title: 'The 15 Du\'a Builder', description: 'Memorize 15 Du\'as total.', tier: 'SILVER', icon: '🏆', category: 'MEMORIZE', metric: 'COUNT', value: 15 },
-    { id: 'mem_20', title: 'The 40 Du\'a Marker', description: 'Memorize 40 Du\'as total.', tier: 'PLATINUM', icon: '🛡️', category: 'MEMORIZE', metric: 'COUNT', value: 40 },
-    { id: 'mem_21', title: 'The 60 Du\'a Marker', description: 'Memorize 60 Du\'as total.', tier: 'DIAMOND', icon: '💎', category: 'MEMORIZE', metric: 'COUNT', value: 60 },
-    { id: 'mem_22', title: 'The 80 Du\'a Marker', description: 'Memorize 80 Du\'as total.', tier: 'DIAMOND', icon: '🚀', category: 'MEMORIZE', metric: 'COUNT', value: 80 },
-    { id: 'mem_23', title: 'The Grand Scholar', description: 'Memorize 300 total Du\'as.', tier: 'TITAN', icon: '👑', category: 'MEMORIZE', metric: 'COUNT', value: 300 },
-    { id: 'mem_24', title: 'The Eternal Student', description: 'Memorize 500 total Du\'as.', tier: 'TITAN', icon: '👑', category: 'MEMORIZE', metric: 'COUNT', value: 500 },
-    { id: 'mem_25', title: 'The Legacy Builder', description: 'Memorize 1,500 total Du\'as.', tier: 'TITAN', icon: '👑', category: 'MEMORIZE', metric: 'COUNT', value: 1500 },
+    // --- SALAH (EASY TO EXTREME) ---
+    // Total Count Milestones
+    { id: 'salah_total_1', title: 'First Prayer', description: '1 Prayer logged.', tier: 'BRONZE', icon: '🤲', category: 'SALAH', metric: 'COUNT', value: 1 },
+    { id: 'salah_total_10', title: 'Double Digit', description: '10 Prayers.', tier: 'BRONZE', icon: '🤲', category: 'SALAH', metric: 'COUNT', value: 10 },
+    { id: 'salah_total_50', title: 'Fifty Prayers', description: '50 Prayers.', tier: 'BRONZE', icon: '🤲', category: 'SALAH', metric: 'COUNT', value: 50 },
+    { id: 'salah_total_100', title: 'Centurion', description: '100 Prayers.', tier: 'SILVER', icon: '💯', category: 'SALAH', metric: 'COUNT', value: 100 },
+    { id: 'salah_total_250', title: 'Devoted', description: '250 Prayers.', tier: 'SILVER', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 250 },
+    { id: 'salah_total_500', title: 'Faithful Servant', description: '500 Prayers.', tier: 'GOLD', icon: '🤲', category: 'SALAH', metric: 'COUNT', value: 500 },
+    { id: 'salah_total_1000', title: 'The 1K Club', description: '1,000 Prayers.', tier: 'PLATINUM', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 1000 },
+    { id: 'salah_total_2500', title: 'Dedicated Soul', description: '2,500 Prayers.', tier: 'DIAMOND', icon: '💎', category: 'SALAH', metric: 'COUNT', value: 2500 },
+    { id: 'salah_total_5000', title: 'Abid', description: '5,000 Prayers.', tier: 'TITAN', icon: '💎', category: 'SALAH', metric: 'COUNT', value: 5000 },
+    { id: 'salah_total_10000', title: 'Muqim as-Salah', description: '10,000 Prayers.', tier: 'LEGEND', icon: '🕋', category: 'SALAH', metric: 'COUNT', value: 10000 },
+    { id: 'salah_total_25000', title: 'Eternal Prostration', description: '25,000 Prayers.', tier: 'ETERNAL', icon: '🌌', category: 'SALAH', metric: 'COUNT', value: 25000 },
 
-    // HABITS (DETOX)
-    { id: 'hab_1', title: 'The First Line', description: 'Successfully meet both control limits for one day.', tier: 'BRONZE', icon: '🟢', category: 'HABITS', metric: 'COUNT', value: 1 },
-    { id: 'hab_2', title: 'The Under Control Week', description: 'Meet both control limits for 7 consecutive days.', tier: 'SILVER', icon: '🛡️', category: 'HABITS', metric: 'STREAK', value: 7 },
-    { id: 'hab_3', title: 'The Threshold Master', description: 'Meet both control limits for 30 consecutive days.', tier: 'GOLD', icon: '🏆', category: 'HABITS', metric: 'STREAK', value: 30 },
-    { id: 'hab_4', title: 'The Strict Boundary', description: 'Meet both control limits for 90 consecutive days.', tier: 'PLATINUM', icon: '🔗', category: 'HABITS', metric: 'STREAK', value: 90 },
-    { id: 'hab_5', title: 'The Clean Break', description: 'Log 0 Smoking and 0 Nicotine for 30 consecutive days.', tier: 'GOLD', icon: '👑', category: 'HABITS', metric: 'STREAK', value: 30 },
-    { id: 'hab_6', title: 'The Great Detox', description: 'Successfully meet the control limits 365 total times.', tier: 'LEGEND', icon: '🌟', category: 'HABITS', metric: 'COUNT', value: 365 },
-    { id: 'hab_7', title: 'The 100-Day Centurion', description: 'Meet both control limits for 100 consecutive days.', tier: 'PLATINUM', icon: '💯', category: 'HABITS', metric: 'STREAK', value: 100 },
-    { id: 'hab_8', title: 'The Two-Year Vow', description: 'Meet both control limits for 730 consecutive days.', tier: 'TITAN', icon: '⚔️', category: 'HABITS', metric: 'STREAK', value: 730 },
-    { id: 'hab_9', title: 'Detox Resilience I', description: 'Restart a 30-day control streak after a break.', tier: 'BRONZE', icon: '🔄', category: 'HABITS', metric: 'SPECIAL', value: 1 },
-    { id: 'hab_10', title: 'The Limit Achiever V', description: 'Successfully meet the control limits 350 total times.', tier: 'LEGEND', icon: '👑', category: 'HABITS', metric: 'COUNT', value: 350 },
-    { id: 'hab_11', title: 'No Smoking Day I', description: 'Log 0 Smoking instances for one day.', tier: 'BRONZE', icon: '🚭', category: 'HABITS', metric: 'COUNT', value: 1 },
-    { id: 'hab_12', title: 'Zero Tolerance Week', description: 'Log 0 Smoking and 0 Nicotine instances for 7 consecutive days.', tier: 'SILVER', icon: '🥇', category: 'HABITS', metric: 'STREAK', value: 7 },
-    { id: 'hab_13', title: 'The 21-Day Habit', description: 'Meet both control limits for 21 consecutive days.', tier: 'SILVER', icon: '🟢', category: 'HABITS', metric: 'STREAK', value: 21 },
-    { id: 'hab_14', title: 'The 45-Day Discipline', description: 'Meet both control limits for 45 consecutive days.', tier: 'GOLD', icon: '🚀', category: 'HABITS', metric: 'STREAK', value: 45 },
-    { id: 'hab_15', title: 'The 270 Day Commitment', description: 'Meet both control limits for 270 consecutive days.', tier: 'DIAMOND', icon: '🔑', category: 'HABITS', metric: 'STREAK', value: 270 },
-    { id: 'hab_16', title: 'Zero Smoke Week', description: 'Log 0 Smoking instances for 7 consecutive days.', tier: 'SILVER', icon: '📚', category: 'HABITS', metric: 'STREAK', value: 7 },
-    { id: 'hab_17', title: 'Zero Nicotine Week', description: 'Log 0 Nicotine instances for 7 consecutive days.', tier: 'SILVER', icon: '💎', category: 'HABITS', metric: 'STREAK', value: 7 },
-    { id: 'hab_18', title: 'Detox & Prayer I', description: 'Meet the limits and log 5 prayers on time, 10 times.', tier: 'GOLD', icon: '🤝', category: 'HABITS', metric: 'COUNT', value: 10 },
-    { id: 'hab_19', title: 'The 120-Day Champion', description: 'Meet both control limits for 120 consecutive days.', tier: 'PLATINUM', icon: '🏆', category: 'HABITS', metric: 'STREAK', value: 120 },
-    { id: 'hab_20', title: 'The 500 Day Vow', description: 'Meet both control limits for 500 consecutive days.', tier: 'LEGEND', icon: '🌟', category: 'HABITS', metric: 'STREAK', value: 500 },
-    { id: 'hab_21', title: 'The Limit Achiever I', description: 'Successfully meet the control limits 100 total times.', tier: 'GOLD', icon: '🔗', category: 'HABITS', metric: 'COUNT', value: 100 },
-    { id: 'hab_22', title: 'The 1000 Day Goal', description: 'Successfully meet the control limits 1,000 total times.', tier: 'TITAN', icon: '🏆', category: 'HABITS', metric: 'COUNT', value: 1000 },
-    { id: 'hab_23', title: 'Zero Tolerance Quarter', description: 'Log 0 Smoking and 0 Nicotine for 90 consecutive days.', tier: 'PLATINUM', icon: '📚', category: 'HABITS', metric: 'STREAK', value: 90 },
-    { id: 'hab_24', title: 'The Limit Achiever X', description: 'Successfully meet the control limits 300 total times.', tier: 'LEGEND', icon: '🔗', category: 'HABITS', metric: 'COUNT', value: 300 },
-    { id: 'hab_25', title: 'The 5000 Day Goal', description: 'Successfully meet the control limits 5,000 total times.', tier: 'TITAN', icon: '🏆', category: 'HABITS', metric: 'COUNT', value: 5000 },
+    // Streaks
+    { id: 'salah_streak_7', title: 'Weekly Warrior', description: '7 Day Streak.', tier: 'BRONZE', icon: '📅', category: 'SALAH', metric: 'STREAK', value: 7 },
+    { id: 'salah_streak_30', title: 'Monthly Habit', description: '30 Day Streak.', tier: 'SILVER', icon: '📅', category: 'SALAH', metric: 'STREAK', value: 30 },
+    { id: 'salah_streak_100', title: 'Unbreakable', description: '100 Day Streak.', tier: 'GOLD', icon: '🛡️', category: 'SALAH', metric: 'STREAK', value: 100 },
+    { id: 'salah_streak_365', title: 'Year of Worship', description: '365 Day Streak.', tier: 'PLATINUM', icon: '👑', category: 'SALAH', metric: 'STREAK', value: 365 },
 
-    // FITNESS
-    { id: 'fit_1', title: 'The First Pump', description: 'Complete the 60 Pushups goal once.', tier: 'BRONZE', icon: '💪', category: 'FITNESS', metric: 'COUNT', value: 1 },
-    { id: 'fit_2', title: 'Weekly Endurance', description: 'Complete the 60 Pushups goal for 7 consecutive days.', tier: 'SILVER', icon: '🗓️', category: 'FITNESS', metric: 'STREAK', value: 7 },
-    { id: 'fit_3', title: 'The Monthly Muscle', description: 'Complete the 60 Pushups goal for 30 consecutive days.', tier: 'GOLD', icon: '🥇', category: 'FITNESS', metric: 'STREAK', value: 30 },
-    { id: 'fit_4', title: 'The Iron Will', description: 'Complete the 60 Pushups goal for 90 consecutive days.', tier: 'PLATINUM', icon: '🚀', category: 'FITNESS', metric: 'STREAK', value: 90 },
-    { id: 'fit_5', title: 'The Half-Year Body', description: 'Complete the 60 Pushups goal for 180 consecutive days.', tier: 'DIAMOND', icon: '🔑', category: 'FITNESS', metric: 'STREAK', value: 180 },
-    { id: 'fit_6', title: 'The Athlete\'s Year', description: 'Complete the 60 Pushups goal for 365 consecutive days.', tier: 'LEGEND', icon: '👑', category: 'FITNESS', metric: 'STREAK', value: 365 },
-    { id: 'fit_7', title: 'The Pushup King/Queen', description: 'Log 1,000 total Pushups.', tier: 'GOLD', icon: '🏆', category: 'FITNESS', metric: 'COUNT', value: 1000 },
-    { id: 'fit_8', title: 'The 5K Reps', description: 'Log 5,000 total Pushups.', tier: 'PLATINUM', icon: '🏋️', category: 'FITNESS', metric: 'COUNT', value: 5000 },
-    { id: 'fit_9', title: 'The Pushup Grand Master', description: 'Log 100,000 total Pushups.', tier: 'TITAN', icon: '🏆', category: 'FITNESS', metric: 'COUNT', value: 100000 },
-    { id: 'fit_10', title: 'Fitness Resilience I', description: 'Restart a 30-day streak after a break.', tier: 'BRONZE', icon: '🔄', category: 'FITNESS', metric: 'SPECIAL', value: 1 },
-    { id: 'fit_11', title: 'The Custom Start', description: 'Log your very first custom fitness activity.', tier: 'BRONZE', icon: '🎯', category: 'FITNESS', metric: 'COUNT', value: 1 },
-    { id: 'fit_12', title: 'Full Power Day', description: 'Complete the 60 Pushups goal AND a Custom Activity goal on the same day, 5 times.', tier: 'SILVER', icon: '🌟', category: 'FITNESS', metric: 'COUNT', value: 5 },
-    { id: 'fit_13', title: 'The 100-Day Centurion', description: 'Complete the 60 Pushups goal for 100 consecutive days.', tier: 'PLATINUM', icon: '💯', category: 'FITNESS', metric: 'STREAK', value: 100 },
-    { id: 'fit_14', title: 'The 270 Day Commitment', description: 'Complete the 60 Pushups goal for 270 consecutive days.', tier: 'DIAMOND', icon: '🔑', category: 'FITNESS', metric: 'STREAK', value: 270 },
-    { id: 'fit_15', title: 'The Two-Year Vow', description: 'Complete the 60 Pushups goal for 730 consecutive days.', tier: 'TITAN', icon: '⚔️', category: 'FITNESS', metric: 'STREAK', value: 730 },
-    { id: 'fit_16', title: 'The Focused Set', description: 'Complete all 60 Pushups in under 5 minutes 10 times.', tier: 'GOLD', icon: '⏱️', category: 'FITNESS', metric: 'COUNT', value: 10 },
-    { id: 'fit_17', title: 'Fitness & Prayer I', description: 'Complete the 60 Pushups goal and log all 5 daily prayers on the same day, 10 times.', tier: 'GOLD', icon: '🤝', category: 'FITNESS', metric: 'COUNT', value: 10 },
-    { id: 'fit_18', title: 'The 10K Reps', description: 'Log 10,000 total Pushups.', tier: 'DIAMOND', icon: '💎', category: 'FITNESS', metric: 'COUNT', value: 10000 },
-    { id: 'fit_19', title: 'The 25K Reps', description: 'Log 25,000 total Pushups.', tier: 'LEGEND', icon: '🚀', category: 'FITNESS', metric: 'COUNT', value: 25000 },
-    { id: 'fit_20', title: 'The Pushup Master', description: 'Log 50,000 total Pushups.', tier: 'TITAN', icon: '🏆', category: 'FITNESS', metric: 'COUNT', value: 50000 },
-    { id: 'fit_21', title: 'The 120-Day Champion', description: 'Complete the 60 Pushups goal for 120 consecutive days.', tier: 'PLATINUM', icon: '🥇', category: 'FITNESS', metric: 'STREAK', value: 120 },
-    { id: 'fit_22', title: 'The 500 Day Vow', description: 'Complete the 60 Pushups goal for 500 consecutive days.', tier: 'TITAN', icon: '👑', category: 'FITNESS', metric: 'STREAK', value: 500 },
-    { id: 'fit_23', title: 'The Custom Habit III', description: 'Log a custom fitness activity 90 days in a row.', tier: 'DIAMOND', icon: '🌌', category: 'FITNESS', metric: 'STREAK', value: 90 },
-    { id: 'fit_24', title: 'The Pushup Titan', description: 'Log 75,000 total Pushups.', tier: 'TITAN', icon: '🏆', category: 'FITNESS', metric: 'COUNT', value: 75000 },
-    { id: 'fit_25', title: 'The Pushup God/Goddess', description: 'Log 250,000 total Pushups.', tier: 'TITAN', icon: '🏆', category: 'FITNESS', metric: 'COUNT', value: 250000 },
+    // Fajr Specific
+    { id: 'salah_fajr_10', title: 'Early Bird', description: '10 Fajr.', tier: 'BRONZE', icon: '🌅', category: 'SALAH', metric: 'COUNT', value: 10 },
+    { id: 'salah_fajr_30', title: 'Dawn Warrior', description: '30 Fajr.', tier: 'SILVER', icon: '🌅', category: 'SALAH', metric: 'COUNT', value: 30 },
+    { id: 'salah_fajr_100', title: 'Dawn Devotee', description: '100 Fajr.', tier: 'GOLD', icon: '🌅', category: 'SALAH', metric: 'COUNT', value: 100 },
+    { id: 'salah_fajr_500', title: 'Light of Fajr', description: '500 Fajr.', tier: 'DIAMOND', icon: '☀️', category: 'SALAH', metric: 'COUNT', value: 500 },
 
-    // HYGIENE
-    { id: 'hyg_1', title: 'The Clean Start', description: 'Complete all 4 tasks in one day.', tier: 'BRONZE', icon: '💧', category: 'HYGIENE', metric: 'COUNT', value: 1 },
-    { id: 'hyg_2', title: 'The Self-Care Week', description: 'Complete all 4 tasks for 7 consecutive days.', tier: 'SILVER', icon: '🗓️', category: 'HYGIENE', metric: 'STREAK', value: 7 },
-    { id: 'hyg_3', title: 'The Refreshed Month', description: 'Complete all 4 tasks for 30 consecutive days.', tier: 'GOLD', icon: '🚿', category: 'HYGIENE', metric: 'STREAK', value: 30 },
-    { id: 'hyg_4', title: 'The Habitual Builder', description: 'Complete all 4 tasks for 90 consecutive days.', tier: 'PLATINUM', icon: '🏆', category: 'HYGIENE', metric: 'STREAK', value: 90 },
-    { id: 'hyg_5', title: 'The Sovereign of Routine', description: 'Complete all 4 tasks for 180 consecutive days.', tier: 'DIAMOND', icon: '🔗', category: 'HYGIENE', metric: 'STREAK', value: 180 },
-    { id: 'hyg_6', title: 'The Hygienic Year', description: 'Complete all 4 tasks for 365 consecutive days.', tier: 'LEGEND', icon: '👑', category: 'HYGIENE', metric: 'STREAK', value: 365 },
-    { id: 'hyg_7', title: 'Focused Hydration', description: 'Log 8 glasses of water daily for 14 consecutive days.', tier: 'SILVER', icon: '🧠', category: 'HYGIENE', metric: 'STREAK', value: 14 },
-    { id: 'hyg_8', title: 'The Daily Ritualist', description: 'Complete all 4 tasks 500 total times.', tier: 'LEGEND', icon: '💡', category: 'HYGIENE', metric: 'COUNT', value: 500 },
-    { id: 'hyg_9', title: 'The Task Master XV', description: 'Complete all 4 tasks 7,500 total times.', tier: 'TITAN', icon: '💎', category: 'HYGIENE', metric: 'COUNT', value: 7500 },
-    { id: 'hyg_10', title: 'Hygiene Resilience I', description: 'Restart a 30-day streak after a break.', tier: 'BRONZE', icon: '🔄', category: 'HYGIENE', metric: 'SPECIAL', value: 1 },
-    { id: 'hyg_11', title: 'The Perfect Polish', description: 'Complete Brush and Clean Desk 50 total times.', tier: 'SILVER', icon: '🧼', category: 'HYGIENE', metric: 'COUNT', value: 50 },
-    { id: 'hyg_12', title: 'The 100-Day Centurion', description: 'Complete all 4 tasks for 100 consecutive days.', tier: 'PLATINUM', icon: '💯', category: 'HYGIENE', metric: 'STREAK', value: 100 },
-    { id: 'hyg_13', title: 'The 270 Day Commitment', description: 'Complete all 4 tasks for 270 consecutive days.', tier: 'DIAMOND', icon: '🔑', category: 'HYGIENE', metric: 'STREAK', value: 270 },
-    { id: 'hyg_14', title: 'Morning Prep', description: 'Complete Brush and Shower before 9 AM 10 times.', tier: 'SILVER', icon: '⏱️', category: 'HYGIENE', metric: 'COUNT', value: 10 },
-    { id: 'hyg_15', title: 'The Hydration Hero I', description: 'Log 8 glasses of water daily 30 total times.', tier: 'GOLD', icon: '📚', category: 'HYGIENE', metric: 'COUNT', value: 30 },
-    { id: 'hyg_16', title: 'The Clean Queen/King I', description: 'Complete Shower and Clean Desk 100 total times.', tier: 'GOLD', icon: '👑', category: 'HYGIENE', metric: 'COUNT', value: 100 },
-    { id: 'hyg_17', title: 'The 500 Day Vow', description: 'Complete all 4 tasks for 500 consecutive days.', tier: 'TITAN', icon: '🌟', category: 'HYGIENE', metric: 'STREAK', value: 500 },
-    { id: 'hyg_18', title: 'The Task Master I', description: 'Complete all 4 tasks 100 total times.', tier: 'GOLD', icon: '💡', category: 'HYGIENE', metric: 'COUNT', value: 100 },
-    { id: 'hyg_19', title: 'The Task Master II', description: 'Complete all 4 tasks 250 total times.', tier: 'PLATINUM', icon: '🔑', category: 'HYGIENE', metric: 'COUNT', value: 250 },
-    { id: 'hyg_20', title: 'The 1000 Day Goal', description: 'Complete all 4 tasks 1,000 total times.', tier: 'TITAN', icon: '🚀', category: 'HYGIENE', metric: 'COUNT', value: 1000 },
-    { id: 'hyg_21', title: 'The Eternal Hydrator', description: 'Log 8 glasses of water daily 1,000 total times.', tier: 'TITAN', icon: '💧', category: 'HYGIENE', metric: 'COUNT', value: 1000 },
-    { id: 'hyg_22', title: 'The 5000 Day Goal', description: 'Complete all 4 tasks 5,000 total times.', tier: 'TITAN', icon: '🚀', category: 'HYGIENE', metric: 'COUNT', value: 5000 },
+    // Jamaah Specific
+    { id: 'salah_jamaah_10', title: 'Group Effort', description: '10 Jamaah.', tier: 'BRONZE', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 10 },
+    { id: 'salah_jamaah_50', title: 'Community Pillar', description: '50 Jamaah.', tier: 'SILVER', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 50 },
+    { id: 'salah_jamaah_100', title: 'Mosque Regular', description: '100 Jamaah.', tier: 'GOLD', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 100 },
+    { id: 'salah_jamaah_500', title: 'Heart of Masjid', description: '500 Jamaah.', tier: 'DIAMOND', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 500 },
+    
+    // Tahajjud
+    { id: 'salah_tahajjud_1', title: 'Night Caller', description: '1 Tahajjud.', tier: 'BRONZE', icon: '🌌', category: 'SALAH', metric: 'COUNT', value: 1 },
+    { id: 'salah_tahajjud_10', title: 'Secret Whisperer', description: '10 Tahajjud.', tier: 'SILVER', icon: '🌌', category: 'SALAH', metric: 'COUNT', value: 10 },
+    { id: 'salah_tahajjud_50', title: 'Beloved Servant', description: '50 Tahajjud.', tier: 'GOLD', icon: '🌌', category: 'SALAH', metric: 'COUNT', value: 50 },
 
-    // MDF
-    { id: 'mdf_1', title: 'The First Victory', description: 'Achieve a 3-day clean streak.', tier: 'BRONZE', icon: '🎯', category: 'MDF', metric: 'STREAK', value: 3 },
-    { id: 'mdf_2', title: 'The Weekly Guard', description: 'Achieve a 7-day clean streak.', tier: 'SILVER', icon: '🟢', category: 'MDF', metric: 'STREAK', value: 7 },
-    { id: 'mdf_3', title: 'The Monthly Fort', description: 'Achieve a 30-day clean streak.', tier: 'GOLD', icon: '🛡️', category: 'MDF', metric: 'STREAK', value: 30 },
-    { id: 'mdf_4', title: 'The 40-Day Focus', description: 'Achieve a 40-day clean streak.', tier: 'GOLD', icon: '🏆', category: 'MDF', metric: 'STREAK', value: 40 },
-    { id: 'mdf_5', title: 'The Quarter Conqueror', description: 'Achieve a 90-day clean streak.', tier: 'PLATINUM', icon: '🥇', category: 'MDF', metric: 'STREAK', value: 90 },
-    { id: 'mdf_6', title: 'The Half-Year Hero', description: 'Achieve a 180-day clean streak.', tier: 'DIAMOND', icon: '🌟', category: 'MDF', metric: 'STREAK', value: 180 },
-    { id: 'mdf_7', title: 'The Annual Purity', description: 'Achieve a 365-day clean streak.', tier: 'LEGEND', icon: '👑', category: 'MDF', metric: 'STREAK', value: 365 },
-    { id: 'mdf_8', title: 'The Master of Self', description: 'Achieve 500 cumulative clean days.', tier: 'LEGEND', icon: '💎', category: 'MDF', metric: 'COUNT', value: 500 },
-    { id: 'mdf_9', title: 'The 1000 Day Goal', description: 'Achieve 1,000 cumulative clean days.', tier: 'TITAN', icon: '🚀', category: 'MDF', metric: 'COUNT', value: 1000 },
-    { id: 'mdf_10', title: 'The Comeback Kid I', description: 'Restart a 30-day streak after a break.', tier: 'BRONZE', icon: '🛡️', category: 'MDF', metric: 'SPECIAL', value: 1 },
-    { id: 'mdf_11', title: 'The Quick Reset', description: 'Successfully restart a streak of 7+ days after a break.', tier: 'BRONZE', icon: '🔄', category: 'MDF', metric: 'SPECIAL', value: 1 },
-    { id: 'mdf_12', title: 'The 100-Day Centurion', description: 'Achieve a 100-day clean streak.', tier: 'PLATINUM', icon: '💯', category: 'MDF', metric: 'STREAK', value: 100 },
-    { id: 'mdf_13', title: 'The 270 Day Commitment', description: 'Achieve a 270-day clean streak.', tier: 'DIAMOND', icon: '🔑', category: 'MDF', metric: 'STREAK', value: 270 },
-    { id: 'mdf_14', title: 'The Two-Year Vow', description: 'Achieve a 730-day clean streak.', tier: 'TITAN', icon: '⚔️', category: 'MDF', metric: 'STREAK', value: 730 },
-    { id: 'mdf_15', title: 'Purity & Prayer I', description: 'Achieve a 7-day clean streak and a 7-day prayer streak.', tier: 'SILVER', icon: '🤝', category: 'MDF', metric: 'STREAK', value: 7 },
-    { id: 'mdf_16', title: 'The 120-Day Champion', description: 'Achieve a 120-day clean streak.', tier: 'PLATINUM', icon: '🥇', category: 'MDF', metric: 'STREAK', value: 120 },
-    { id: 'mdf_17', title: 'The 500 Day King/Queen', description: 'Achieve a 500-day clean streak.', tier: 'TITAN', icon: '👑', category: 'MDF', metric: 'STREAK', value: 500 },
-    { id: 'mdf_18', title: 'The Enduring Will', description: 'Achieve 150 cumulative clean days.', tier: 'GOLD', icon: '🔗', category: 'MDF', metric: 'COUNT', value: 150 },
-    { id: 'mdf_19', title: 'The 150-Day Pillar', description: 'Achieve a 150-day clean streak.', tier: 'PLATINUM', icon: '💯', category: 'MDF', metric: 'STREAK', value: 150 },
-    { id: 'mdf_20', title: 'The Five-Year Vow', description: 'Achieve a 1,825-day clean streak.', tier: 'TITAN', icon: '⚔️', category: 'MDF', metric: 'STREAK', value: 1825 },
-    { id: 'mdf_21', title: 'Purity & Fitness I', description: 'Achieve a 30-day clean streak and the 60 Pushup goal 30 times.', tier: 'GOLD', icon: '🤝', category: 'MDF', metric: 'COUNT', value: 30 },
-    { id: 'mdf_22', title: 'The 1000 Day Sovereign', description: 'Achieve a 1,000-day clean streak.', tier: 'TITAN', icon: '👑', category: 'MDF', metric: 'STREAK', value: 1000 },
-    { id: 'mdf_23', title: 'The 3000 Day Goal', description: 'Achieve 3,000 cumulative clean days.', tier: 'TITAN', icon: '🚀', category: 'MDF', metric: 'COUNT', value: 3000 },
-    { id: 'mdf_24', title: 'The Decade Vow', description: 'Achieve a 3,650-day clean streak.', tier: 'TITAN', icon: '⚔️', category: 'MDF', metric: 'STREAK', value: 3650 },
+    // --- DHIKR (EASY TO EXTREME) ---
+    { id: 'dhikr_total_100', title: 'First Tasbih', description: '100 Dhikr.', tier: 'BRONZE', icon: '📿', category: 'DHIKR', metric: 'COUNT', value: 100 },
+    { id: 'dhikr_total_1000', title: 'Thousand Praises', description: '1,000 Dhikr.', tier: 'BRONZE', icon: '📿', category: 'DHIKR', metric: 'COUNT', value: 1000 },
+    { id: 'dhikr_total_5000', title: 'Rememberer', description: '5,000 Dhikr.', tier: 'SILVER', icon: '💎', category: 'DHIKR', metric: 'COUNT', value: 5000 },
+    { id: 'dhikr_total_10000', title: 'Heart Polish', description: '10,000 Dhikr.', tier: 'GOLD', icon: '💎', category: 'DHIKR', metric: 'COUNT', value: 10000 },
+    { id: 'dhikr_total_50000', title: 'Remembrance Master', description: '50,000 Dhikr.', tier: 'PLATINUM', icon: '🌟', category: 'DHIKR', metric: 'COUNT', value: 50000 },
+    { id: 'dhikr_total_100000', title: 'Master of Praise', description: '100,000 Dhikr.', tier: 'DIAMOND', icon: '📿', category: 'DHIKR', metric: 'COUNT', value: 100000 },
+    { id: 'dhikr_total_500000', title: 'Tongue of Light', description: '500,000 Dhikr.', tier: 'TITAN', icon: '✨', category: 'DHIKR', metric: 'COUNT', value: 500000 },
+    { id: 'dhikr_total_1000000', title: 'Friend of Allah', description: '1,000,000 Dhikr.', tier: 'ETERNAL', icon: '👑', category: 'DHIKR', metric: 'COUNT', value: 1000000 },
 
-    // NIGHT
-    { id: 'night_1', title: 'Nightly Protector', description: 'Complete the full night routine once.', tier: 'BRONZE', icon: '🌌', category: 'NIGHT', metric: 'COUNT', value: 1 },
-    { id: 'night_2', title: 'The Fortress of Sleep', description: 'Complete routine for 7 consecutive nights.', tier: 'SILVER', icon: '🛡️', category: 'NIGHT', metric: 'STREAK', value: 7 },
-    { id: 'night_3', title: '30 Nights Blessed', description: 'Complete routine for 30 consecutive nights.', tier: 'GOLD', icon: '🌙', category: 'NIGHT', metric: 'STREAK', value: 30 },
-    { id: 'night_4', title: 'The Lighted Bed', description: 'Complete routine for 90 consecutive nights.', tier: 'PLATINUM', icon: '🏆', category: 'NIGHT', metric: 'STREAK', value: 90 },
-    { id: 'night_5', title: 'The Eternal Chain', description: 'Complete routine for 180 consecutive nights.', tier: 'DIAMOND', icon: '🔗', category: 'NIGHT', metric: 'STREAK', value: 180 },
-    { id: 'night_6', title: 'Guardian of the Night', description: 'Complete routine for 365 consecutive nights.', tier: 'LEGEND', icon: '🔑', category: 'NIGHT', metric: 'STREAK', value: 365 },
-    { id: 'night_7', title: 'Mulk Master', description: 'Complete Surah Mulk recitation 50 total times.', tier: 'GOLD', icon: '💎', category: 'NIGHT', metric: 'COUNT', value: 50 },
-    { id: 'night_8', title: 'Baqarah Shield', description: 'Complete the last 2 Ayah of Surah Baqarah 50 total times.', tier: 'GOLD', icon: '👑', category: 'NIGHT', metric: 'COUNT', value: 50 },
-    { id: 'night_9', title: 'The Guiding Star', description: 'Complete the full routine 500 total nights.', tier: 'LEGEND', icon: '💡', category: 'NIGHT', metric: 'COUNT', value: 500 },
-    { id: 'night_10', title: 'Nightly Volume X', description: 'Complete the full routine 5,000 total nights.', tier: 'TITAN', icon: '👑', category: 'NIGHT', metric: 'COUNT', value: 5000 },
-    { id: 'night_11', title: 'Mulk & Baqarah Duo', description: 'Complete both recitations 100 total times.', tier: 'PLATINUM', icon: '🌟', category: 'NIGHT', metric: 'COUNT', value: 100 },
-    { id: 'night_12', title: 'The 21-Night Habit', description: 'Complete routine for 21 consecutive nights.', tier: 'SILVER', icon: '🟢', category: 'NIGHT', metric: 'STREAK', value: 21 },
-    { id: 'night_13', title: 'The 270 Day Vow', description: 'Complete routine for 270 consecutive nights.', tier: 'DIAMOND', icon: '🚀', category: 'NIGHT', metric: 'STREAK', value: 270 },
-    { id: 'night_14', title: 'The Mulk Reader I', description: 'Recite Surah Mulk 10 total times.', tier: 'BRONZE', icon: '📚', category: 'NIGHT', metric: 'COUNT', value: 10 },
-    { id: 'night_15', title: 'Night and Tahajjud I', description: 'Complete routine and log Tahajjud on the same night, 5 times.', tier: 'SILVER', icon: '🤝', category: 'NIGHT', metric: 'COUNT', value: 5 },
-    { id: 'night_16', title: 'Perfect 40-Night', description: 'Complete routine for 40 consecutive nights.', tier: 'GOLD', icon: '💯', category: 'NIGHT', metric: 'STREAK', value: 40 },
-    { id: 'night_17', title: 'The 500 Night Goal', description: 'Complete routine 500 total times.', tier: 'TITAN', icon: '🚀', category: 'NIGHT', metric: 'COUNT', value: 500 },
-    { id: 'night_18', title: 'Nightly Volume V', description: 'Complete the full routine 365 total nights.', tier: 'LEGEND', icon: '🏆', category: 'NIGHT', metric: 'COUNT', value: 365 },
-    { id: 'night_19', title: 'Night and MDF III', description: 'Complete routine and MDF task on the same day, 90 times.', tier: 'PLATINUM', icon: '🌟', category: 'NIGHT', metric: 'COUNT', value: 90 },
-    { id: 'night_20', title: 'Perfect 350-Night', description: 'Complete routine for 350 consecutive nights.', tier: 'LEGEND', icon: '💯', category: 'NIGHT', metric: 'STREAK', value: 350 },
-    { id: 'night_21', title: 'The 1000 Night Goal', description: 'Complete routine 1,000 total times.', tier: 'TITAN', icon: '🚀', category: 'NIGHT', metric: 'COUNT', value: 1000 },
-    { id: 'night_22', title: 'The Mulk Master IV', description: 'Recite Surah Mulk 500 total times.', tier: 'TITAN', icon: '🔑', category: 'NIGHT', metric: 'COUNT', value: 500 },
-    { id: 'night_23', title: 'Nightly Volume XII', description: 'Complete the full routine 7,500 total nights.', tier: 'TITAN', icon: '👑', category: 'NIGHT', metric: 'COUNT', value: 7500 },
-    { id: 'night_24', title: 'Perfect 550-Night', description: 'Complete routine for 550 consecutive nights.', tier: 'TITAN', icon: '💯', category: 'NIGHT', metric: 'STREAK', value: 550 },
+    // --- FITNESS (EASY TO EXTREME) ---
+    { id: 'fitness_total_100', title: 'Warming Up', description: '100 Pushups.', tier: 'BRONZE', icon: '🏋️', category: 'FITNESS', metric: 'COUNT', value: 100 },
+    { id: 'fitness_total_500', title: 'Strength Builder', description: '500 Pushups.', tier: 'SILVER', icon: '🏋️', category: 'FITNESS', metric: 'COUNT', value: 500 },
+    { id: 'fitness_total_1000', title: 'Iron Muscle', description: '1,000 Pushups.', tier: 'GOLD', icon: '🦾', category: 'FITNESS', metric: 'COUNT', value: 1000 },
+    { id: 'fitness_total_2500', title: 'Iron Body', description: '2,500 Pushups.', tier: 'PLATINUM', icon: '🦾', category: 'FITNESS', metric: 'COUNT', value: 2500 },
+    { id: 'fitness_pushups_5000', title: 'Spartan', description: '5,000 Pushups.', tier: 'DIAMOND', icon: '🛡️', category: 'FITNESS', metric: 'COUNT', value: 5000 },
+    { id: 'fitness_pushups_10000', title: 'Olympian', description: '10,000 Pushups.', tier: 'TITAN', icon: '🏛️', category: 'FITNESS', metric: 'COUNT', value: 10000 },
+    { id: 'fitness_pushups_50000', title: 'God of War', description: '50,000 Pushups.', tier: 'ETERNAL', icon: '🔥', category: 'FITNESS', metric: 'COUNT', value: 50000 },
+    { id: 'fitness_streak_7', title: 'Week Strong', description: '7 Day Streak.', tier: 'BRONZE', icon: '📅', category: 'FITNESS', metric: 'STREAK', value: 7 },
+    { id: 'fitness_streak_30', title: 'Month of Power', description: '30 Day Streak.', tier: 'SILVER', icon: '📅', category: 'FITNESS', metric: 'STREAK', value: 30 },
+    { id: 'fitness_streak_100', title: 'Unstoppable', description: '100 Day Streak.', tier: 'DIAMOND', icon: '🔥', category: 'FITNESS', metric: 'STREAK', value: 100 },
 
-    // WISDOM (HADEES)
-    { id: 'had_1', title: 'The Daily Insight', description: 'Read 1 Hadees entry.', tier: 'BRONZE', icon: '💡', category: 'HADEES', metric: 'COUNT', value: 1 },
-    { id: 'had_2', title: 'The Sunnah Seeker', description: 'Read 7 consecutive days.', tier: 'SILVER', icon: '🗓️', category: 'HADEES', metric: 'STREAK', value: 7 },
-    { id: 'had_3', title: 'Monthly Reflection', description: 'Read 30 consecutive days.', tier: 'GOLD', icon: '📜', category: 'HADEES', metric: 'STREAK', value: 30 },
-    { id: 'had_4', title: 'The Wisdom Keeper', description: 'Read 90 consecutive days.', tier: 'PLATINUM', icon: '👑', category: 'HADEES', metric: 'STREAK', value: 90 },
-    { id: 'had_5', title: 'The Torchbearer', description: 'Read 180 consecutive days.', tier: 'DIAMOND', icon: '🔑', category: 'HADEES', metric: 'STREAK', value: 180 },
-    { id: 'had_6', title: 'The Annual Scholar', description: 'Read 365 consecutive days.', tier: 'LEGEND', icon: '🏆', category: 'HADEES', metric: 'STREAK', value: 365 },
-    { id: 'had_7', title: 'The Guided Life', description: 'Read 100 total Hadees entries.', tier: 'GOLD', icon: '🤝', category: 'HADEES', metric: 'COUNT', value: 100 },
-    { id: 'had_8', title: 'The Chain of Knowledge', description: 'Read 500 total Hadees entries.', tier: 'PLATINUM', icon: '📚', category: 'HADEES', metric: 'COUNT', value: 500 },
-    { id: 'had_9', title: 'The Muhaddith (Minor)', description: 'Read 1,000 total Hadees entries.', tier: 'LEGEND', icon: '🌟', category: 'HADEES', metric: 'COUNT', value: 1000 },
-    { id: 'had_10', title: 'Deep Understanding', description: 'Read 2,000 total Hadees entries.', tier: 'TITAN', icon: '🧠', category: 'HADEES', metric: 'COUNT', value: 2000 },
-    { id: 'had_11', title: 'The First 40', description: 'Read 40 consecutive days.', tier: 'GOLD', icon: '🎯', category: 'HADEES', metric: 'STREAK', value: 40 },
-    { id: 'had_12', title: 'The Master\'s Streak', description: 'Read 270 consecutive days.', tier: 'DIAMOND', icon: '💎', category: 'HADEES', metric: 'STREAK', value: 270 },
-    { id: 'had_13', title: 'The 500 Day Vow', description: 'Read 500 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'HADEES', metric: 'STREAK', value: 500 },
-    { id: 'had_14', title: 'The Focused Morning', description: 'Read Hadees before Dhuhr 25 times.', tier: 'SILVER', icon: '💡', category: 'HADEES', metric: 'COUNT', value: 25 },
-    { id: 'had_15', title: 'The Scroll Opener', description: 'Read 50 total Hadees entries.', tier: 'SILVER', icon: '📜', category: 'HADEES', metric: 'COUNT', value: 50 },
-    { id: 'had_16', title: 'Wisdom & Purity', description: 'Read Hadees and complete the MDF task on the same day, 30 times.', tier: 'GOLD', icon: '🌟', category: 'HADEES', metric: 'COUNT', value: 30 },
-    { id: 'had_17', title: 'Perfect 100', description: 'Read 100 consecutive days.', tier: 'PLATINUM', icon: '💯', category: 'HADEES', metric: 'STREAK', value: 100 },
-    { id: 'had_18', title: 'Sunnah Scholar II', description: 'Read 3,000 total entries.', tier: 'TITAN', icon: '📚', category: 'HADEES', metric: 'COUNT', value: 3000 },
-    { id: 'had_19', title: 'The Guided Year', description: 'Read Hadees for 365 days and log a prayer streak of 90 days.', tier: 'LEGEND', icon: '🤝', category: 'HADEES', metric: 'COUNT', value: 365 },
-    { id: 'had_20', title: 'The 400 Day Club', description: 'Read 400 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'HADEES', metric: 'STREAK', value: 400 },
-    { id: 'had_21', title: 'The Guided Soul', description: 'Read 800 total Hadees entries.', tier: 'LEGEND', icon: '🌌', category: 'HADEES', metric: 'COUNT', value: 800 },
-    { id: 'had_22', title: 'Perfect 200', description: 'Read 200 consecutive days.', tier: 'DIAMOND', icon: '💯', category: 'HADEES', metric: 'STREAK', value: 200 },
-    { id: 'had_23', title: 'Sunnah Grand Master II', description: 'Read 10,000 total entries.', tier: 'TITAN', icon: '📚', category: 'HADEES', metric: 'COUNT', value: 10000 },
-    { id: 'had_24', title: 'The 750 Day Club', description: 'Read 750 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'HADEES', metric: 'STREAK', value: 750 },
+    // --- QURAN (EASY TO EXTREME) ---
+    { id: 'quran_juz_1', title: 'First Juz', description: 'Finish Juz 1.', tier: 'BRONZE', icon: '1️⃣', category: 'QURAN', metric: 'VALUE', value: 1 },
+    { id: 'quran_juz_5', title: 'Five Juz', description: 'Reach Juz 5.', tier: 'SILVER', icon: '5️⃣', category: 'QURAN', metric: 'VALUE', value: 5 },
+    { id: 'quran_juz_15', title: 'Halfway There', description: 'Reach Juz 15.', tier: 'GOLD', icon: '🌓', category: 'QURAN', metric: 'VALUE', value: 15 },
+    { id: 'quran_juz_30', title: 'Quran Completed', description: 'Reach Juz 30.', tier: 'PLATINUM', icon: '✅', category: 'QURAN', metric: 'VALUE', value: 30 },
+    { id: 'quran_khatam_gen_1', title: 'First Khatam', description: '1 Full Khatam.', tier: 'PLATINUM', icon: '📖', category: 'QURAN', metric: 'VALUE', value: 1 },
+    { id: 'quran_khatam_3', title: 'Triple Light', description: '3 Khatams.', tier: 'DIAMOND', icon: '✨', category: 'QURAN', metric: 'VALUE', value: 3 },
+    { id: 'quran_khatam_10', title: 'Walking Quran', description: '10 Khatams.', tier: 'TITAN', icon: '👑', category: 'QURAN', metric: 'VALUE', value: 10 },
+    { id: 'quran_khatam_50', title: 'Living Miracle', description: '50 Khatams.', tier: 'ETERNAL', icon: '🌟', category: 'QURAN', metric: 'VALUE', value: 50 },
+    { id: 'quran_streak_30', title: 'Reciter', description: '30 Day Streak.', tier: 'SILVER', icon: '📖', category: 'QURAN', metric: 'STREAK', value: 30 },
 
-    // QURAN (Parah)
-    { id: 'qur_1', title: 'The First Page', description: 'Log one reading session.', tier: 'BRONZE', icon: '📖', category: 'QURAN', metric: 'COUNT', value: 1 },
-    { id: 'qur_2', title: 'Weekly Recitation', description: 'Read for 7 consecutive days.', tier: 'SILVER', icon: '🗓️', category: 'QURAN', metric: 'STREAK', value: 7 },
-    { id: 'qur_3', title: 'Monthly Focus', description: 'Read for 30 consecutive days.', tier: 'GOLD', icon: '🏆', category: 'QURAN', metric: 'STREAK', value: 30 },
-    { id: 'qur_4', title: 'The Parah Starter', description: 'Read 1 full Parah.', tier: 'BRONZE', icon: '👑', category: 'QURAN', metric: 'VALUE', value: 1 },
-    { id: 'qur_5', title: 'The Quarterly Khatam', description: 'Complete 1 full Khatam (30 Parah).', tier: 'PLATINUM', icon: '🔑', category: 'QURAN', metric: 'VALUE', value: 1 },
-    { id: 'qur_6', title: 'The Annual Hafiz', description: 'Complete 4 full Khatams (120 Parah).', tier: 'LEGEND', icon: '🌟', category: 'QURAN', metric: 'VALUE', value: 4 },
-    { id: 'qur_7', title: 'The Daily Minimum', description: 'Log reading 100 total times.', tier: 'GOLD', icon: '💡', category: 'QURAN', metric: 'COUNT', value: 100 },
-    { id: 'qur_8', title: 'The 10 Parah Reader', description: 'Read 10 total Parah.', tier: 'SILVER', icon: '📚', category: 'QURAN', metric: 'VALUE', value: 10 },
-    { id: 'qur_9', title: 'The 200 Day Mark', description: 'Read for 200 consecutive days.', tier: 'DIAMOND', icon: '💯', category: 'QURAN', metric: 'STREAK', value: 200 },
-    { id: 'qur_10', title: 'The 1000 Day Legend', description: 'Read for 1,000 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'QURAN', metric: 'STREAK', value: 1000 },
-    { id: 'qur_11', title: 'The Half-Khatam Anchor', description: 'Read 15 total Parah.', tier: 'SILVER', icon: '🔗', category: 'QURAN', metric: 'VALUE', value: 15 },
-    { id: 'qur_12', title: 'The 40-Day Reciter', description: 'Read for 40 consecutive days.', tier: 'GOLD', icon: '🛡️', category: 'QURAN', metric: 'STREAK', value: 40 },
-    { id: 'qur_13', title: 'The 120 Day Ascent', description: 'Read for 120 consecutive days.', tier: 'PLATINUM', icon: '🚀', category: 'QURAN', metric: 'STREAK', value: 120 },
-    { id: 'qur_14', title: 'The 730 Day Vow', description: 'Read for 730 consecutive days.', tier: 'TITAN', icon: '⚔️', category: 'QURAN', metric: 'STREAK', value: 730 },
-    { id: 'qur_15', title: 'Morning Light', description: 'Read before Fajr 25 times.', tier: 'SILVER', icon: '⏱️', category: 'QURAN', metric: 'COUNT', value: 25 },
-    { id: 'qur_16', title: 'The 50 Parah Reader', description: 'Read 50 total Parah.', tier: 'GOLD', icon: '💎', category: 'QURAN', metric: 'VALUE', value: 50 },
-    { id: 'qur_17', title: 'The 100 Parah Reader', description: 'Read 100 total Parah.', tier: 'PLATINUM', icon: '👑', category: 'QURAN', metric: 'VALUE', value: 100 },
-    { id: 'qur_18', title: 'The 5 Khatam Master', description: 'Complete 5 full Khatams (150 Parah).', tier: 'LEGEND', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 5 },
-    { id: 'qur_19', title: 'The 150-Day Pillar', description: 'Read for 150 consecutive days.', tier: 'DIAMOND', icon: '🥇', category: 'QURAN', metric: 'STREAK', value: 150 },
-    { id: 'qur_20', title: 'The 500 Day Vow', description: 'Read for 500 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'QURAN', metric: 'STREAK', value: 500 },
-    { id: 'qur_21', title: 'Quran & Dhikr Duo I', description: 'Read and complete the A+S Dhikr task, 50 times.', tier: 'GOLD', icon: '🤝', category: 'QURAN', metric: 'COUNT', value: 50 },
-    { id: 'qur_22', title: 'The 10 Khatam Master', description: 'Complete 10 full Khatams (300 Parah).', tier: 'TITAN', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 10 },
-    { id: 'qur_23', title: 'The 600 Day Champion', description: 'Read for 600 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'QURAN', metric: 'STREAK', value: 600 },
-    { id: 'qur_24', title: 'Quran & Wisdom Duo I', description: 'Read and read Hadees, 50 times.', tier: 'GOLD', icon: '🤝', category: 'QURAN', metric: 'COUNT', value: 50 },
-    { id: 'qur_25', title: 'The 200 Parah Reader', description: 'Read 200 total Parah.', tier: 'TITAN', icon: '👑', category: 'QURAN', metric: 'VALUE', value: 200 },
-    { id: 'qur_26', title: 'The 15 Khatam Master', description: 'Complete 15 full Khatams (450 Parah).', tier: 'TITAN', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 15 },
-    { id: 'qur_27', title: 'The 750 Day Master', description: 'Read for 750 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'QURAN', metric: 'STREAK', value: 750 },
-    { id: 'qur_28', title: 'Quran & Night Duo I', description: 'Read and complete the Night routine, 75 times.', tier: 'PLATINUM', icon: '🤝', category: 'QURAN', metric: 'COUNT', value: 75 },
-    { id: 'qur_29', title: 'The 20 Khatam Master', description: 'Complete 20 full Khatams (600 Parah).', tier: 'TITAN', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 20 },
-    { id: 'qur_30', title: 'The 330-Day Column', description: 'Read for 330 consecutive days.', tier: 'LEGEND', icon: '🥇', category: 'QURAN', metric: 'STREAK', value: 330 },
-    { id: 'qur_31', title: 'The 900 Day Master', description: 'Read for 900 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'QURAN', metric: 'STREAK', value: 900 },
-    { id: 'qur_32', title: 'Quran & MDF Duo I', description: 'Read and complete the MDF task, 75 times.', tier: 'PLATINUM', icon: '🤝', category: 'QURAN', metric: 'COUNT', value: 75 },
-    { id: 'qur_33', title: 'The 30 Khatam Master', description: 'Complete 30 full Khatams (900 Parah).', tier: 'TITAN', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 30 },
-    { id: 'qur_34', title: 'The 400 Day Sentinel', description: 'Read for 400 consecutive days.', tier: 'LEGEND', icon: '🥇', category: 'QURAN', metric: 'STREAK', value: 400 },
-    { id: 'qur_35', title: 'The Final Parah Master', description: 'Read the last Parah (Parah 30) 25 total times.', tier: 'GOLD', icon: '📜', category: 'QURAN', metric: 'VALUE', value: 25 },
+    // --- MDF/NOFAP (EASY TO EXTREME) ---
+    { id: 'mdf_streak_3', title: 'First Victory', description: '3 Days Clean.', tier: 'BRONZE', icon: '🎯', category: 'MDF', metric: 'STREAK', value: 3 },
+    { id: 'mdf_streak_7', title: 'Clean Week', description: '7 Days Clean.', tier: 'BRONZE', icon: '🛡️', category: 'MDF', metric: 'STREAK', value: 7 },
+    { id: 'mdf_streak_14', title: 'Fortnight', description: '14 Days Clean.', tier: 'SILVER', icon: '🛡️', category: 'MDF', metric: 'STREAK', value: 14 },
+    { id: 'mdf_streak_30', title: 'Monthly Fort', description: '30 Days Clean.', tier: 'GOLD', icon: '🛡️', category: 'MDF', metric: 'STREAK', value: 30 },
+    { id: 'mdf_streak_90', title: 'Guardian', description: '90 Days Clean.', tier: 'PLATINUM', icon: '⚔️', category: 'MDF', metric: 'STREAK', value: 90 },
+    { id: 'mdf_streak_180', title: 'Iron Will', description: '180 Days Clean.', tier: 'DIAMOND', icon: '💎', category: 'MDF', metric: 'STREAK', value: 180 },
+    { id: 'mdf_streak_365', title: 'Pure Soul', description: '1 Year Clean.', tier: 'TITAN', icon: '🕊️', category: 'MDF', metric: 'STREAK', value: 365 },
+    { id: 'mdf_streak_1000', title: 'Angel Status', description: '1000 Days Clean.', tier: 'ETERNAL', icon: '😇', category: 'MDF', metric: 'STREAK', value: 1000 },
 
-    // SALAH (Prayer)
-    { id: 'sal_1', title: 'The First Sujood', description: 'Log 1 Prayer on Time.', tier: 'BRONZE', icon: '🤲', category: 'SALAH', metric: 'COUNT', value: 1 },
-    { id: 'sal_2', title: 'First Congregation', description: 'Log 1 Prayer in Jama\'ah.', tier: 'BRONZE', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 1 },
-    { id: 'sal_3', title: 'The Weekly Pillar', description: 'Log 7 consecutive days of 5 prayers on time.', tier: 'SILVER', icon: '🗓️', category: 'SALAH', metric: 'STREAK', value: 7 },
-    { id: 'sal_4', title: 'The Monthly Devotion', description: 'Log 30 consecutive days of 5 prayers on time.', tier: 'GOLD', icon: '🏆', category: 'SALAH', metric: 'STREAK', value: 30 },
-    { id: 'sal_5', title: 'The Quarterly Guard', description: 'Log 90 consecutive days of 5 prayers on time.', tier: 'PLATINUM', icon: '👑', category: 'SALAH', metric: 'STREAK', value: 90 },
-    { id: 'sal_6', title: 'The Annual Pillar', description: 'Log 365 consecutive days of 5 prayers on time.', tier: 'LEGEND', icon: '🔑', category: 'SALAH', metric: 'STREAK', value: 365 },
-    { id: 'sal_7', title: 'The Early Riser', description: 'Log Fajr on time 50 total times.', tier: 'GOLD', icon: '⏱️', category: 'SALAH', metric: 'COUNT', value: 50 },
-    { id: 'sal_8', title: 'Weekly Jama\'ah', description: 'Log 7 total prayers in Jama\'ah.', tier: 'SILVER', icon: '👥', category: 'SALAH', metric: 'COUNT', value: 7 },
-    { id: 'sal_9', title: 'The 2000 Day Volume', description: 'Log 2,000 days of 5 prayers on time.', tier: 'TITAN', icon: '🏆', category: 'SALAH', metric: 'COUNT', value: 2000 },
-    { id: 'sal_10', title: 'Resilience I', description: 'Restart a 30-day streak after a break.', tier: 'BRONZE', icon: '🔄', category: 'SALAH', metric: 'SPECIAL', value: 1 },
-    { id: 'sal_11', title: 'The Tahajjud Riser I', description: 'Log Tahajjud prayer 5 total times.', tier: 'SILVER', icon: '💡', category: 'SALAH', metric: 'COUNT', value: 5 },
-    { id: 'sal_12', title: 'The Qada Sentinel I', description: 'Log 1 total Qada prayer (make-up prayer).', tier: 'BRONZE', icon: '🔗', category: 'SALAH', metric: 'COUNT', value: 1 },
-    { id: 'sal_13', title: 'The 40-Day Fort', description: 'Log 40 consecutive days of 5 prayers on time.', tier: 'GOLD', icon: '🛡️', category: 'SALAH', metric: 'STREAK', value: 40 },
-    { id: 'sal_14', title: 'The 120 Day Ascent', description: 'Log 120 consecutive days of 5 prayers on time.', tier: 'PLATINUM', icon: '🚀', category: 'SALAH', metric: 'STREAK', value: 120 },
-    { id: 'sal_15', title: 'The 200 Day Centurion', description: 'Log 200 consecutive days of 5 prayers on time.', tier: 'DIAMOND', icon: '💯', category: 'SALAH', metric: 'STREAK', value: 200 },
-    { id: 'sal_16', title: 'The Two-Year Vow', description: 'Log 730 consecutive days of 5 prayers on time.', tier: 'TITAN', icon: '⚔️', category: 'SALAH', metric: 'STREAK', value: 730 },
-    { id: 'sal_17', title: 'Monthly Jama\'ah', description: 'Log 30 total prayers in Jama\'ah.', tier: 'GOLD', icon: '👥', category: 'SALAH', metric: 'COUNT', value: 30 },
-    { id: 'sal_18', title: 'The 100 Day Volume', description: 'Log 100 days of 5 prayers on time.', tier: 'PLATINUM', icon: '📚', category: 'SALAH', metric: 'COUNT', value: 100 },
-    { id: 'sal_19', title: 'The 500 Day Volume', description: 'Log 500 days of 5 prayers on time.', tier: 'LEGEND', icon: '💎', category: 'SALAH', metric: 'COUNT', value: 500 },
-    { id: 'sal_20', title: 'The 1500 Day Volume', description: 'Log 1,500 days of 5 prayers on time.', tier: 'TITAN', icon: '🏆', category: 'SALAH', metric: 'COUNT', value: 1500 },
-    { id: 'sal_21', title: 'The 50-Day Climb', description: 'Log 50 consecutive days of 5 prayers on time.', tier: 'GOLD', icon: '🗓️', category: 'SALAH', metric: 'STREAK', value: 50 },
-    { id: 'sal_22', title: 'The 150-Day Pillar', description: 'Log 150 consecutive days of 5 prayers on time.', tier: 'PLATINUM', icon: '🥇', category: 'SALAH', metric: 'STREAK', value: 150 },
-    { id: 'sal_23', title: 'The 300 Day Monument', description: 'Log 300 consecutive days of 5 prayers on time.', tier: 'DIAMOND', icon: '🔑', category: 'SALAH', metric: 'STREAK', value: 300 },
-    { id: 'sal_24', title: 'The Qada Sentinel IV', description: 'Log 100 total Qada prayers.', tier: 'GOLD', icon: '📜', category: 'SALAH', metric: 'COUNT', value: 100 },
-    { id: 'sal_25', title: 'The 900 Day Volume', description: 'Log 900 days of 5 prayers on time.', tier: 'TITAN', icon: '👑', category: 'SALAH', metric: 'COUNT', value: 900 },
-    { id: 'sal_26', title: 'The 225-Day Peak', description: 'Log 225 consecutive days of 5 prayers on time.', tier: 'DIAMOND', icon: '🥇', category: 'SALAH', metric: 'STREAK', value: 225 },
-    { id: 'sal_27', title: 'The 450 Day Sentinel', description: 'Log 450 consecutive days of 5 prayers on time.', tier: 'LEGEND', icon: '🔑', category: 'SALAH', metric: 'STREAK', value: 450 },
-    { id: 'sal_28', title: 'The 180-Day Assembler', description: 'Log 180 total prayers in Jama\'ah.', tier: 'PLATINUM', icon: '👥', category: 'SALAH', metric: 'COUNT', value: 180 },
-    { id: 'sal_29', title: 'The 750 Day Marker', description: 'Log 750 days of 5 prayers on time.', tier: 'TITAN', icon: '💎', category: 'SALAH', metric: 'COUNT', value: 750 },
-    { id: 'sal_30', title: 'The 1200 Day Volume', description: 'Log 1,200 days of 5 prayers on time.', tier: 'TITAN', icon: '👑', category: 'SALAH', metric: 'COUNT', value: 1200 },
-    { id: 'sal_31', title: 'The 3000 Day Volume', description: 'Log 3,000 days of 5 prayers on time.', tier: 'TITAN', icon: '🏆', category: 'SALAH', metric: 'COUNT', value: 3000 },
-    { id: 'sal_32', title: 'The 270-Day Fort', description: 'Log 270 consecutive days of 5 prayers on time.', tier: 'DIAMOND', icon: '🥇', category: 'SALAH', metric: 'STREAK', value: 270 },
-    { id: 'sal_33', title: 'The 550 Day Sentinel', description: 'Log 550 consecutive days of 5 prayers on time.', tier: 'LEGEND', icon: '🔑', category: 'SALAH', metric: 'STREAK', value: 550 },
-    { id: 'sal_34', title: 'The Half-Year Worshipper', description: 'Log 365 total prayers in Jama\'ah.', tier: 'LEGEND', icon: '👥', category: 'SALAH', metric: 'COUNT', value: 365 },
-    { id: 'sal_35', title: 'The Tahajjud Riser VII', description: 'Log Tahajjud prayer 750 total times.', tier: 'TITAN', icon: '💡', category: 'SALAH', metric: 'COUNT', value: 750 },
-    { id: 'sal_36', title: 'The 4000 Day Volume', description: 'Log 4,000 days of 5 prayers on time.', tier: 'TITAN', icon: '🏆', category: 'SALAH', metric: 'COUNT', value: 4000 },
-    { id: 'sal_37', title: 'The 330-Day Column', description: 'Log 330 consecutive days of 5 prayers on time.', tier: 'DIAMOND', icon: '🥇', category: 'SALAH', metric: 'STREAK', value: 330 },
-    { id: 'sal_38', title: 'The 650 Day Sentinel', description: 'Log 650 consecutive days of 5 prayers on time.', tier: 'LEGEND', icon: '🔑', category: 'SALAH', metric: 'STREAK', value: 650 },
-    { id: 'sal_39', title: 'The Annual Assembler', description: 'Log 500 total prayers in Jama\'ah.', tier: 'LEGEND', icon: '👥', category: 'SALAH', metric: 'COUNT', value: 500 },
-    { id: 'sal_40', title: 'The 5000 Day Volume', description: 'Log 5,000 days of 5 prayers on time.', tier: 'TITAN', icon: '🏆', category: 'SALAH', metric: 'COUNT', value: 5000 },
-    { id: 'sal_41', title: 'The 400 Day Sentinel', description: 'Log 400 consecutive days of 5 prayers on time.', tier: 'LEGEND', icon: '🥇', category: 'SALAH', metric: 'STREAK', value: 400 },
-    { id: 'sal_42', title: 'The 700 Day Sentinel', description: 'Log 700 consecutive days of 5 prayers on time.', tier: 'LEGEND', icon: '🔑', category: 'SALAH', metric: 'STREAK', value: 700 },
-    { id: 'sal_43', title: 'The Jama\'ah Veteran', description: 'Log 1,000 total prayers in Jama\'ah.', tier: 'TITAN', icon: '👥', category: 'SALAH', metric: 'COUNT', value: 1000 },
+    // --- HYGIENE ---
+    { id: 'hygiene_total_1', title: 'Clean Start', description: '1 Task Done.', tier: 'BRONZE', icon: '💧', category: 'HYGIENE', metric: 'COUNT', value: 1 },
+    { id: 'hygiene_water_50', title: 'Hydration Hero', description: '50 Days 8 Glasses.', tier: 'GOLD', icon: '💧', category: 'HYGIENE', metric: 'COUNT', value: 50 },
+    { id: 'hygiene_total_100', title: 'Clean Living', description: '100 Tasks.', tier: 'SILVER', icon: '✨', category: 'HYGIENE', metric: 'COUNT', value: 100 },
+    { id: 'hygiene_total_500', title: 'Sparkling', description: '500 Tasks.', tier: 'GOLD', icon: '✨', category: 'HYGIENE', metric: 'COUNT', value: 500 },
+    { id: 'hygiene_total_1000', title: 'Purity Master', description: '1,000 Tasks Done.', tier: 'TITAN', icon: '💎', category: 'HYGIENE', metric: 'COUNT', value: 1000 },
 
-    // DHIKR
-    { id: 'dhk_1', title: 'The First Tasbih', description: 'Complete the 2100 Astaghfirullah goal once.', tier: 'BRONZE', icon: '📿', category: 'DHIKR', metric: 'COUNT', value: 1 },
-    { id: 'dhk_2', title: 'The First Du\'a', description: 'Complete the 2100 Rabbi Inni goal once.', tier: 'BRONZE', icon: '🤲', category: 'DHIKR', metric: 'COUNT', value: 1 },
-    { id: 'dhk_3', title: 'The Weekly Rhythm', description: 'Complete A + R goals for 7 consecutive days.', tier: 'SILVER', icon: '🗓️', category: 'DHIKR', metric: 'STREAK', value: 7 },
-    { id: 'dhk_4', title: 'Monthly Connection', description: 'Complete A + R goals for 30 consecutive days.', tier: 'GOLD', icon: '🏆', category: 'DHIKR', metric: 'STREAK', value: 30 },
-    { id: 'dhk_5', title: 'The Quarterly Watch', description: 'Complete A + R goals for 90 consecutive days.', tier: 'PLATINUM', icon: '👑', category: 'DHIKR', metric: 'STREAK', value: 90 },
-    { id: 'dhk_6', title: 'The Annual Remembrancer', description: 'Complete A + R goals for 365 consecutive days.', tier: 'LEGEND', icon: '🔑', category: 'DHIKR', metric: 'STREAK', value: 365 },
-    { id: 'dhk_7', title: 'The Daily Dose', description: 'Complete A + R goals 50 total times.', tier: 'GOLD', icon: '💡', category: 'DHIKR', metric: 'COUNT', value: 50 },
-    { id: 'dhk_8', title: 'The 1000 Completion', description: 'Log 1,000 total A + R completions.', tier: 'LEGEND', icon: '🏆', category: 'DHIKR', metric: 'COUNT', value: 1000 },
-    { id: 'dhk_9', title: 'The 100000 Completion', description: 'Log 100,000 total A + R completions.', tier: 'TITAN', icon: '🏆', category: 'DHIKR', metric: 'COUNT', value: 100000 },
-    { id: 'dhk_10', title: 'Resilience I', description: 'Restart a 30-day streak after a break.', tier: 'BRONZE', icon: '🔄', category: 'DHIKR', metric: 'SPECIAL', value: 1 },
-    { id: 'dhk_11', title: 'The Balanced Dhikr', description: 'Log 100 total A + R completions.', tier: 'PLATINUM', icon: '🎯', category: 'DHIKR', metric: 'COUNT', value: 100 },
-    { id: 'dhk_12', title: 'The 40-Day Fort', description: 'Complete A + R goals for 40 consecutive days.', tier: 'GOLD', icon: '🛡️', category: 'DHIKR', metric: 'STREAK', value: 40 },
-    { id: 'dhk_13', title: 'The 120 Day Ascent', description: 'Complete A + R goals for 120 consecutive days.', tier: 'PLATINUM', icon: '🚀', category: 'DHIKR', metric: 'STREAK', value: 120 },
-    { id: 'dhk_14', title: 'The 200 Day Mark', description: 'Complete A + R goals for 200 consecutive days.', tier: 'DIAMOND', icon: '💯', category: 'DHIKR', metric: 'STREAK', value: 200 },
-    { id: 'dhk_15', title: 'The 730 Day Vow', description: 'Complete A + R goals for 730 consecutive days.', tier: 'TITAN', icon: '⚔️', category: 'DHIKR', metric: 'STREAK', value: 730 },
-    { id: 'dhk_16', title: 'The Custom Start', description: 'Log your very first Custom Dhikr activity.', tier: 'BRONZE', icon: '⏱️', category: 'DHIKR', metric: 'COUNT', value: 1 },
-    { id: 'dhk_17', title: 'Dhikr & Prayer Duo I', description: 'Complete A + R goals and log 5 prayers on time, 30 times.', tier: 'GOLD', icon: '🤝', category: 'DHIKR', metric: 'COUNT', value: 30 },
-    { id: 'dhk_18', title: 'The 500 Completion', description: 'Log 500 total A + R completions.', tier: 'LEGEND', icon: '👑', category: 'DHIKR', metric: 'COUNT', value: 500 },
-    { id: 'dhk_19', title: 'The Custom Anchor I', description: 'Log a Custom Dhikr 50 total times.', tier: 'SILVER', icon: '🎯', category: 'DHIKR', metric: 'COUNT', value: 50 },
-    { id: 'dhk_20', title: 'The 50-Day Climb', description: 'Complete A + R goals for 50 consecutive days.', tier: 'GOLD', icon: '🗓️', category: 'DHIKR', metric: 'STREAK', value: 50 },
-    { id: 'dhk_21', title: 'The 150-Day Pillar', description: 'Complete A + R goals for 150 consecutive days.', tier: 'DIAMOND', icon: '🥇', category: 'DHIKR', metric: 'STREAK', value: 150 },
-    { id: 'dhk_22', title: 'The 300 Day Monument', description: 'Complete A + R goals for 300 consecutive days.', tier: 'DIAMOND', icon: '🔑', category: 'DHIKR', metric: 'STREAK', value: 300 },
-    { id: 'dhk_23', title: 'The 500 Day Vow', description: 'Complete A + R goals for 500 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'DHIKR', metric: 'STREAK', value: 500 },
-    { id: 'dhk_24', title: 'The Custom Anchor II', description: 'Log a Custom Dhikr 100 total times.', tier: 'GOLD', icon: '💡', category: 'DHIKR', metric: 'COUNT', value: 100 },
-    { id: 'dhk_25', title: 'Dhikr & Quran Duo I', description: 'Complete A + R goals and read 1 Parah of Quran, 10 times.', tier: 'GOLD', icon: '🤝', category: 'DHIKR', metric: 'COUNT', value: 10 },
-    { id: 'dhk_26', title: 'The 2500 Completion', description: 'Log 2,500 total A + R completions.', tier: 'TITAN', icon: '👑', category: 'DHIKR', metric: 'COUNT', value: 2500 },
-    { id: 'dhk_27', title: 'The 5000 Completion', description: 'Log 5,000 total A + R completions.', tier: 'TITAN', icon: '🏆', category: 'DHIKR', metric: 'COUNT', value: 5000 },
-    { id: 'dhk_28', title: 'The 60-Day Ascent', description: 'Complete A + R goals for 60 consecutive days.', tier: 'GOLD', icon: '🗓️', category: 'DHIKR', metric: 'STREAK', value: 60 },
-    { id: 'dhk_29', title: 'The 250-Day Peak', description: 'Complete A + R goals for 250 consecutive days.', tier: 'DIAMOND', icon: '🥇', category: 'DHIKR', metric: 'STREAK', value: 250 },
-    { id: 'dhk_30', title: 'The 450 Day Sentinel', description: 'Complete A + R goals for 450 consecutive days.', tier: 'LEGEND', icon: '🔑', category: 'DHIKR', metric: 'STREAK', value: 450 },
-    { id: 'dhk_31', title: 'The 600 Day Champion', description: 'Complete A + R goals for 600 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'DHIKR', metric: 'STREAK', value: 600 },
-    { id: 'dhk_32', title: 'The Custom Anchor IV', description: 'Log a Custom Dhikr 500 total times.', tier: 'LEGEND', icon: '💡', category: 'DHIKR', metric: 'COUNT', value: 500 },
-    { id: 'dhk_33', title: 'Dhikr & Wisdom Duo I', description: 'Complete A + R goals and read Hadees, 50 times.', tier: 'PLATINUM', icon: '🤝', category: 'DHIKR', metric: 'COUNT', value: 50 },
-    { id: 'dhk_34', title: 'The 7500 Completion', description: 'Log 7,500 total A + R completions.', tier: 'TITAN', icon: '👑', category: 'DHIKR', metric: 'COUNT', value: 7500 },
-    { id: 'dhk_35', title: 'The 15000 Completion', description: 'Log 15,000 total A + R completions.', tier: 'TITAN', icon: '🏆', category: 'DHIKR', metric: 'COUNT', value: 15000 },
-    { id: 'dhk_36', title: 'The 75-Day Dash', description: 'Complete A + R goals for 75 consecutive days.', tier: 'PLATINUM', icon: '🗓️', category: 'DHIKR', metric: 'STREAK', value: 75 },
-    { id: 'dhk_37', title: 'The 270-Day Fort', description: 'Complete A + R goals for 270 consecutive days.', tier: 'DIAMOND', icon: '🥇', category: 'DHIKR', metric: 'STREAK', value: 270 },
-    { id: 'dhk_38', title: 'The 550 Day Sentinel', description: 'Complete A + R goals for 550 consecutive days.', tier: 'LEGEND', icon: '🔑', category: 'DHIKR', metric: 'STREAK', value: 550 },
-    { id: 'dhk_39', title: 'The 750 Day Master', description: 'Complete A + R goals for 750 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'DHIKR', metric: 'STREAK', value: 750 },
-    { id: 'dhk_40', title: 'The Custom Anchor VI', description: 'Log a Custom Dhikr 1,000 total times.', tier: 'TITAN', icon: '💡', category: 'DHIKR', metric: 'COUNT', value: 1000 },
-    { id: 'dhk_41', title: 'Dhikr & Night Duo I', description: 'Complete A + R goals and Night routine, 50 times.', tier: 'PLATINUM', icon: '🤝', category: 'DHIKR', metric: 'COUNT', value: 50 },
-    { id: 'dhk_42', title: 'The 10000 Completion', description: 'Log 10,000 total A + R completions.', tier: 'TITAN', icon: '👑', category: 'DHIKR', metric: 'COUNT', value: 10000 },
-    { id: 'dhk_43', title: 'The 20000 Completion', description: 'Log 20,000 total A + R completions.', tier: 'TITAN', icon: '🏆', category: 'DHIKR', metric: 'COUNT', value: 20000 },
-    { id: 'dhk_44', title: 'The 100-Day Centurion', description: 'Complete A + R goals for 100 consecutive days.', tier: 'PLATINUM', icon: '🗓️', category: 'DHIKR', metric: 'STREAK', value: 100 },
-    { id: 'dhk_45', title: 'The 330-Day Column', description: 'Complete A + R goals for 330 consecutive days.', tier: 'DIAMOND', icon: '🥇', category: 'DHIKR', metric: 'STREAK', value: 330 },
-    { id: 'dhk_46', title: 'The 650 Day Sentinel', description: 'Complete A + R goals for 650 consecutive days.', tier: 'LEGEND', icon: '🔑', category: 'DHIKR', metric: 'STREAK', value: 650 },
-    { id: 'dhk_47', title: 'The 900 Day Master', description: 'Complete A + R goals for 900 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'DHIKR', metric: 'STREAK', value: 900 },
-    { id: 'dhk_48', title: 'The Custom Anchor VIII', description: 'Log a Custom Dhikr 2,000 total times.', tier: 'TITAN', icon: '💡', category: 'DHIKR', metric: 'COUNT', value: 2000 },
-    { id: 'dhk_49', title: 'Dhikr & MDF Duo I', description: 'Complete A + R goals and MDF task, 75 times.', tier: 'PLATINUM', icon: '🤝', category: 'DHIKR', metric: 'COUNT', value: 75 },
-    { id: 'dhk_50', title: 'The 25000 Completion', description: 'Log 25,000 total A + R completions.', tier: 'TITAN', icon: '👑', category: 'DHIKR', metric: 'COUNT', value: 25000 },
-    { id: 'dhk_51', title: 'The 50000 Completion', description: 'Log 50,000 total A + R completions.', tier: 'TITAN', icon: '🏆', category: 'DHIKR', metric: 'COUNT', value: 50000 },
-    { id: 'dhk_52', title: 'The 150-Day Column', description: 'Complete A + R goals for 150 consecutive days.', tier: 'DIAMOND', icon: '🗓️', category: 'DHIKR', metric: 'STREAK', value: 150 },
-    { id: 'dhk_53', title: 'The 400 Day Sentinel', description: 'Complete A + R goals for 400 consecutive days.', tier: 'LEGEND', icon: '🥇', category: 'DHIKR', metric: 'STREAK', value: 400 },
-    { id: 'dhk_54', title: 'The 700 Day Sentinel', description: 'Complete A + R goals for 700 consecutive days.', tier: 'LEGEND', icon: '🔑', category: 'DHIKR', metric: 'STREAK', value: 700 },
-    { id: 'dhk_55', title: 'The 1000 Day Legend', description: 'Complete A + R goals for 1,000 consecutive days.', tier: 'TITAN', icon: '🚀', category: 'DHIKR', metric: 'STREAK', value: 1000 },
-    { id: 'dhk_56', title: 'The Grand Repeater', description: 'Log a Custom Dhikr 5,000 total times.', tier: 'TITAN', icon: '💡', category: 'DHIKR', metric: 'COUNT', value: 5000 },
-    { id: 'dhk_57', title: 'Dhikr & Hygiene Duo I', description: 'Complete A + R goals and all 4 Hygiene tasks, 75 times.', tier: 'PLATINUM', icon: '🤝', category: 'DHIKR', metric: 'COUNT', value: 75 }
+    // --- HADEES ---
+    { id: 'hadees_total_1', title: 'Daily Insight', description: '1 Hadees Read.', tier: 'BRONZE', icon: '💡', category: 'HADEES', metric: 'COUNT', value: 1 },
+    { id: 'hadees_total_50', title: 'Knowledge Seeker', description: '50 Hadees.', tier: 'GOLD', icon: '📜', category: 'HADEES', metric: 'COUNT', value: 50 },
+    { id: 'hadees_total_200', title: 'Wisdom Collector', description: '200 Hadees.', tier: 'PLATINUM', icon: '📚', category: 'HADEES', metric: 'COUNT', value: 200 },
+    { id: 'hadees_total_500', title: 'Scholar', description: '500 Hadees.', tier: 'DIAMOND', icon: '👳', category: 'HADEES', metric: 'COUNT', value: 500 },
+    { id: 'hadees_total_1000', title: 'Sage', description: '1,000 Hadees.', tier: 'TITAN', icon: '🧙', category: 'HADEES', metric: 'COUNT', value: 1000 },
+
+    // --- NIGHT ROUTINE ---
+    { id: 'night_total_1', title: 'Nightly Protector', description: '1 Night Routine.', tier: 'BRONZE', icon: '🌌', category: 'NIGHT', metric: 'COUNT', value: 1 },
+    { id: 'night_total_25', title: 'Peaceful Sleeper', description: '25 Nights.', tier: 'SILVER', icon: '🛌', category: 'NIGHT', metric: 'COUNT', value: 25 },
+    { id: 'night_total_100', title: 'Protected Soul', description: '100 Nights.', tier: 'PLATINUM', icon: '🛡️', category: 'NIGHT', metric: 'COUNT', value: 100 },
+    { id: 'night_total_365', title: 'Night Guardian', description: '365 Nights.', tier: 'TITAN', icon: '🦉', category: 'NIGHT', metric: 'COUNT', value: 365 },
+    { id: 'night_total_1000', title: 'Awliya of Night', description: '1000 Nights.', tier: 'ETERNAL', icon: '🌟', category: 'NIGHT', metric: 'COUNT', value: 1000 },
+
+    // --- MEMORIZE ---
+    { id: 'memorize_1', title: 'First Du\'a', description: 'Memorize 1 Du\'a.', tier: 'BRONZE', icon: '🤲', category: 'MEMORIZE', metric: 'COUNT', value: 1 },
+    { id: 'memorize_3', title: 'Quarterly Student', description: '3 Du\'as.', tier: 'SILVER', icon: '📚', category: 'MEMORIZE', metric: 'COUNT', value: 3 },
+    { id: 'memorize_10', title: 'Growing Hafiz', description: '10 Duas.', tier: 'GOLD', icon: '🧠', category: 'MEMORIZE', metric: 'COUNT', value: 10 },
+    { id: 'memorize_50', title: 'Walking Treasury', description: '50 Duas.', tier: 'PLATINUM', icon: '📜', category: 'MEMORIZE', metric: 'COUNT', value: 50 },
+    { id: 'memorize_100', title: 'Walking Quran', description: '100 Duas.', tier: 'TITAN', icon: '🧠', category: 'MEMORIZE', metric: 'COUNT', value: 100 },
+
+    // --- HABITS/DETOX ---
+    { id: 'habits_streak_1', title: 'First Control', description: '1 day clean.', tier: 'BRONZE', icon: '🟢', category: 'HABITS', metric: 'STREAK', value: 1 },
+    { id: 'habits_streak_14', title: 'Fortnight Free', description: '14 days clean.', tier: 'SILVER', icon: '🛡️', category: 'HABITS', metric: 'STREAK', value: 14 },
+    { id: 'habits_streak_30', title: 'Month Free', description: '30 days clean.', tier: 'GOLD', icon: '🛡️', category: 'HABITS', metric: 'STREAK', value: 30 },
+    { id: 'habits_streak_100', title: 'New Life', description: '100 days clean.', tier: 'DIAMOND', icon: '🌱', category: 'HABITS', metric: 'STREAK', value: 100 },
+    { id: 'habits_streak_365', title: 'Reborn', description: '1 Year Clean.', tier: 'TITAN', icon: '👑', category: 'HABITS', metric: 'STREAK', value: 365 }
 ];

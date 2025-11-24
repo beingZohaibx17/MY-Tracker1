@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Atmosphere } from './components/Atmosphere';
@@ -100,6 +101,10 @@ const App: React.FC = () => {
   const [showWarning, setShowWarning] = useState(false);
   const [warningMsg, setWarningMsg] = useState("");
   const playSound = useSound();
+
+  // Theme Logic based on Time/Mode
+  const isDay = state.global.theme === 'DAY' || (state.global.theme === 'AUTO' && new Date().getHours() >= 6 && new Date().getHours() < 18);
+  const currentThemeColor = isDay ? 'cyan' : 'emerald'; // Cyan for Day, Emerald for Night as primary accent
 
   const addToast = (msg: string, type: Toast['type']) => {
     const id = Date.now().toString() + Math.random();
@@ -240,9 +245,10 @@ const App: React.FC = () => {
           else if (id.includes('salah_total')) count = getTotalCount(currentState, (d) => d.prayers.filter(p=>p.completed).length);
           else if (id.includes('salah_jamaah')) count = getTotalCount(currentState, (d) => d.prayers.filter(p=>p.completed && p.isJamaah).length);
           else if (id.includes('salah_fajr')) count = getTotalCount(currentState, (d) => d.prayers.find(p => p.id === 'fajr' && p.completed) ? 1 : 0);
+          else if (id.includes('salah_isha')) count = getTotalCount(currentState, (d) => d.prayers.find(p => p.id === 'isha' && p.completed) ? 1 : 0);
           else if (id.includes('salah_tahajjud')) count = getTotalCount(currentState, (d) => d.prayers.find(p => p.id === 'tahajjud' && p.completed) ? 1 : 0);
           else if (id.includes('dhikr_total') || id.includes('dhikr_completion')) count = getTotalCount(currentState, (d) => d.dhikrAstaghfirullah + d.dhikrRabbiInni + (d.customDhikr?.reduce((a,b)=>a+b.count,0) || 0));
-          else if (id.includes('fitness_total')) count = getTotalCount(currentState, (d) => d.fitness.pushups);
+          else if (id.includes('fitness_total') || id.includes('fitness_pushups')) count = getTotalCount(currentState, (d) => d.fitness.pushups);
           else if (id.includes('hygiene_total')) count = getTotalCount(currentState, (d) => (d.hygiene.waterGlasses >= 8 ? 1 : 0) + (d.hygiene.shower ? 1 : 0) + (d.hygiene.brush ? 1 : 0) + (d.hygiene.cleanDesk ? 1 : 0));
           else if (id.includes('hygiene_water')) count = getTotalCount(currentState, (d) => d.hygiene.waterGlasses >= 8 ? 1 : 0);
           else if (id.includes('hadees_total')) count = getTotalCount(currentState, (d) => d.hadeesRead ? 1 : 0);
@@ -356,7 +362,9 @@ const App: React.FC = () => {
             safeDaily.fitness = { pushups: 0, pushupsTarget: 60, customWorkouts: [] };
         }
         if(typeof safeDaily.night === 'undefined') {
-            safeDaily.night = { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false };
+            safeDaily.night = { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false, fourQuls: false };
+        } else if (typeof safeDaily.night.fourQuls === 'undefined') {
+            safeDaily.night.fourQuls = false; // Add new property if missing in saved state
         }
         if(typeof safeDaily.hadeesRead === 'undefined') safeDaily.hadeesRead = false;
 
@@ -692,13 +700,20 @@ const App: React.FC = () => {
     });
   };
 
-  const handleNightUpdate = (key: 'surahMulk' | 'surahBaqarah') => {
+  const handleNightUpdate = (key: 'surahMulk' | 'surahBaqarah' | 'ayatulKursi' | 'fourQuls') => {
       playSound('click');
       updateState(prev => {
-          const wasComplete = prev.daily.night.surahMulk && prev.daily.night.surahBaqarah;
+          const n = prev.daily.night;
+          // Check if previously all were complete (excluding the new one for backward compat in logic, but actually we just check exact count)
+          // Simplified: We just check if all *current* requirements are met
+          const wasComplete = n.surahMulk && n.surahBaqarah && n.ayatulKursi && n.fourQuls;
+          
           const newDaily = { ...prev.daily, night: { ...prev.daily.night, [key]: !prev.daily.night[key] } };
-          const isComplete = newDaily.night.surahMulk && newDaily.night.surahBaqarah;
+          const u = newDaily.night;
+          
+          const isComplete = u.surahMulk && u.surahBaqarah && u.ayatulKursi && u.fourQuls;
           const newStreaks = checkAndToggleStreak(prev, 'night', wasComplete, isComplete);
+          
           return { ...prev, global: { ...prev.global, streaks: newStreaks }, daily: newDaily };
       });
   };
@@ -795,17 +810,17 @@ const App: React.FC = () => {
         <div className="min-h-screen relative z-10 max-w-md mx-auto pb-32">
           {view === ViewState.DASHBOARD && <Dashboard state={state} changeView={setView} updateMood={handleMoodUpdate} />}
           {view === ViewState.SALAH && <TabSalah state={state} updatePrayer={handleUpdatePrayer} updateQada={(amt) => updateState(prev => ({ ...prev, global: { ...prev.global, qadaBank: Math.max(0, prev.global.qadaBank + amt) } }))} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.DHIKR && <TabDhikr state={state} updateDhikr={handleDhikr} addCustomDhikr={handleAddCustomDhikr} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.DHIKR && <TabDhikr state={state} updateDhikr={handleDhikr} addCustomDhikr={handleAddCustomDhikr} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.AI_CHAT && <AIAssistant state={state} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.QURAN && <TabQuran state={state} updatePart={handleQuranProgress} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.HADEES && <TabHadees state={state} markRead={handleMarkHadees} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.NIGHT && <TabNight state={state} updateNight={handleNightUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.QURAN && <TabQuran state={state} updatePart={handleQuranProgress} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
+          {view === ViewState.HADEES && <TabHadees state={state} markRead={handleMarkHadees} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
+          {view === ViewState.NIGHT && <TabNight state={state} updateNight={handleNightUpdate} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.MDF && <TabMDF state={state} resetRelapse={() => updateState(prev => ({...prev, global: {...prev.global, lastRelapseDate: Date.now(), streaks: {...prev.global.streaks, mdf: 0}}, daily: {...prev.daily, habits: {...prev.daily.habits, failedToday: true}}}))} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.HABITS && <TabHabits state={state} updateHabit={handleHabitUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.HYGIENE && <TabHygiene state={state} updateHygiene={handleHygiene} updateHabit={handleHabitUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.FITNESS && <TabFitness state={state} updatePushups={handleUpdatePushups} addCustomExercise={handleAddCustomExercise} updateCustomExercise={handleUpdateCustomExercise} updateWeight={handleWeightUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.MEMORIZE && <TabMemorize state={state} markLearned={handleMemorizeNext} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.RAMADAN && <TabRamadan state={state} toggleRamadanDaily={handleRamadanDailyToggle} updateRamadanStat={handleRamadanStatUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.MEMORIZE && <TabMemorize state={state} markLearned={handleMemorizeNext} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
+          {view === ViewState.RAMADAN && <TabRamadan state={state} toggleRamadanDaily={handleRamadanDailyToggle} updateRamadanStat={handleRamadanStatUpdate} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} resetApp={hardReset} requestNotify={requestNotificationPermission} />}
         </div>
       )}

@@ -1,4 +1,5 @@
-const CACHE_NAME = 'zohaib-tracker-v21';
+
+const CACHE_NAME = 'zohaib-tracker-v23';
 
 const URLS_TO_CACHE = [
   '/',
@@ -46,18 +47,23 @@ self.addEventListener('fetch', (event) => {
         }
 
         return fetch(event.request).then((networkResponse) => {
-            // Allow caching of valid responses (200) and opaque responses (0) for CORS/CDNs
+            // Allow caching of valid responses (200) and opaque responses (0) from CDNs
             if (!networkResponse || (networkResponse.status !== 200 && networkResponse.status !== 0)) {
                 return networkResponse;
             }
 
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-                cache.put(event.request, responseToCache);
-            });
+            const url = event.request.url;
+            // Cache static assets and Google fonts dynamically
+            if (url.match(/\.(js|css|png|jpg|jpeg|svg|woff2)$/) || url.includes('googleapis') || url.includes('gstatic')) {
+                const responseToCache = networkResponse.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, responseToCache);
+                });
+            }
+            
             return networkResponse;
         }).catch(() => {
-             // Fallback for navigation requests to support SPA offline
+             // Fallback for navigation requests (SPA support)
              if (event.request.mode === 'navigate') {
                  return caches.match('/index.html');
              }

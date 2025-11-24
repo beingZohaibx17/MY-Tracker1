@@ -103,21 +103,17 @@ export const ActivityHeatmap: React.FC<HeatmapProps> = ({ history, current }) =>
   const days = weeks * 7;
   const today = new Date();
   
-  // Combine history and current day
   const allData = [...(history || [])];
-  // Ensure current day is in the dataset if not already (checked by date string)
   if (!allData.find(d => d.date === current.date)) {
       allData.push(current);
   }
 
-  // Create a map for fast lookup: "YYYY-MM-DD" -> imanScore
   const scoreMap = new Map();
   allData.forEach(day => {
       scoreMap.set(day.date, day.imanScore || 0);
   });
 
   const cells = [];
-  // Loop backwards from today
   for (let i = days - 1; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
@@ -131,17 +127,23 @@ export const ActivityHeatmap: React.FC<HeatmapProps> = ({ history, current }) =>
       if (score > 80) opacity = 0.9;
       if (score > 95) opacity = 1;
 
-      cells.push({ date: dateStr, opacity, score });
+      cells.push({ date: dateStr, opacity, score, index: i });
   }
 
   return (
     <div className="w-full overflow-hidden">
+        {/* Added a subtle glow effect and wave animation via index delay */}
         <div className="flex gap-1 justify-end flex-wrap flex-col h-[100px] content-end">
             {cells.map((cell, i) => (
                 <div 
                     key={i} 
-                    className="w-2.5 h-2.5 rounded-[2px] bg-emerald-500 transition-all duration-500 hover:scale-150 hover:z-10 relative group"
-                    style={{ opacity: cell.opacity }}
+                    className="w-2.5 h-2.5 rounded-[2px] bg-emerald-500 transition-all duration-500 hover:scale-150 hover:z-10 relative group hover:shadow-[0_0_8px_#10b981]"
+                    style={{ 
+                        opacity: cell.opacity,
+                        // Create a wave effect based on index
+                        animation: cell.score > 0 ? 'pulse-slow 4s infinite' : 'none',
+                        animationDelay: `${cell.index * 0.05}s`
+                    }}
                 >
                     {/* Tooltip */}
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-black/90 text-white text-[9px] px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none">
@@ -150,14 +152,14 @@ export const ActivityHeatmap: React.FC<HeatmapProps> = ({ history, current }) =>
                 </div>
             ))}
         </div>
-        <div className="flex justify-between items-center mt-2 text-[9px] text-secondary uppercase tracking-widest opacity-60">
+        <div className="flex justify-between items-center mt-3 text-[9px] text-secondary uppercase tracking-widest opacity-60">
             <span>3 Months Ago</span>
             <div className="flex items-center gap-1">
                 <span>Less</span>
                 <div className="w-2 h-2 bg-emerald-500/10 rounded-[1px]"></div>
                 <div className="w-2 h-2 bg-emerald-500/40 rounded-[1px]"></div>
                 <div className="w-2 h-2 bg-emerald-500/70 rounded-[1px]"></div>
-                <div className="w-2 h-2 bg-emerald-500 rounded-[1px]"></div>
+                <div className="w-2 h-2 bg-emerald-500 rounded-[1px] shadow-[0_0_5px_#10b981]"></div>
                 <span>More</span>
             </div>
         </div>

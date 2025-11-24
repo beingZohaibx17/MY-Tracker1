@@ -1,8 +1,4 @@
 
-
-
-
-
 import React, { useState, useEffect } from 'react';
 import { AppState, SubView, Exercise, ViewState } from '../types';
 import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH, JANAZAH_STEPS, TIBB_REMEDIES, WORD_QURAN_DATA } from '../constants';
@@ -1425,4 +1421,71 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, setCustomColor, to
                              </button>
                          ))}
                          {/* Manual Reset */}
-                         <button onClick={() => setCustomColor(null)} className="px-4 py-2 rounded-full bg-white/
+                         <button onClick={() => setCustomColor(null)} className="px-4 py-2 rounded-full bg-white/10 text-[10px] font-bold uppercase tracking-wider text-secondary border border-white/5 hover:bg-white/20">
+                            Reset Color
+                         </button>
+                     </div>
+                </div>
+
+                {/* Features */}
+                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest pl-2">System</h3>
+                
+                <div className="space-y-3">
+                     <div className="glass-panel p-4 rounded-[1.5rem] border-white/5 flex items-center justify-between">
+                         <div className="flex items-center gap-3">
+                             <div className="p-2 bg-purple-500/20 rounded-lg text-purple-400"><Tent size={18} /></div>
+                             <div>
+                                 <h4 className="font-bold text-sm text-white">Ramadan Mode</h4>
+                                 <p className="text-[10px] text-secondary">Enable fasting tracking</p>
+                             </div>
+                         </div>
+                         <button onClick={toggleRamadan} className={`w-12 h-6 rounded-full relative transition-colors ${state?.global?.ramadanMode ? 'bg-purple-500' : 'bg-white/10'}`}>
+                             <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${state?.global?.ramadanMode ? 'left-7' : 'left-1'}`}></div>
+                         </button>
+                     </div>
+
+                     <div className="glass-panel p-4 rounded-[1.5rem] border-white/5 flex items-center justify-between cursor-pointer active:scale-95 transition-all" onClick={requestNotify}>
+                         <div className="flex items-center gap-3">
+                             <div className="p-2 bg-blue-500/20 rounded-lg text-blue-400"><Bell size={18} /></div>
+                             <div>
+                                 <h4 className="font-bold text-sm text-white">Notifications</h4>
+                                 <p className="text-[10px] text-secondary">Enable daily reminders</p>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div className="glass-panel p-4 rounded-[1.5rem] border-white/5 flex items-center justify-between cursor-pointer active:scale-95 transition-all" onClick={enterWidgetMode}>
+                         <div className="flex items-center gap-3">
+                             <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-400"><Maximize2 size={18} /></div>
+                             <div>
+                                 <h4 className="font-bold text-sm text-white">Widget Mode</h4>
+                                 <p className="text-[10px] text-secondary">Fullscreen clock view</p>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+
+                {/* Data Management */}
+                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest pl-2">Data</h3>
+                <div className="grid grid-cols-2 gap-3">
+                     <button onClick={exportData} className="glass-panel p-4 rounded-[1.5rem] border-white/5 flex flex-col items-center justify-center gap-2 hover:bg-white/5 active:scale-95 transition-all">
+                         <Download size={20} className="text-secondary" />
+                         <span className="text-[10px] font-bold uppercase tracking-wider text-secondary">Backup</span>
+                     </button>
+                     <button onClick={importData} className="glass-panel p-4 rounded-[1.5rem] border-white/5 flex flex-col items-center justify-center gap-2 hover:bg-white/5 active:scale-95 transition-all">
+                         <Upload size={20} className="text-secondary" />
+                         <span className="text-[10px] font-bold uppercase tracking-wider text-secondary">Restore</span>
+                     </button>
+                </div>
+
+                {/* Danger Zone */}
+                <div className="pt-6">
+                    <button onClick={resetApp} className="w-full py-4 rounded-[1.5rem] border border-red-500/20 text-red-500 hover:bg-red-500/10 active:scale-95 transition-all flex items-center justify-center gap-2 font-bold uppercase tracking-widest text-xs">
+                        <Trash2 size={16} /> Hard Reset App
+                    </button>
+                    <p className="text-center text-[9px] text-secondary/30 mt-4 uppercase tracking-widest">Zohaib Tracker v3.0 • Built with ❤️</p>
+                </div>
+            </div>
+        </TabWrapper>
+    );
+};

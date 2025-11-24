@@ -1,4 +1,6 @@
 
+
+
 import { Achievement, Exercise } from './types';
 
 export const URDU_CONCEPTS = [
@@ -110,7 +112,10 @@ export const HADEES_COLLECTION = [
   { "Hadith": "اعمال کا دارومدار نیتوں پر ہے۔ (بخاری)", "Explanation": "کسی بھی عمل (عبادت یا دنیاوی) کی قبولیت اور اجر کا انحصار اس کے پیچھے موجود خالص ارادے اور نیت پر ہوتا ہے۔" },
   { "Hadith": "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے۔ (بخاری)", "Explanation": "وہ شخص افضل ہے جو خود قرآن کی تعلیم حاصل کرے، اس کو سمجھے اور پھر دوسروں کو اس کے معانی اور احکام سکھائے۔" },
   { "Hadith": "مسلمان وہ ہے جس کے ہاتھ اور زبان سے دوسرے مسلمان محفوظ رہیں۔ (بخاری)", "Explanation": "حقیقی مسلمان کی اخلاقی پہچان یہ ہے کہ وہ کسی دوسرے کو جسمانی طور پر (ہاتھ سے) یا زبانی طور پر تکلیف نہ پہنچائے۔" },
-  { "Hadith": "عافیت مانگو، کیونکہ ایمان کے بعد عافیت سے بڑھ کر کوئی چیز نہیں دی گئی۔ (ترمذی)", "Explanation": "اللہ سے دنیا اور آخرت کی عافیت (سکون، سلامتی، بیماری سے حفاظت) مانگنا سب سے افضل دعا ہے۔" }
+  { "Hadith": "عافیت مانگو، کیونکہ ایمان کے بعد عافیت سے بڑھ کر کوئی چیز نہیں دی گئی۔ (ترمذی)", "Explanation": "اللہ سے دنیا اور آخرت کی عافیت (سکون، سلامتی، بیماری سے حفاظت) مانگنا سب سے افضل دعا ہے۔" },
+  { "Hadith": "اللہ اس شخص پر رحم نہیں کرتا جو لوگوں پر رحم نہیں کرتا۔ (بخاری)", "Explanation": "اللہ کی رحمت حاصل کرنے کے لیے ضروری ہے کہ انسان دوسروں کے ساتھ نرمی، محبت اور رحم کا معاملہ کرے۔" },
+  { "Hadith": "صفائی نصف ایمان ہے۔ (مسلم)", "Explanation": "جسمانی اور روحانی پاکیزگی اسلام کا بنیادی جزو ہے اور یہ ایمان کی تکمیل کا ذریعہ ہے۔" },
+  { "Hadith": "غصہ مت کرو۔ (بخاری)", "Explanation": "نبی کریم ﷺ نے اس نصیحت کو بار بار دہرایا، کیونکہ غصہ انسان کی دنیا اور آخرت دونوں برباد کر سکتا ہے۔" }
 ];
 
 export const MEMORIZE_CONTENT = [
@@ -121,6 +126,102 @@ export const MEMORIZE_CONTENT = [
     { arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", english: "Our Lord! Give us in this world that which is good and in the Hereafter that which is good, and save us from the torment of the Fire!" }
 ];
 
+export const WORD_QURAN_DATA = {
+    Fatiha: [
+        { word: "بِسْمِ", meaning: "In the name", grammar: "Preposition + Noun" },
+        { word: "ٱللَّهِ", meaning: "of Allah", grammar: "Proper Noun (Genitive)" },
+        { word: "ٱلرَّحْمَـٰنِ", meaning: "the Most Gracious", grammar: "Adjective" },
+        { word: "ٱلرَّحِيمِ", meaning: "the Most Merciful", grammar: "Adjective" },
+        { word: "ٱلْحَمْدُ", meaning: "All Praise", grammar: "Noun" },
+        { word: "لِلَّهِ", meaning: "is for Allah", grammar: "Preposition + Proper Noun" },
+        { word: "رَبِّ", meaning: "Lord", grammar: "Noun" },
+        { word: "ٱلْعَـٰلَمِينَ", meaning: "of the worlds", grammar: "Noun (Plural)" }
+    ],
+    Ikhlas: [
+        { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
+        { word: "هُوَ", meaning: "He is", grammar: "Pronoun" },
+        { word: "ٱللَّهُ", meaning: "Allah", grammar: "Proper Noun" },
+        { word: "أَحَدٌ", meaning: "One", grammar: "Adjective" },
+        { word: "ٱللَّهُ", meaning: "Allah", grammar: "Proper Noun" },
+        { word: "ٱلصَّمَدُ", meaning: "The Eternal Refuge", grammar: "Adjective" },
+        { word: "لَمْ", meaning: "Not", grammar: "Particle" },
+        { word: "يَلِدْ", meaning: "Beget", grammar: "Verb" },
+        { word: "وَلَمْ", meaning: "And not", grammar: "Conjunction + Particle" },
+        { word: "يُولَدْ", meaning: "Begotten", grammar: "Passive Verb" }
+    ],
+    Falaq: [
+        { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
+        { word: "أَعُوذُ", meaning: "I seek refuge", grammar: "Verb" },
+        { word: "بِرَبِّ", meaning: "in the Lord", grammar: "Prep + Noun" },
+        { word: "ٱلْفَلَقِ", meaning: "of the daybreak", grammar: "Noun" },
+        { word: "مِن", meaning: "From", grammar: "Preposition" },
+        { word: "شَرِّ", meaning: "evil", grammar: "Noun" },
+        { word: "مَا", meaning: "of what", grammar: "Relative Pronoun" },
+        { word: "خَلَقَ", meaning: "He created", grammar: "Verb" }
+    ],
+    Nas: [
+         { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
+         { word: "أَعُوذُ", meaning: "I seek refuge", grammar: "Verb" },
+         { word: "بِرَبِّ", meaning: "in the Lord", grammar: "Prep + Noun" },
+         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" },
+         { word: "مَلِكِ", meaning: "The King", grammar: "Noun" },
+         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" }
+    ],
+    Asr: [
+        { word: "وَٱلْعَصْرِ", meaning: "By time", grammar: "Particle + Noun" },
+        { word: "إِنَّ", meaning: "Indeed", grammar: "Particle" },
+        { word: "ٱلْإِنسَـٰنَ", meaning: "Mankind", grammar: "Noun" },
+        { word: "لَفِى", meaning: "Is surely in", grammar: "Prep + Prep" },
+        { word: "خُسْرٍ", meaning: "Loss", grammar: "Noun" },
+        { word: "إِلَّا", meaning: "Except", grammar: "Particle" },
+        { word: "ٱلَّذِينَ", meaning: "Those who", grammar: "Relative Pronoun" },
+        { word: "ءَامَنُوا۟", meaning: "Believed", grammar: "Verb" }
+    ],
+    Kauthar: [
+        { word: "إِنَّآ", meaning: "Indeed We", grammar: "Particle + Pronoun" },
+        { word: "أَعْطَيْنَـٰكَ", meaning: "We gave you", grammar: "Verb + Pronoun" },
+        { word: "ٱلْكَوْثَرَ", meaning: "The Abundance", grammar: "Noun" },
+        { word: "فَصَلِّ", meaning: "So pray", grammar: "Imperative Verb" },
+        { word: "لِرَبِّكَ", meaning: "To your Lord", grammar: "Prep + Noun" },
+        { word: "وَٱنْحَرْ", meaning: "And sacrifice", grammar: "Verb" },
+        { word: "إِنَّ", meaning: "Indeed", grammar: "Particle" },
+        { word: "شَانِئَكَ", meaning: "Your enemy", grammar: "Noun + Pronoun" },
+        { word: "هُوَ", meaning: "He is", grammar: "Pronoun" },
+        { word: "ٱلْأَبْتَرُ", meaning: "The cut off", grammar: "Noun" }
+    ],
+    Kafirun: [
+        { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
+        { word: "يَـٰٓأَيُّهَا", meaning: "O", grammar: "Particle" },
+        { word: "ٱلْكَـٰفِرُونَ", meaning: "Disbelievers", grammar: "Noun" },
+        { word: "لَآ", meaning: "Not", grammar: "Particle" },
+        { word: "أَعْبُدُ", meaning: "I worship", grammar: "Verb" },
+        { word: "مَا", meaning: "What", grammar: "Relative Pronoun" },
+        { word: "تَعْبُدُونَ", meaning: "You worship", grammar: "Verb" }
+    ],
+    Nasr: [
+        { word: "إِذَا", meaning: "When", grammar: "Particle" },
+        { word: "جَآءَ", meaning: "Comes", grammar: "Verb" },
+        { word: "نَصْرُ", meaning: "Help", grammar: "Noun" },
+        { word: "ٱللَّهِ", meaning: "of Allah", grammar: "Proper Noun" },
+        { word: "وَٱلْفَتْحُ", meaning: "And victory", grammar: "Noun" },
+        { word: "وَرَأَيْتَ", meaning: "And you see", grammar: "Verb" },
+        { word: "ٱلنَّاسَ", meaning: "The people", grammar: "Noun" },
+        { word: "يَدْخُلُونَ", meaning: "Entering", grammar: "Verb" }
+    ],
+    Masad: [
+        { word: "تَبَّتْ", meaning: "Perish", grammar: "Verb" },
+        { word: "يَدَآ", meaning: "The hands", grammar: "Noun" },
+        { word: "أَبِى", meaning: "of Abu", grammar: "Noun" },
+        { word: "لَهَبٍ", meaning: "Lahab", grammar: "Proper Noun" },
+        { word: "وَتَبَّ", meaning: "And perish he", grammar: "Verb" },
+        { word: "مَآ", meaning: "Not", grammar: "Particle" },
+        { word: "أَغْنَىٰ", meaning: "Avail", grammar: "Verb" },
+        { word: "عَنْهُ", meaning: "Him", grammar: "Prep + Pronoun" },
+        { word: "مَالُهُۥ", meaning: "His wealth", grammar: "Noun + Pronoun" }
+    ]
+};
+
+// FULL 99 NAMES OF ALLAH (Truncated in previous file, ensuring full list here is consistent or handled by your existing setup. Using the previous full list.)
 export const NAMES_OF_ALLAH = [
   { name: "Ar-Rahman", meaning: "The Most Gracious", desc: "He who wills goodness and mercy for all His creatures." },
   { name: "Ar-Rahim", meaning: "The Most Merciful", desc: "He who acts with extreme kindness." },
@@ -151,7 +252,75 @@ export const NAMES_OF_ALLAH = [
   { name: "Al-Basir", meaning: "The All-Seeing", desc: "The All-Noticing, The One who Sees all things that are seen." },
   { name: "Al-Hakam", meaning: "The Judge", desc: "The Judge, He is the Ruler and His judgment is His Word." },
   { name: "Al-Adl", meaning: "The Just", desc: "The One who is entitled to do what He does." },
-  { name: "Al-Latif", meaning: "The Subtle One", desc: "The Gentle, The One who is kind to His slaves and endows upon them." }
+  { name: "Al-Latif", meaning: "The Subtle One", desc: "The Gentle, The One who is kind to His slaves and endows upon them." },
+  { name: "Al-Khabir", meaning: "The All-Aware", desc: "The One who knows the truth of things." },
+  { name: "Al-Halim", meaning: "The Forbearing", desc: "The One who delays the punishment for those who deserve it and then He might forgive them." },
+  { name: "Al-Azim", meaning: "The Magnificent", desc: "The One deserving the attributes of Exaltment, Glory, Extolment, and Purity from all imperfection." },
+  { name: "Al-Ghafur", meaning: "The Forgiver", desc: "The One who forgives a lot." },
+  { name: "Ash-Shakur", meaning: "The Grateful", desc: "The One who gives a lot of reward for a little obedience." },
+  { name: "Al-Ali", meaning: "The Most High", desc: "The One who is clear from the attributes of the creatures." },
+  { name: "Al-Kabir", meaning: "The Great", desc: "The One who is greater than everything in status." },
+  { name: "Al-Hafiz", meaning: "The Preserver", desc: "The One who protects whatever and whoever He willed to protect." },
+  { name: "Al-Muqit", meaning: "The Nourisher", desc: "The Sustainer, The One who provides the nourishment." },
+  { name: "Al-Hasib", meaning: "The Reckoner", desc: "The One who gives the satisfaction." },
+  { name: "Al-Jalil", meaning: "The Majestic", desc: "The One who is attributed with greatness of Power and Glory of status." },
+  { name: "Al-Karim", meaning: "The Generous", desc: "The One who is clear from abjectness." },
+  { name: "Ar-Raqib", meaning: "The Watchful", desc: "The One that nothing is absent from Him. Hence it's meaning is related to the attribute of Knowledge." },
+  { name: "Al-Mujib", meaning: "The Responder", desc: "The One who answers the one in need if he asks Him and rescues the yearner if he calls upon Him." },
+  { name: "Al-Wasi", meaning: "The All-Encompassing", desc: "The Knowledgeable." },
+  { name: "Al-Hakim", meaning: "The Wise", desc: "The One who is correct in His doings." },
+  { name: "Al-Wadud", meaning: "The Loving", desc: "The One who loves His believing slaves and His believing slaves love Him." },
+  { name: "Al-Majid", meaning: "The Glorious", desc: "The One who is with perfect Power, High Status, Compassion, Generosity and Kindness." },
+  { name: "Al-Ba'ith", meaning: "The Resurrecter", desc: "The One who resurrects the dead." },
+  { name: "Ash-Shahid", meaning: "The Witness", desc: "The One who nothing is absent from Him." },
+  { name: "Al-Haqq", meaning: "The Truth", desc: "The One who truly exists." },
+  { name: "Al-Wakil", meaning: "The Trustee", desc: "The One who gives the satisfaction and is relied upon." },
+  { name: "Al-Qawiyy", meaning: "The Strong", desc: "The One with the complete Power." },
+  { name: "Al-Matin", meaning: "The Firm", desc: "The One with extreme Power which is un-interrupted and He does not get tired." },
+  { name: "Al-Wali", meaning: "The Protecting Friend", desc: "The Supporter, The Lover." },
+  { name: "Al-Hamid", meaning: "The Praiseworthy", desc: "The praised One who deserves to be praised." },
+  { name: "Al-Muhsi", meaning: "The Counter", desc: "The One who the count of things are known to him." },
+  { name: "Al-Mubdi", meaning: "The Originator", desc: "The One who started the human being. That is, He created him." },
+  { name: "Al-Mu'id", meaning: "The Restorer", desc: "The One who brings back the creatures after death." },
+  { name: "Al-Muhyi", meaning: "The Giver of Life", desc: "The One who took out a living human from semen that does not have a soul." },
+  { name: "Al-Mumit", meaning: "The Creator of Death", desc: "The One who renders the living dead." },
+  { name: "Al-Hayy", meaning: "The Living", desc: "The One attributed with a life that is unlike our life and is not that of a combination of soul, flesh or blood." },
+  { name: "Al-Qayyum", meaning: "The Subsisting", desc: "The One who remains and does not end." },
+  { name: "Al-Wajid", meaning: "The Finder", desc: "The Rich who is never poor. Al-Wajid is Richness." },
+  { name: "Al-Majid", meaning: "The Illustrious", desc: "The One who is Noble." },
+  { name: "Al-Wahid", meaning: "The One", desc: "The One without a partner." },
+  { name: "As-Samad", meaning: "The Eternal", desc: "The Master who is relied upon in matters and reverted to in ones needs." },
+  { name: "Al-Qadir", meaning: "The Able", desc: "The One attributed with Power." },
+  { name: "Al-Muqtadir", meaning: "The Powerful", desc: "The One with the perfect Power that nothing is withheld from Him." },
+  { name: "Al-Muqaddim", meaning: "The Expediter", desc: "The One who puts things in their right places. He makes ahead what He wills and delays what He wills." },
+  { name: "Al-Mu'akhkhir", meaning: "The Delayer", desc: "The One who puts things in their right places. He makes ahead what He wills and delays what He wills." },
+  { name: "Al-Awwal", meaning: "The First", desc: "The One whose Existence is without a beginning." },
+  { name: "Al-Akhir", meaning: "The Last", desc: "The One whose Existence is without an end." },
+  { name: "Az-Zahir", meaning: "The Manifest", desc: "The One that nothing is above Him and nothing is underneath Him, hence He exists without a place." },
+  { name: "Al-Batin", meaning: "The Hidden", desc: "The One that nothing is above Him and nothing is underneath Him, hence He exists without a place." },
+  { name: "Al-Wali", meaning: "The Governor", desc: "The One who owns things and manages them." },
+  { name: "Al-Muta'ali", meaning: "The Most Exalted", desc: "The One who is clear from the attributes of the creation." },
+  { name: "Al-Barr", meaning: "The Source of Goodness", desc: "The One who is kind to His creatures, who covered them with His sustenance and specified whoever He willed with His support, protection, and special mercy." },
+  { name: "At-Tawwab", meaning: "The Acceptor of Repentance", desc: "The One who grants repentance to whoever He willed among His creatures and accepts his repentance." },
+  { name: "Al-Muntaqim", meaning: "The Avenger", desc: "The One who victoriously prevails over His enemies and punishes them for their sins." },
+  { name: "Al-Afu", meaning: "The Pardoner", desc: "The One with wide forgiveness." },
+  { name: "Ar-Ra'uf", meaning: "The Compassionate", desc: "The One with extreme Mercy. The Mercy of Allah is His will to endow upon whoever He willed among His creatures." },
+  { name: "Malik-ul-Mulk", meaning: "The King of Sovereignty", desc: "The One who controls the Dominion and gives dominion to whoever He willed." },
+  { name: "Dhul-Jalali-wal-Ikram", meaning: "The Lord of Majesty and Generosity", desc: "The One who deserves to be Exalted and not denied." },
+  { name: "Al-Muqsit", meaning: "The Equitable", desc: "The One who is Just in His judgment." },
+  { name: "Al-Jami", meaning: "The Gatherer", desc: "The One who gathers the creatures on a day that there is no doubt about, that is the Day of Judgment." },
+  { name: "Al-Ghani", meaning: "The Self-Sufficient", desc: "The One who does not need the creation." },
+  { name: "Al-Mughni", meaning: "The Enricher", desc: "The One who satisfies the necessities of the creatures." },
+  { name: "Al-Mani", meaning: "The Preventer", desc: "The Supporter who protects and gives victory to His pious believers. Al-Mu'tiy is the Giver. Al-Mani' is the Withholder." },
+  { name: "Ad-Darr", meaning: "The Distresser", desc: "The One who makes harm reach to whoever He willed and benefit to whoever He willed." },
+  { name: "An-Nafi", meaning: "The Propitious", desc: "The One who makes harm reach to whoever He willed and benefit to whoever He willed." },
+  { name: "An-Nur", meaning: "The Light", desc: "The One who guides." },
+  { name: "Al-Hadi", meaning: "The Guide", desc: "The One whom with His Guidance His believers were guided, and with His Guidance the living beings have been guided to what is beneficial for them and protected from what is harmful to them." },
+  { name: "Al-Badi", meaning: "The Incomparable", desc: "The One who created the creation and formed it without any preceding example." },
+  { name: "Al-Baqi", meaning: "The Enduring", desc: "The One that the state of non-existence is impossible for Him." },
+  { name: "Al-Warith", meaning: "The Inheritor", desc: "The One who remains after the creation vanishes." },
+  { name: "Ar-Rashid", meaning: "The Guide to the Right Path", desc: "The One who guides." },
+  { name: "As-Sabur", meaning: "The Patient", desc: "The One who does not quickly punish the sinners." }
 ];
 
 export const getGrowthStage = (category: string, streak: number) => {
@@ -209,19 +378,24 @@ function romanize(num: number): string {
 const createTaskAchievements = () => {
   let ach: Achievement[] = [];
 
-  // 1. SALAH (Streaks & Counts)
+  // 1. SALAH (Streaks & Counts & Specifics)
   ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_streak', 'STREAK', [3, 7, 14, 21, 30, 40, 60, 90, 100, 200, 365, 500, 1000], '🕌', 'Salah Guardian', 'days of consecutive Salah.')];
   ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_total', 'COUNT', [50, 100, 500, 1000, 2000, 5000, 10000], '🤲', 'Devout Servant', 'total prayers.')];
-  
-  // 2. MDF (Streaks) - Huge focus here
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_jamaah', 'COUNT', [10, 50, 100, 500, 1000], '👥', 'Community Pillar', 'prayers in Jamaah.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_fajr', 'COUNT', [5, 20, 50, 100, 365], '🌅', 'Dawn Warrior', 'Fajr prayers.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_isha', 'COUNT', [5, 20, 50, 100, 365], '🌌', 'Night Watchman', 'Isha prayers.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_tahajjud', 'COUNT', [1, 5, 10, 50, 100], '🌠', 'The Vigilant', 'Tahajjud prayers.')];
+
+  // 2. MDF (Streaks)
   ach = [...ach, ...generateTieredAchievements('MDF', 'mdf_streak', 'STREAK', [1, 3, 5, 7, 10, 14, 21, 30, 40, 50, 60, 75, 90, 100, 120, 150, 180, 200, 250, 300, 365, 400, 500, 600, 700, 800, 900, 1000], '🛡️', 'Purity Warrior', 'days free from relapse.')];
 
   // 3. DHIKR (Counts)
   ach = [...ach, ...generateTieredAchievements('DHIKR', 'dhikr_total', 'COUNT', [100, 500, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000], '📿', 'Remembrance', 'total dhikr recitations.')];
 
-  // 4. QURAN (Parts)
+  // 4. QURAN (Parts & Khatams)
   ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_streak', 'STREAK', [3, 7, 14, 30, 60, 100, 365], '📖', 'Quran Companion', 'days reading Quran.')];
   ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_juz', 'VALUE', [1, 2, 5, 10, 15, 20, 25, 30], '📚', 'Juz Master', 'Juz completed.')];
+  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_khatam', 'VALUE', [1, 5, 10, 20], '🏅', 'Khatam Master', 'Qurans completed.')];
   
   // 5. FITNESS (Pushups/Count)
   ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_total', 'COUNT', [100, 500, 1000, 2500, 5000, 10000, 25000, 50000], '💪', 'Iron Body', 'total reps/pushups.')];
@@ -230,6 +404,7 @@ const createTaskAchievements = () => {
   // 6. HYGIENE (Water & Tasks)
   ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_streak', 'STREAK', [3, 7, 14, 30, 50, 100], '🧼', 'Pure Soul', 'days of perfect hygiene.')];
   ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_water', 'COUNT', [50, 100, 200, 500, 1000], '💧', 'Hydrated', 'days hitting water goal.')];
+  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_total', 'COUNT', [100, 500, 1000, 5000], '✨', 'Cleanliness Master', 'hygiene tasks.')];
 
   // 7. HABITS (Streaks)
   ach = [...ach, ...generateTieredAchievements('HABITS', 'habits_streak', 'STREAK', [3, 7, 14, 21, 30, 60, 90, 120, 150, 365], '🚭', 'Chain Breaker', 'days habit free.')];
@@ -245,6 +420,7 @@ const createTaskAchievements = () => {
 
   // 11. RAMADAN (Fasts)
   ach = [...ach, ...generateTieredAchievements('RAMADAN', 'ramadan_fast', 'COUNT', [1, 5, 10, 15, 20, 25, 30], '🚪', 'Rayyan', 'fasts completed.')];
+  ach = [...ach, ...generateTieredAchievements('RAMADAN', 'ramadan_taraweeh', 'COUNT', [1, 5, 10, 20, 30], '🕌', 'Night Prayer', 'Taraweeh prayers.')];
 
   // 12. MEMORIZE (Duas)
   ach = [...ach, ...generateTieredAchievements('MEMORIZE', 'memorize_total', 'VALUE', [1, 5, 10, 20, 50], '🧠', 'Hafiz', 'Duas memorized.')];
@@ -284,5 +460,12 @@ export const TIBB_REMEDIES = [
     { name: "Talbina", desc: "Soothing for the sick heart.", usage: "Barley porridge with milk/honey." },
     { name: "Cupping (Hijama)", desc: "Best of remedies.", usage: "Perform on Sunnah days (17, 19, 21)." },
     { name: "Siwak (Miswak)", desc: "Purifies mouth, pleases Lord.", usage: "Use before every prayer." },
-    { name: "Zamzam", desc: "For whatever purpose it is drunk.", usage: "Drink with intention of cure." }
+    { name: "Zamzam", desc: "For whatever purpose it is drunk.", usage: "Drink with intention of cure." },
+    { name: "Ajwa Dates", desc: "Protection against poison and magic.", usage: "Eat 7 in the morning." },
+    { name: "Fig", desc: "Allah swears by the Fig in the Quran.", usage: "Eat fresh or dried for strength." },
+    { name: "Vinegar", desc: "An excellent condiment.", usage: "Use with food." },
+    { name: "Senna", desc: "A cure for everything except death.", usage: "Use as tea (laxative)." },
+    { name: "Watermelon", desc: "Prophet (SAW) ate it with dates.", usage: "Cooling effect." },
+    { name: "Truffles", desc: "Juice is a cure for the eyes.", usage: "Apply juice to eyes." }
 ];
+

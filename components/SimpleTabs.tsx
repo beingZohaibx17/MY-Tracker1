@@ -1,10 +1,11 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { AppState, SubView, Exercise, ViewState } from '../types';
-import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH, JANAZAH_STEPS, TIBB_REMEDIES } from '../constants';
+import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH, JANAZAH_STEPS, TIBB_REMEDIES, WORD_QURAN_DATA } from '../constants';
 import { BarChart } from './Charts';
 import { 
-  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind, Printer, Leaf, Languages, Hourglass
+  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind, Printer, Leaf, Languages, Hourglass, Save, FileUp
 } from 'lucide-react';
 
 // High-Quality Unsplash Images (Dark & Moody Aesthetics) - UPDATED
@@ -169,11 +170,15 @@ export const TabWrapper: React.FC<{
   );
 };
 
-export const RankCard: React.FC<any> = ({ stage, streak, maxStreak, color, bgImage }) => {
+export const RankCard: React.FC<any> = ({ stage, streak = 0, maxStreak = 0, color, bgImage }) => {
     const styles = THEME_STYLES[color] || THEME_STYLES['emerald'];
-    const nextThreshold = stage.next ? stage.next.threshold : streak * 1.5;
+    const safeStreak = isNaN(streak) ? 0 : streak;
+    const nextThreshold = stage.next ? stage.next.threshold : Math.max(safeStreak * 1.5, 100);
     const prevThreshold = stage.current.threshold || 0;
-    const percentage = Math.min(100, Math.max(0, ((streak - prevThreshold) / (nextThreshold - prevThreshold)) * 100));
+    
+    // Safety against division by zero or NaN
+    const range = Math.max(1, nextThreshold - prevThreshold);
+    const percentage = Math.min(100, Math.max(0, ((safeStreak - prevThreshold) / range) * 100));
     
     return (
         <div className="relative rounded-[2.5rem] p-6 overflow-hidden mb-6 border border-white/10 shadow-2xl animate-slide-up group h-52 flex items-center bg-[#020617]">
@@ -200,11 +205,11 @@ export const RankCard: React.FC<any> = ({ stage, streak, maxStreak, color, bgIma
                      <h2 className={`text-3xl font-black uppercase italic ${styles.color} mb-3 text-glow`}>{stage.current.label}</h2>
                      
                      <div className="flex justify-between text-[10px] font-bold text-white/80 mb-1">
-                         <span>Streak: {streak}</span>
+                         <span>Streak: {safeStreak}</span>
                          <span>Next: {stage.next?.label || 'Max'}</span>
                      </div>
                      <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
-                        <div className={`h-full ${styles.bg} rounded-full transition-all duration-1000 relative shadow-[0_0_10px_currentColor]`} style={{ width: `${percentage}%` }}>
+                        <div className={`h-full ${styles.bg} rounded-full transition-all duration-1000 relative shadow-[0_0_10px_currentColor]`} style={{ width: `${isNaN(percentage) ? 0 : percentage}%` }}>
                             <div className="absolute inset-0 bg-white/40 animate-shimmer"></div>
                         </div>
                      </div>
@@ -216,7 +221,7 @@ export const RankCard: React.FC<any> = ({ stage, streak, maxStreak, color, bgIma
 
 export const StatsCalendar: React.FC<any> = ({ history, current, color, checkDay, label }) => {
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-    const styles = THEME_STYLES[color];
+    const styles = THEME_STYLES[color] || THEME_STYLES['emerald'];
     return (
         <div className="glass-panel p-6 rounded-[2rem] border-white/5 animate-slide-up shadow-lg relative overflow-hidden">
             <div className={`absolute -top-10 -right-10 w-32 h-32 ${styles.bg} opacity-10 blur-[50px] rounded-full`}></div>
@@ -319,16 +324,35 @@ export const AwardsView: React.FC<{ categories: string[]; unlocked: string[] }> 
 };
 
 const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, getValue, maxVal, label, labelTotal, totalValue }) => {
-    const streak = state.global.streaks[category.toLowerCase()] || state.global.streaks[category === 'QURAN' ? 'quranSurah' : category.toLowerCase()];
-    const maxStreak = state.global.streaks[`max${category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}`] || state.global.streaks[`max${category === 'QURAN' ? 'Quran' : category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}`];
+    // Robust streak handling to prevent crashes
+    const catKey = category.toLowerCase();
+    
+    // Determine streak based on category mapping
+    let streak = 0;
+    if (category === 'MEMORIZE') streak = state.global.memorizeWeek || 0;
+    else if (category === 'QURAN') streak = state.global.streaks.quranSurah || 0;
+    else streak = state.global.streaks[catKey] || 0;
+    
+    // Determine max streak
+    let maxStreak = 0;
+    if (category === 'MEMORIZE') maxStreak = state.global.memorizeProgress || 0;
+    else maxStreak = state.global.streaks[`max${category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}`] || streak;
+    
+    // Growth stage
     const stage = getGrowthStage(category, streak);
-    const calculatedTotal = totalValue || ((state.global.history?.reduce((acc: number, d: any) => acc + (getValue(d) || 0), 0) || 0) + (getValue(state.daily) || 0));
+
+    // Calculate total safely
+    const calculatedTotal = totalValue !== undefined ? totalValue : (
+        (state.global.history?.reduce((acc: number, d: any) => acc + (getValue(d) || 0), 0) || 0) + (getValue(state.daily) || 0)
+    );
+    
+    // Generate history data safely
     const history = state.global.history ? state.global.history.slice(-7) : [];
     const combined = [...history, state.daily];
-    const data = combined.slice(-7).map((day: any) => getValue(day));
+    const data = combined.slice(-7).map((day: any) => getValue(day) || 0); // Default to 0
     const finalData = [...Array(Math.max(0, 7 - data.length)).fill(0), ...data];
     const labels = ["D-6", "D-5", "D-4", "D-3", "D-2", "Yest", "Today"];
-    const bgImage = RANK_IMAGES[category];
+    const bgImage = RANK_IMAGES[category] || RANK_IMAGES['SALAH'];
 
     // Time Travel Projection
     const dailyAvg = calculatedTotal / Math.max(1, state.global.history.length + 1);
@@ -345,7 +369,7 @@ const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, get
                  </div>
                  <div className={`glass-panel p-6 rounded-[2rem] text-center border-white/5 hover:border-white/20 transition-all duration-300 shadow-lg`}>
                     <div className="text-[9px] uppercase tracking-widest text-secondary mb-2 font-bold">Lifetime {labelTotal}</div>
-                    <div className="text-4xl font-mono font-bold text-white drop-shadow-sm">{calculatedTotal}</div>
+                    <div className="text-4xl font-mono font-bold text-white drop-shadow-sm">{calculatedTotal.toLocaleString()}</div>
                  </div>
             </div>
 
@@ -374,7 +398,10 @@ export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, on
     const [subView, setSubView] = useState<SubView>('DAILY');
     const [showAddModal, setShowAddModal] = useState(false);
     const [focusMode, setFocusMode] = useState<{id: string, label: string, target: number, current: number} | null>(null);
-    const currentCount = state.daily.dhikrAstaghfirullah + state.daily.dhikrRabbiInni + state.daily.customDhikr.reduce((acc:number, curr:any) => acc + curr.count, 0);
+    
+    // Ensure data exists before reducing
+    const customDhikrCount = state.daily.customDhikr ? state.daily.customDhikr.reduce((acc:number, curr:any) => acc + (curr.count || 0), 0) : 0;
+    const currentCount = (state.daily.dhikrAstaghfirullah || 0) + (state.daily.dhikrRabbiInni || 0) + customDhikrCount;
     const themeColor = themeOverride || "amber";
 
     const handleFocusTap = () => {
@@ -446,7 +473,7 @@ export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, on
                     onFocus={() => setFocusMode({ id: 'rabbiInni', label: 'رَبِّ اشْرَحْ لِي صَدْرِي', target: 2100, current: state.daily.dhikrRabbiInni })}
                     color={themeColor} 
                 />
-                {state.daily.customDhikr.map((d: any) => (
+                {(state.daily.customDhikr || []).map((d: any) => (
                     <DhikrCard 
                         key={d.id} 
                         label={d.text} 
@@ -663,7 +690,7 @@ export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExerc
                  ))}
              </div>
 
-            {state.daily.fitness.customWorkouts.map((ex: Exercise) => (
+            {(state.daily.fitness.customWorkouts || []).map((ex: Exercise) => (
                  <div key={ex.id} className={`relative p-6 rounded-[2rem] border overflow-hidden transition-all duration-300 animate-slide-up group shadow-lg ${ex.count >= ex.target ? 'bg-orange-500/10 border-orange-500/30' : 'glass-panel border-white/5'}`}>
                     {ex.count >= ex.target && <div className="absolute inset-0 bg-orange-500/5 animate-pulse"></div>}
                     <div className="flex justify-between items-start relative z-10 mb-4">
@@ -1189,39 +1216,42 @@ export const TabTibb: React.FC<any> = ({ onBack }) => (
 );
 
 export const TabWordQuran: React.FC<any> = ({ onBack }) => {
-    // Demo content for Al-Fatiha
-    const fatiha = [
-        { word: "بِسْمِ", meaning: "In the name", grammar: "Preposition + Noun" },
-        { word: "ٱللَّهِ", meaning: "of Allah", grammar: "Proper Noun (Genitive)" },
-        { word: "ٱلرَّحْمَـٰنِ", meaning: "the Most Gracious", grammar: "Adjective" },
-        { word: "ٱلرَّحِيمِ", meaning: "the Most Merciful", grammar: "Adjective" },
-        { word: "ٱلْحَمْدُ", meaning: "All Praise", grammar: "Noun" },
-        { word: "لِلَّهِ", meaning: "is for Allah", grammar: "Preposition + Proper Noun" },
-        { word: "رَبِّ", meaning: "Lord", grammar: "Noun" },
-        { word: "ٱلْعَـٰلَمِينَ", meaning: "of the worlds", grammar: "Noun (Plural)" }
-    ];
-
+    const [selectedSurah, setSelectedSurah] = useState('Fatiha');
     const [selectedWord, setSelectedWord] = useState<any>(null);
+    const surahKeys = Object.keys(WORD_QURAN_DATA);
+    const currentWords = WORD_QURAN_DATA[selectedSurah as keyof typeof WORD_QURAN_DATA];
 
     return (
         <TabWrapper themeColor="teal" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
             <div className="space-y-4 animate-slide-up pb-10">
                  <HeroCard 
                     title="Word by Word" 
-                    subtitle="Al-Fatiha Demo" 
-                    stat="Interactive" 
-                    statLabel="Learning" 
+                    subtitle="Interactive Learning" 
+                    stat={surahKeys.length} 
+                    statLabel="Surahs Available" 
                     icon={<Languages size={14} />} 
                     bgImage={RANK_IMAGES.QURAN} 
                 />
 
+                <div className="flex gap-2 overflow-x-auto no-scrollbar py-2">
+                    {surahKeys.map(k => (
+                        <button 
+                            key={k} 
+                            onClick={() => { setSelectedSurah(k); setSelectedWord(null); }}
+                            className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all ${selectedSurah === k ? 'bg-teal-500 text-white shadow-lg' : 'bg-white/5 text-secondary hover:bg-white/10'}`}
+                        >
+                            Surah {k}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="glass-panel p-8 rounded-[2rem] text-center" dir="rtl">
                     <div className="flex flex-wrap justify-center gap-2 leading-loose">
-                        {fatiha.map((w, i) => (
+                        {currentWords.map((w, i) => (
                             <span 
                                 key={i} 
                                 onClick={() => setSelectedWord(w)}
-                                className={`text-3xl font-serif px-2 py-1 rounded-lg cursor-pointer transition-all ${selectedWord === w ? 'bg-teal-500/30 text-teal-300' : 'hover:bg-white/5'}`}
+                                className={`text-3xl font-serif px-2 py-1 rounded-lg cursor-pointer transition-all select-none ${selectedWord === w ? 'bg-teal-500/30 text-teal-300' : 'hover:bg-white/5'}`}
                             >
                                 {w.word}
                             </span>
@@ -1273,8 +1303,8 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
     const [showCertificate, setShowCertificate] = useState(false);
 
     // Calculate totals
-    const totalPrayers = state.global.history.reduce((a:any,b:any) => a + b.prayers.filter((p:any)=>p.completed).length, 0) + state.daily.prayers.filter(p=>p.completed).length;
-    const totalDhikr = (state.global.history.reduce((a:any,d:any) => a + (d.dhikrAstaghfirullah + d.dhikrRabbiInni), 0)) + (state.daily.dhikrAstaghfirullah + state.daily.dhikrRabbiInni);
+    const totalPrayers = (state.global.history || []).reduce((a:any,b:any) => a + (b.prayers?.filter((p:any)=>p.completed).length || 0), 0) + (state.daily.prayers?.filter(p=>p.completed).length || 0);
+    const totalDhikr = ((state.global.history || []).reduce((a:any,d:any) => a + (d.dhikrAstaghfirullah || 0) + (d.dhikrRabbiInni || 0), 0)) + (state.daily.dhikrAstaghfirullah || 0) + (state.daily.dhikrRabbiInni || 0);
     
     const calculateQada = () => {
         const y = parseInt(qadaYears) || 0;
@@ -1417,12 +1447,12 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
                 <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Data</h3>
                 <div className="grid grid-cols-2 gap-3">
                     <button onClick={exportData} className="py-6 rounded-[1.5rem] glass-panel border border-white/5 hover:bg-white/5 flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg">
-                        <Cloud size={24} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-bold text-primary">Sync to Drive</span>
+                        <Save size={24} className="text-emerald-400 group-hover:scale-110 transition-transform" />
+                        <span className="text-xs font-bold text-primary">Backup (File)</span>
                     </button>
                     <button onClick={importData} className="py-6 rounded-[1.5rem] glass-panel border border-white/5 hover:bg-white/5 flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg">
-                        <Cloud size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-bold text-primary">Sync to iCloud</span>
+                        <FileUp size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
+                        <span className="text-xs font-bold text-primary">Restore (File)</span>
                     </button>
                 </div>
             </section>

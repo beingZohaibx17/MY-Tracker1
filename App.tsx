@@ -1,11 +1,12 @@
 
 
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Atmosphere } from './components/Atmosphere';
 import { Dashboard } from './components/Dashboard';
 import { TabSalah } from './components/TabSalah';
-import { TabDhikr, TabHygiene, TabMDF, TabFitness, TabMemorize, TabQuran, TabRamadan, TabSettings, TabHabits, TabHadees, TabNight } from './components/SimpleTabs';
+import { TabDhikr, TabHygiene, TabMDF, TabFitness, TabMemorize, TabQuran, TabRamadan, TabSettings, TabHabits, TabHadees, TabNight, TabNames99, TabBreathwork, TabJanazah, TabTibb, TabWordQuran } from './components/SimpleTabs';
 import { AIAssistant } from './components/AIAssistant';
 import { BottomNav } from './components/BottomNav';
 import { AppState, INITIAL_DAILY_STATE, INITIAL_GLOBAL_STATE, ViewState, DailyStats, SpiritualMood } from './types';
@@ -131,7 +132,7 @@ const App: React.FC = () => {
 
   // Theme Logic based on Time/Mode
   const isDay = state.global.theme === 'DAY' || (state.global.theme === 'AUTO' && new Date().getHours() >= 6 && new Date().getHours() < 18);
-  const currentThemeColor = isDay ? 'cyan' : 'emerald'; // Cyan for Day, Emerald for Night as primary accent
+  const currentThemeColor = isDay ? 'cyan' : 'emerald'; 
 
   const addToast = (msg: string, type: Toast['type']) => {
     const id = Date.now().toString() + Math.random();
@@ -173,66 +174,68 @@ const App: React.FC = () => {
           const minute = now.getMinutes();
 
           if (Notification.permission === 'granted' && minute === 0) {
-             // Morning Reminder (6 AM)
-             if (hour === 6) {
-                 new Notification("Good Morning Zohaib", { body: "Start your day with Fajr and gratitude.", icon: "/icon.png" });
-             }
-             // Afternoon Reminder (2 PM)
-             if (hour === 14) {
-                 new Notification("Midday Check-In", { body: "Have you prayed Dhuhr? Stay hydrated!", icon: "/icon.png" });
-             }
-             // Evening Reminder (9 PM)
-             if (hour === 21) {
-                 new Notification("Evening Review", { body: "Complete your Dhikr and Night routine before sleep.", icon: "/icon.png" });
-             }
+             if (hour === 6) new Notification("Good Morning Zohaib", { body: "Start your day with Fajr and gratitude.", icon: "/icon.png" });
+             if (hour === 14) new Notification("Midday Check-In", { body: "Have you prayed Dhuhr? Stay hydrated!", icon: "/icon.png" });
+             if (hour === 21) new Notification("Evening Review", { body: "Complete your Dhikr and Night routine before sleep.", icon: "/icon.png" });
           }
       }, 60000); 
       return () => clearInterval(interval);
   }, []);
 
+  // Offline File Backup Logic (Blob based for Android support)
   const exportData = () => {
-    try {
-        const dataStr = JSON.stringify(state, null, 2);
-        const blob = new Blob([dataStr], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `zohaib_tracker_backup_${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-        addToast("Backup downloaded to device", "success");
-    } catch (e) {
-        addToast("Export failed", "error");
-    }
+      try {
+          const dataStr = JSON.stringify(state);
+          const blob = new Blob([dataStr], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `zohaib_tracker_backup_${new Date().toISOString().slice(0,10)}.json`;
+          document.body.appendChild(link);
+          link.click();
+          
+          // Cleanup
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+          
+          addToast("Backup downloaded successfully!", "success");
+      } catch (e) {
+          addToast("Failed to create backup", "error");
+      }
   };
 
   const importData = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json';
-    input.onchange = (e: any) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const json = JSON.parse(event.target?.result as string);
-          if (json.daily && json.global) {
-            setState(json);
-            addToast("Data Restored Successfully", "success");
-            setTimeout(() => window.location.reload(), 1500);
-          } else {
-            addToast("Invalid Backup File", "error");
-          }
-        } catch (err) {
-            addToast("Error Parsing File", "error");
-        }
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/json';
+      input.onchange = (e: any) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (event) => {
+              try {
+                  const json = JSON.parse(event.target?.result as string);
+                  if (json.daily && json.global) {
+                       // Deep merge to ensure compatibility
+                       const mergedState = {
+                           daily: { ...INITIAL_DAILY_STATE, ...json.daily },
+                           global: { ...INITIAL_GLOBAL_STATE, ...json.global }
+                       };
+                       setState(mergedState);
+                       localStorage.setItem('zohaib_tracker_v3', JSON.stringify(mergedState));
+                       addToast("Data restored successfully!", "success");
+                       setTimeout(() => window.location.reload(), 1500);
+                  } else {
+                      throw new Error("Invalid format");
+                  }
+              } catch (err) {
+                  addToast("Invalid Backup File", "error");
+              }
+          };
+          reader.readAsText(file);
       };
-      reader.readAsText(file);
-    };
-    input.click();
+      input.click();
   };
 
   const syncMaxStreaks = (streaks: typeof INITIAL_GLOBAL_STATE.streaks) => {
@@ -272,6 +275,7 @@ const App: React.FC = () => {
           if (cat === 'HADEES') return streaks.hadees;
           if (cat === 'NIGHT') return streaks.night;
           if (cat === 'MEMORIZE') return currentState.global.memorizeWeek;
+          if (cat === 'NAMES99') return streaks.names99;
           return 0;
       };
 
@@ -292,6 +296,7 @@ const App: React.FC = () => {
           else if (id.includes('hadees_total')) count = getTotalCount(currentState, (d) => d.hadeesRead ? 1 : 0);
           else if (id.includes('night_total')) count = getTotalCount(currentState, (d) => (d.night.surahMulk && d.night.surahBaqarah ? 1 : 0));
           else if (id.includes('memorize')) count = currentState.global.memorizeProgress || 0;
+          else if (id.includes('names99')) count = streaks.names99 || 0;
           
           return count >= targetVal;
       };
@@ -316,14 +321,11 @@ const App: React.FC = () => {
               if (val >= (ach.value || 0)) passed = true;
           } else if (ach.metric === 'XP') {
               if (xp >= (ach.value || 0)) passed = true;
-          } else if (ach.metric === 'SPECIAL') {
-             const streak = getStreak(ach.category);
-             if (streak >= (ach.value || 0)) passed = true;
           }
 
           if (passed) {
               newUnlocks.push(ach.id);
-              showCongratulation(ach.category); // Show modal for achievements
+              showCongratulation(ach.category);
           }
       });
 
@@ -333,7 +335,7 @@ const App: React.FC = () => {
               global: { 
                   ...prev.global, 
                   unlockedAchievements: [...prev.global.unlockedAchievements, ...newUnlocks],
-                  xp: prev.global.xp + (newUnlocks.length * 50) // Bonus XP for achievements
+                  xp: prev.global.xp + (newUnlocks.length * 50) 
               }
           }));
       }
@@ -388,28 +390,20 @@ const App: React.FC = () => {
         let safeGlobal = { 
             ...INITIAL_GLOBAL_STATE, 
             ...parsed.global, 
+            theme: parsed.global.theme || 'NIGHT',
             streaks: { ...INITIAL_GLOBAL_STATE.streaks, ...parsed.global.streaks } 
         };
         let safeDaily = { ...INITIAL_DAILY_STATE, ...parsed.daily };
+        
+        // Ensure new fields exist
+        if(typeof safeDaily.journal === 'undefined') safeDaily.journal = "";
+        if(typeof safeGlobal.streaks.names99 === 'undefined') safeGlobal.streaks.names99 = 0;
+        if(typeof safeGlobal.customColor === 'undefined') safeGlobal.customColor = null;
 
         // Backwards compatibility logic
         if(typeof safeDaily.mood === 'undefined') safeDaily.mood = null;
         if(typeof safeDaily.hygiene.cleanDesk === 'undefined') safeDaily.hygiene.cleanDesk = false;
-        if(typeof safeDaily.fitness.pushups === 'undefined') {
-            safeDaily.fitness = { pushups: 0, pushupsTarget: 60, customWorkouts: [] };
-        }
-        if(typeof safeDaily.night === 'undefined') {
-            safeDaily.night = { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false, fourQuls: false };
-        } else if (typeof safeDaily.night.fourQuls === 'undefined') {
-            safeDaily.night.fourQuls = false;
-        }
-        // Ramadan compatibility
-        if(typeof safeDaily.ramadan.readParah === 'undefined') {
-            safeDaily.ramadan.readParah = false;
-        }
-
-        if(typeof safeDaily.hadeesRead === 'undefined') safeDaily.hadeesRead = false;
-
+        
         // Freeze mode check
         const now = Date.now();
         const isFrozen = safeGlobal.freezeModeUntil && now < safeGlobal.freezeModeUntil;
@@ -418,7 +412,6 @@ const App: React.FC = () => {
            const daysPassed = getDaysDiff(parsed.daily.date, today);
            
            if (daysPassed > 1 && !isFrozen) {
-               // Reset streaks logic if missed more than 1 day
                safeGlobal.streaks.salah = 0;
                safeGlobal.streaks.dhikr = 0;
                safeGlobal.streaks.fitness = 0;
@@ -428,16 +421,6 @@ const App: React.FC = () => {
                safeGlobal.streaks.ramadan = 0;
                safeGlobal.streaks.hadees = 0;
                safeGlobal.streaks.night = 0;
-           } else if (daysPassed === 1 && !isFrozen) {
-               const prevSmoking = parsed.daily.habits?.smokingCount || 0;
-               const prevNicotine = parsed.daily.habits?.nicotineCount || 0;
-               const prevFailed = parsed.daily.habits?.failedToday || false;
-               
-               if (prevSmoking <= 2 && prevNicotine <= 3 && !prevFailed) {
-                   safeGlobal.streaks.habits += 1;
-               } else {
-                   safeGlobal.streaks.habits = 0;
-               }
            }
            
            const newHistory = [...(safeGlobal.history || []), safeDaily];
@@ -458,23 +441,6 @@ const App: React.FC = () => {
 
         setState({ daily: safeDaily, global: safeGlobal });
 
-        const lastRelapse = safeGlobal.lastRelapseDate || now;
-        const mdfDays = Math.floor((now - lastRelapse) / (1000 * 60 * 60 * 24));
-        
-        if (mdfDays !== safeGlobal.streaks.mdf) {
-             setState(prev => {
-                 const updatedMdfStreak = mdfDays;
-                 const updatedMaxMdf = Math.max(prev.global.streaks.maxMdf || 0, updatedMdfStreak);
-                 return {
-                     ...prev,
-                     global: {
-                         ...prev.global,
-                         streaks: { ...prev.global.streaks, mdf: updatedMdfStreak, maxMdf: updatedMaxMdf }
-                     }
-                 };
-             });
-        }
-
       } catch (e) {
         console.error("Save file corrupted", e);
         setState({ daily: INITIAL_DAILY_STATE, global: INITIAL_GLOBAL_STATE });
@@ -494,6 +460,13 @@ const App: React.FC = () => {
     const applyTheme = () => {
        const root = document.body;
        root.classList.remove('theme-day', 'theme-night');
+       
+       // Handle custom color builder
+       if (state.global.customColor) {
+           root.style.setProperty('--glass-bg', `${state.global.customColor}10`); 
+           // We can dynamically inject styles here if needed for deeper customization
+       }
+
        if (state.global.theme === 'DAY') root.classList.add('theme-day');
        else if (state.global.theme === 'NIGHT') root.classList.add('theme-night');
        else {
@@ -505,7 +478,7 @@ const App: React.FC = () => {
     applyTheme();
     const interval = setInterval(applyTheme, 60000);
     return () => clearInterval(interval);
-  }, [state.global.theme]);
+  }, [state.global.theme, state.global.customColor]);
 
   const checkAndToggleStreak = (
       prev: AppState, 
@@ -522,7 +495,7 @@ const App: React.FC = () => {
           streaks[category] = (streaks[category] as number) + 1;
           earnedXP = 10;
           triggerConfetti();
-          showCongratulation(category.toUpperCase()); // Congratulate on Daily Goal
+          showCongratulation((category as string).toUpperCase());
       } 
       else if (wasComplete && !isComplete) {
           if (!isFrozen) {
@@ -531,18 +504,7 @@ const App: React.FC = () => {
           }
       }
       
-      if (category === 'salah') streaks.maxSalah = Math.max(streaks.maxSalah || 0, streaks.salah);
-      if (category === 'dhikr') streaks.maxDhikr = Math.max(streaks.maxDhikr || 0, streaks.dhikr);
-      if (category === 'fitness') streaks.maxFitness = Math.max(streaks.maxFitness || 0, streaks.fitness);
-      if (category === 'hygiene') streaks.maxHygiene = Math.max(streaks.maxHygiene || 0, streaks.hygiene);
-      if (category === 'quranSurah') streaks.maxQuran = Math.max(streaks.maxQuran || 0, streaks.quranSurah);
-      if (category === 'habits') streaks.maxHabits = Math.max(streaks.maxHabits || 0, streaks.habits);
-      if (category === 'hadees') streaks.maxHadees = Math.max(streaks.maxHadees || 0, streaks.hadees);
-      if (category === 'night') streaks.maxNight = Math.max(streaks.maxNight || 0, streaks.night);
-      if (category === 'ramadan') streaks.maxRamadan = Math.max(streaks.maxRamadan || 0, streaks.ramadan);
-      
       prev.global.xp = Math.max(0, prev.global.xp + earnedXP);
-      
       return streaks;
   };
 
@@ -782,6 +744,10 @@ const App: React.FC = () => {
       });
   };
   
+  const handleUpdateJournal = (text: string) => {
+      updateState(prev => ({ ...prev, daily: { ...prev.daily, journal: text } }));
+  };
+
   const handleMemorizeNext = () => {
       playSound('success');
       addToast("Content Learned! +20 XP", "success");
@@ -838,14 +804,6 @@ const App: React.FC = () => {
       }));
   };
 
-  const handleWeightUpdate = (weight: number) => {
-      updateState(prev => ({
-          ...prev,
-          daily: { ...prev.daily, fitness: { ...prev.daily.fitness, weight } }
-      }));
-      addToast("Weight Logged", "success");
-  };
-
   const handleMoodUpdate = (mood: SpiritualMood) => {
     playSound('pop');
     updateState(prev => ({
@@ -886,18 +844,23 @@ const App: React.FC = () => {
           {view === ViewState.AI_CHAT && <AIAssistant state={state} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.QURAN && <TabQuran state={state} updatePart={handleQuranProgress} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.HADEES && <TabHadees state={state} markRead={handleMarkHadees} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
-          {view === ViewState.NIGHT && <TabNight state={state} updateNight={handleNightUpdate} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
+          {view === ViewState.NIGHT && <TabNight state={state} updateNight={handleNightUpdate} updateJournal={handleUpdateJournal} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.MDF && <TabMDF state={state} resetRelapse={() => updateState(prev => ({...prev, global: {...prev.global, lastRelapseDate: Date.now(), streaks: {...prev.global.streaks, mdf: 0}}, daily: {...prev.daily, habits: {...prev.daily.habits, failedToday: true}}}))} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.HABITS && <TabHabits state={state} updateHabit={handleHabitUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.HYGIENE && <TabHygiene state={state} updateHygiene={handleHygiene} updateHabit={handleHabitUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.FITNESS && <TabFitness state={state} updatePushups={handleUpdatePushups} addCustomExercise={handleAddCustomExercise} updateCustomExercise={handleUpdateCustomExercise} updateWeight={handleWeightUpdate} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.FITNESS && <TabFitness state={state} updatePushups={handleUpdatePushups} addCustomExercise={handleAddCustomExercise} updateCustomExercise={handleUpdateCustomExercise} onOpenBreathwork={() => setView(ViewState.BREATHWORK)} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.MEMORIZE && <TabMemorize state={state} markLearned={handleMemorizeNext} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.RAMADAN && <TabRamadan state={state} toggleRamadanDaily={handleRamadanDailyToggle} updateRamadanStat={handleRamadanStatUpdate} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
-          {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} buyTravelMode={buyTravelMode} resetApp={hardReset} requestNotify={requestNotificationPermission} />}
+          {view === ViewState.NAMES99 && <TabNames99 state={state} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
+          {view === ViewState.BREATHWORK && <TabBreathwork onBack={() => setView(ViewState.FITNESS)} />}
+          {view === ViewState.JANAZAH && <TabJanazah onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.TIBB && <TabTibb onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.WORD_QURAN && <TabWordQuran onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} setCustomColor={(c) => updateState(prev => ({...prev, global: {...prev.global, customColor: c}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} buyTravelMode={buyTravelMode} resetApp={hardReset} requestNotify={requestNotificationPermission} updateQada={(amt) => updateState(prev => ({ ...prev, global: { ...prev.global, qadaBank: Math.max(0, prev.global.qadaBank + amt) } }))} />}
         </div>
       )}
       
-      {view !== ViewState.WIDGET && (
+      {view !== ViewState.WIDGET && view !== ViewState.BREATHWORK && (
         <BottomNav 
             currentView={view} 
             changeView={(v) => { playSound('click'); setView(v); }} 

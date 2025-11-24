@@ -1,12 +1,13 @@
 
 
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { 
   Moon, Activity, Trophy, Dumbbell, Scroll, BedDouble, Quote, LayoutGrid, Heart, BookOpen, ChevronRight, Sparkles, ShieldAlert, ShieldCheck, Droplets, Brain, Tent, ChevronDown, ChevronUp, Zap
 } from 'lucide-react';
 import { AppState, ViewState, SpiritualMood } from '../types';
-import { DAILY_QUOTES, DUAS } from '../constants';
+import { DAILY_QUOTES, DUAS, URDU_CONCEPTS } from '../constants';
 import { RANK_IMAGES, JUMUAH_IMAGE } from './SimpleTabs';
 
 interface Props {
@@ -20,10 +21,11 @@ export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) =>
   // Default expanded
   const [appsExpanded, setAppsExpanded] = useState(true);
   
-  // Daily Dua Logic
+  // Daily Logic
   const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Daily Seed
   const dailyQuote = DAILY_QUOTES[seed % DAILY_QUOTES.length];
   const dailyDua = DUAS[seed % DUAS.length];
+  const dailyConcept = URDU_CONCEPTS[seed % URDU_CONCEPTS.length]; // Rotating Urdu concept
   
   const currentXP = state.global.xp;
   const currentLevel = Math.floor(Math.sqrt(currentXP / 100)) + 1;
@@ -79,30 +81,38 @@ export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) =>
 
       {/* Persistent Top Stats Section (Always Visible) */}
       <div className="space-y-4 animate-slide-up">
-          {/* Primary Stats Card (Iman Score) */}
-          <div className="bg-gradient-to-br from-emerald-950 via-slate-900 to-black rounded-[2.5rem] p-8 border border-emerald-500/20 relative overflow-hidden shadow-2xl group">
-               <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-all duration-700"></div>
-               
-               <div className="flex justify-between items-start mb-6 relative z-10">
-                   <div>
-                       <h3 className="text-lg font-bold text-white">Iman Score</h3>
-                       <p className="text-[11px] text-emerald-400 font-bold uppercase tracking-wider opacity-80">Daily Aggregate</p>
+          {/* Primary Stats Card (Iman Score - Smaller & Daily Concept) */}
+          <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gradient-to-br from-emerald-950 via-slate-900 to-black rounded-[2rem] p-5 border border-emerald-500/20 relative overflow-hidden shadow-xl group flex flex-col justify-between h-40">
+                   <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+                   
+                   <div className="flex justify-between items-start relative z-10">
+                       <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Iman Score</h3>
+                       <Heart size={14} className="text-emerald-500 fill-emerald-500/20" />
                    </div>
-                   <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 animate-pulse-slow">
-                       <Heart size={18} className="text-emerald-500 fill-emerald-500/20" />
+                   
+                   <div className="flex items-baseline gap-1 relative z-10">
+                       <div className="text-5xl font-mono font-bold text-white tracking-tighter text-glow">{Math.round(state.daily.imanScore)}</div>
+                       <div className="text-sm text-white/40">%</div>
                    </div>
-               </div>
-               
-               <div className="flex items-baseline gap-2 relative z-10">
-                   <div className="text-7xl font-mono font-bold text-white tracking-tighter drop-shadow-lg text-glow">{Math.round(state.daily.imanScore)}</div>
-                   <div className="text-2xl text-white/40 font-light">%</div>
-               </div>
-               
-               <div className="w-full bg-white/5 h-2 rounded-full mt-8 overflow-hidden relative z-10 border border-white/5">
-                    <div className="h-full bg-emerald-500 transition-all duration-1000 ease-out shadow-[0_0_15px_#10b981]" style={{ width: `${state.daily.imanScore}%` }}>
-                        <div className="absolute inset-0 bg-white/30 animate-shimmer"></div>
-                    </div>
-               </div>
+                   
+                   <div className="w-full bg-white/5 h-1.5 rounded-full mt-2 overflow-hidden relative z-10 border border-white/5">
+                        <div className="h-full bg-emerald-500 transition-all duration-1000 ease-out shadow-[0_0_10px_#10b981]" style={{ width: `${state.daily.imanScore}%` }}></div>
+                   </div>
+              </div>
+              
+              {/* Daily Concept Tile */}
+              <div className="bg-slate-900/60 rounded-[2rem] p-5 border border-white/10 relative overflow-hidden shadow-xl flex flex-col justify-between h-40 group">
+                   <div className="absolute inset-0 bg-emerald-500/5 animate-pulse-slow"></div>
+                   <div className="relative z-10 flex justify-between items-start">
+                        <span className="text-[10px] font-bold text-secondary uppercase tracking-widest">Today's Focus</span>
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                   </div>
+                   <div className="relative z-10 text-center">
+                        <h2 className="text-4xl font-serif text-white font-arabic drop-shadow-md mb-1 animate-float" dir="auto">🎯 {dailyConcept.urdu}</h2>
+                        <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">{dailyConcept.english.split('(')[0]}</p>
+                   </div>
+              </div>
           </div>
 
           {/* Daily Dua Tile */}
@@ -234,6 +244,15 @@ export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) =>
                     daily={state.global.memorizeWeek}
                 />
              </div>
+
+             {/* Names of Allah */}
+             <BentoCard 
+                title="99 Names" subtitle="Asma-ul-Husna" 
+                icon={<Sparkles size={20}/>} color="teal" 
+                onClick={() => changeView(ViewState.NAMES99)} image={RANK_IMAGES.QURAN} 
+                streak={null} daily="Learn"
+                fullWidth
+            />
              
              {/* Assistant */}
              <BentoCard 

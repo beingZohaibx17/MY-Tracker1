@@ -30,7 +30,9 @@ export enum ViewState {
   RAMADAN = 'RAMADAN',
   SETTINGS = 'SETTINGS',
   WIDGET = 'WIDGET',
-  AI_CHAT = 'AI_CHAT'
+  AI_CHAT = 'AI_CHAT',
+  NAMES99 = 'NAMES99',
+  BREATHWORK = 'BREATHWORK'
 }
 
 export type SubView = 'DAILY' | 'STATS' | 'AWARDS';
@@ -54,7 +56,7 @@ export interface Achievement {
   description: string;
   tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL' | 'TITAN' | 'MYTHIC' | 'DIVINE';
   icon: string;
-  category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'RAMADAN' | 'FITNESS' | 'MEMORIZE' | 'HADEES' | 'NIGHT';
+  category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'RAMADAN' | 'FITNESS' | 'MEMORIZE' | 'HADEES' | 'NIGHT' | 'NAMES99';
   metric?: 'STREAK' | 'COUNT' | 'VALUE' | 'XP' | 'SPECIAL';
   value?: number;
 }
@@ -99,6 +101,7 @@ export interface DailyStats {
     ayatulKursi: boolean;
     fourQuls: boolean;
   };
+  journal: string; // Gratitude journal
 
   // Hadees
   hadeesRead: boolean;
@@ -152,6 +155,7 @@ export interface GlobalStats {
     ramadan: number;
     hadees: number; 
     night: number;  
+    names99: number;
     
     // MAX STREAKS
     maxSalah: number;
@@ -182,6 +186,7 @@ export interface GlobalStats {
     quranKhatams: number;
   };
   theme: ThemeMode;
+  customColor: string | null; // For Theme Builder
   hapticsEnabled: boolean;
   hasSeenOnboarding: boolean;
   unlockedAchievements: string[]; 
@@ -208,6 +213,7 @@ export const INITIAL_DAILY_STATE: DailyStats = {
   customDhikr: [],
   quranParts: { rub: false, nisf: false, thalatha: false, kamil: false },
   night: { surahMulk: false, surahBaqarah: false, tasbihFatima: false, ayatulKursi: false, fourQuls: false },
+  journal: "",
   hadeesRead: false,
   hygiene: { shower: false, brush: false, cleanDesk: false, waterGlasses: 0 },
   habits: { smokingCount: 0, nicotineCount: 0, failedToday: false },
@@ -223,7 +229,7 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   level: 1,
   xp: 0,
   streaks: {
-    salah: 0, dhikr: 0, mdf: 0, fitness: 0, hygiene: 0, habits: 0, quranSurah: 0, ramadan: 0, hadees: 0, night: 0,
+    salah: 0, dhikr: 0, mdf: 0, fitness: 0, hygiene: 0, habits: 0, quranSurah: 0, ramadan: 0, hadees: 0, night: 0, names99: 0,
     maxSalah: 0, maxDhikr: 0, maxMdf: 0, maxFitness: 0, maxHygiene: 0, maxHabits: 0, maxQuran: 0, maxRamadan: 0, maxHadees: 0, maxNight: 0
   },
   streakFreezes: 1,
@@ -238,7 +244,8 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   name: 'Zohaib',
   ramadanMode: false,
   ramadanStats: { fastsDone: 0, taraweehPrayed: 0, quranKhatams: 0 },
-  theme: 'DAY', // Default Day Mode
+  theme: 'NIGHT', // Changed Default to Night
+  customColor: null,
   hapticsEnabled: true,
   hasSeenOnboarding: false,
   unlockedAchievements: [],

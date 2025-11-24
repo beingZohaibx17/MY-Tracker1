@@ -1,11 +1,12 @@
 
 
-import React, { useState } from 'react';
-import { AppState, SubView, Exercise } from '../types';
-import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES } from '../constants';
+
+import React, { useState, useEffect } from 'react';
+import { AppState, SubView, Exercise, ViewState } from '../types';
+import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH } from '../constants';
 import { BarChart } from './Charts';
 import { 
-  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown
+  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind
 } from 'lucide-react';
 
 // High-Quality Unsplash Images (Dark & Moody Aesthetics) - UPDATED
@@ -111,6 +112,7 @@ const THEME_STYLES: Record<string, any> = {
   gold: { bg: 'bg-yellow-500', color: 'text-yellow-500', border: 'border-yellow-500' },
   slate: { bg: 'bg-slate-500', color: 'text-slate-500', border: 'border-slate-500' },
   blue: { bg: 'bg-blue-500', color: 'text-blue-500', border: 'border-blue-500' },
+  teal: { bg: 'bg-teal-500', color: 'text-teal-500', border: 'border-teal-500' },
 };
 
 export const TabWrapper: React.FC<{ 
@@ -120,7 +122,8 @@ export const TabWrapper: React.FC<{
   setSubView: (v: SubView) => void; 
   visualType?: string;
   onBack?: () => void;
-}> = ({ children, themeColor, subView, setSubView, visualType, onBack }) => {
+  hideSubNav?: boolean;
+}> = ({ children, themeColor, subView, setSubView, visualType, onBack, hideSubNav }) => {
   const styles = THEME_STYLES[themeColor] || THEME_STYLES['emerald'];
   
   // Daily Message
@@ -138,21 +141,25 @@ export const TabWrapper: React.FC<{
             <ChevronLeft size={20} />
           </button>
           
-          <div className="bg-white/5 backdrop-blur-xl rounded-full p-1.5 flex gap-1 border border-white/10 shadow-lg ring-1 ring-white/5">
-            {(['DAILY', 'STATS', 'AWARDS'] as SubView[]).map((v) => (
-              <button key={v} onClick={() => setSubView(v)} className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-300 relative overflow-hidden ${subView === v ? 'text-white shadow-lg scale-105' : 'text-secondary hover:text-primary'}`}>
-                {subView === v && <div className={`absolute inset-0 ${styles.bg} opacity-100`}></div>}
-                {subView === v && <div className="absolute inset-0 bg-white/20 animate-shine"></div>}
-                <span className="relative z-10">{v}</span>
-              </button>
-            ))}
-          </div>
+          {!hideSubNav ? (
+            <div className="bg-white/5 backdrop-blur-xl rounded-full p-1.5 flex gap-1 border border-white/10 shadow-lg ring-1 ring-white/5">
+                {(['DAILY', 'STATS', 'AWARDS'] as SubView[]).map((v) => (
+                <button key={v} onClick={() => setSubView(v)} className={`px-5 py-2 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-300 relative overflow-hidden ${subView === v ? 'text-white shadow-lg scale-105' : 'text-secondary hover:text-primary'}`}>
+                    {subView === v && <div className={`absolute inset-0 ${styles.bg} opacity-100`}></div>}
+                    {subView === v && <div className="absolute inset-0 bg-white/20 animate-shine"></div>}
+                    <span className="relative z-10">{v}</span>
+                </button>
+                ))}
+            </div>
+          ) : (
+             <div className="flex-1"></div>
+          )}
           
           <div className="w-10" /> 
       </div>
       
       <div className="px-5 pb-32 pt-2 flex-1 overflow-y-auto no-scrollbar">
-          {dailyMessage && subView === 'DAILY' && (
+          {dailyMessage && subView === 'DAILY' && !hideSubNav && (
               <div className={`mb-4 px-4 py-3 rounded-2xl ${styles.bg} bg-opacity-10 border border-${themeColor}-500/20 text-${themeColor}-400 text-xs font-medium text-center italic animate-slide-up flex items-center justify-center gap-2 shadow-lg`}>
                   <Sparkles size={12} />
                   "{dailyMessage}"
@@ -241,7 +248,7 @@ export const StatsCalendar: React.FC<any> = ({ history, current, color, checkDay
 export const AwardsView: React.FC<{ categories: string[]; unlocked: string[] }> = ({ categories, unlocked }) => {
     const relevantAchievements = MASTER_ACHIEVEMENTS.filter(a => categories.includes(a.category));
     const unlockedCount = relevantAchievements.filter(a => unlocked.includes(a.id)).length;
-    const progress = (unlockedCount / relevantAchievements.length) * 100;
+    const progress = relevantAchievements.length > 0 ? (unlockedCount / relevantAchievements.length) * 100 : 0;
 
     const getTierStyle = (tier: string, unlocked: boolean) => {
         if (!unlocked) return 'border-white/5 bg-white/[0.02] opacity-60 grayscale';
@@ -520,7 +527,7 @@ export const TabHygiene: React.FC<any> = ({ state, updateHygiene, onBack }) => {
                 className="absolute bottom-0 left-0 right-0 bg-cyan-700/50 transition-all duration-1000 ease-in-out"
                 style={{ height: `${Math.max(0, progressPercent - 5)}%` }}
               >
-                   <div className="absolute -top-12 left-0 right-0 h-12 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0iIzBlNzQ5MCIgZmlsbC1vcGFjaXR5PSIwLjUiIGQ9Ik0wLDE5Mkw0OCwxNzZDOTYsMTYwLDE5MiwxMjgsMjg4LDEzOC43QzM4NCwxNDksNDgwLDIwMyw1NzYsMjEzLjNDNjcyLDIyNCw3NjgsMTkyLDg2NCwxNzAuN0M5NjAsMTQ5LDEwNTYsMTM5LDExNTIsMTQ0QzEyNDgsMTQ5LDEzNDQsMTcwLDEzOTIsMTgwLjdMMTQ0MCwxOTJMMTQ0MCwzMjBMMTM5MiwzMjBDMTM0NCwzMjAsMTI0OCwzMjAsMTE1MiwzMjBDMTA1NiwzMjAsOTYwLDMyMCw4NjQsMzIwQzc2OCwzMjAsNjcyLDMyMCw1NzYsMzIwQzQ4MCwzMjAsMzg0LDMyMCwyODgsMzIwQzE5MiwzMjAsOTYsMzIwLDQ4LDMyMEwwLDMyMFoiPjwvcGF0aD48L3N2Zz4=')] bg-cover animate-wave opacity-50" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
+                   <div className="absolute -top-12 left-0 right-0 h-12 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0iIzBlNzQ5MCIgZmlsbC1vcGFjaXR5PSIwLjUiIGQ9Ik0wLDE5Mkw0OCwxNzZDOTYsMTYwLDE5MiwxMjgsMjg4LDEzOC43QzM4NCwxNDksNDgwLDIwMyw1NzYsMjEzLjNDNjcyLDIyNCw3NjgsMTkyLDg2NCwxNzAuN0M5NjAsMTQ5LDEwNTYsMTM5MTE1MiwxNDRDMTI0OCwxNDksMTM0NCwxNzAsMTM5MiwxODAuN0wxNDQwLDE5MkwxNDQwLDMyMEwxMzkyLDMyMEMxMzQ0LDMyMCwxMjQ4LDMyMCwxMTUyLDMyMEMxMDU2LDMyMCw5NjAsMzIwLDg2NCwzMjBDNzY4LDMyMCw2NzIsMzIwLDU3NiwzMjBDNDgwLDMyMCwzODQsMzIwLDI4OCwzMjBDMTkyLDMyMCw5NiwzMjAsNDgsMzIwTDAsMzIwWiI+PC9wYXRoPjwvc3ZnPg==')] bg-cover animate-wave opacity-50" style={{ animationDuration: '3s', animationDirection: 'reverse' }}></div>
               </div>
 
               {/* Bubbles */}
@@ -568,7 +575,7 @@ export const TabHygiene: React.FC<any> = ({ state, updateHygiene, onBack }) => {
     );
 };
 
-export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExercise, updateCustomExercise, onBack }) => {
+export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExercise, updateCustomExercise, onBack, onOpenBreathwork }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const [newExName, setNewExName] = useState("");
     const [newExReps, setNewExReps] = useState(20);
@@ -624,6 +631,10 @@ export const TabFitness: React.FC<any> = ({ state, updatePushups, addCustomExerc
                         <span className="text-lg">+50</span>
                     </button>
             </div>
+            
+             <button onClick={onOpenBreathwork} className="w-full py-4 mt-2 rounded-[1.5rem] bg-cyan-900/20 border border-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center gap-2 hover:bg-cyan-900/40 active:scale-95 transition-all">
+                <Wind size={20} /> Breathwork Session
+            </button>
 
             {/* Quick Add Custom */}
              <div className="overflow-x-auto no-scrollbar flex gap-2 py-2">
@@ -833,7 +844,7 @@ export const TabQuran: React.FC<any> = ({ state, updatePart, onBack, themeOverri
   );
 };
 
-export const TabNight: React.FC<any> = ({ state, updateNight, onBack, themeOverride }) => {
+export const TabNight: React.FC<any> = ({ state, updateNight, updateJournal, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const streak = state.global.streaks.night;
     const themeColor = themeOverride || "indigo";
@@ -879,6 +890,18 @@ export const TabNight: React.FC<any> = ({ state, updateNight, onBack, themeOverr
                             icon={<Scroll size={20} />} 
                             isCompleted={state.daily.night.surahBaqarah} 
                             onClick={() => updateNight('surahBaqarah')} 
+                        />
+                    </div>
+
+                    <div className="glass-panel p-6 rounded-[2rem] border-white/5 mt-6 shadow-lg">
+                        <div className="flex items-center gap-2 mb-4 text-indigo-400 font-bold uppercase tracking-widest text-[10px]">
+                            <PenTool size={14} /> Gratitude Journal
+                        </div>
+                        <textarea 
+                            className="w-full h-32 bg-black/20 rounded-xl p-4 text-sm text-white placeholder:text-white/20 resize-none outline-none border border-white/10 focus:border-indigo-500/50 transition-colors"
+                            placeholder="Write 3 things you are grateful for today..."
+                            value={state.daily.journal || ""}
+                            onChange={(e) => updateJournal(e.target.value)}
                         />
                     </div>
                 </div>
@@ -970,9 +993,31 @@ export const TabMemorize: React.FC<any> = ({ state, markLearned, onBack, themeOv
 
 export const TabRamadan: React.FC<any> = ({ state, toggleRamadanDaily, updateRamadanStat, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
+    const [timeLeft, setTimeLeft] = useState("");
     const streak = state.global.streaks.ramadan;
     const day = Math.min(30, state.global.ramadanStats.fastsDone + 1);
     const themeColor = themeOverride || "purple";
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            const now = new Date();
+            const maghrib = new Date();
+            maghrib.setHours(18, 30, 0); // Simulated Maghrib
+            if (now > maghrib) {
+                // Count to Fajr (4:00 AM)
+                maghrib.setDate(maghrib.getDate() + 1);
+                maghrib.setHours(4, 0, 0);
+            }
+            
+            const diff = maghrib.getTime() - now.getTime();
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+        }, 1000);
+        return () => clearInterval(timer);
+    }, []);
 
     const tasks = [
         { key: 'suhoor', label: 'Suhoor', urdu: 'سحور', icon: <Sunrise size={20} /> },
@@ -993,6 +1038,12 @@ export const TabRamadan: React.FC<any> = ({ state, toggleRamadanDaily, updateRam
                 bgImage={RANK_IMAGES.RAMADAN} 
             />
             
+             <div className="glass-panel p-4 rounded-[2rem] border-purple-500/20 text-center mb-2 flex items-center justify-center gap-3">
+                 <Timer size={18} className="text-purple-400" />
+                 <span className="font-mono text-xl font-bold text-white">{timeLeft}</span>
+                 <span className="text-[10px] uppercase tracking-widest text-secondary">To Meal</span>
+             </div>
+
             <div className="space-y-3">
                 {tasks.map((t) => (
                     <TaskCard 
@@ -1028,8 +1079,83 @@ export const TabRamadan: React.FC<any> = ({ state, toggleRamadanDaily, updateRam
     );
 };
 
-export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exportData, importData, enterWidgetMode, buyFreeze, resetApp, requestNotify, onBack, buyTravelMode }) => {
-    const [showLifetime, setShowLifetime] = useState(false);
+export const TabNames99: React.FC<any> = ({ state, onBack, themeOverride }) => {
+    const todayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % NAMES_OF_ALLAH.length;
+    const themeColor = themeOverride || "teal";
+
+    return (
+        <TabWrapper themeColor={themeColor} subView="DAILY" setSubView={()=>{}} onBack={onBack} visualType="QURAN" hideSubNav>
+            <div className="space-y-4 animate-slide-up pb-10">
+                 <HeroCard 
+                    title="99 Names" 
+                    subtitle="Asma-ul-Husna" 
+                    stat={NAMES_OF_ALLAH.length} 
+                    statLabel="Total Names" 
+                    icon={<Sparkles size={14} />} 
+                    bgImage={RANK_IMAGES.QURAN} 
+                />
+
+                <div className={`glass-panel p-6 rounded-[2rem] border-${themeColor}-500/30 bg-${themeColor}-900/10 text-center relative overflow-hidden group mb-6`}>
+                    <div className="absolute inset-0 bg-white/5 animate-pulse-slow"></div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2 block">Name of the Day</span>
+                    <h2 className={`text-4xl font-serif text-${themeColor}-400 font-bold mb-1`}>{NAMES_OF_ALLAH[todayIndex].name}</h2>
+                    <p className="text-white text-lg font-medium">{NAMES_OF_ALLAH[todayIndex].meaning}</p>
+                    <p className="text-secondary text-xs mt-3 italic max-w-xs mx-auto">{NAMES_OF_ALLAH[todayIndex].desc}</p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                    {NAMES_OF_ALLAH.map((n, i) => (
+                        <div key={i} className={`p-4 rounded-2xl glass-panel border border-white/5 hover:border-${themeColor}-500/30 transition-all group active:scale-95`}>
+                            <div className="flex justify-between items-start">
+                                <span className={`text-[10px] font-bold opacity-50`}>#{i+1}</span>
+                            </div>
+                            <div className={`text-lg font-bold text-white mt-1 group-hover:text-${themeColor}-400`}>{n.name}</div>
+                            <div className="text-[10px] text-secondary font-medium">{n.meaning}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </TabWrapper>
+    );
+};
+
+export const TabBreathwork: React.FC<any> = ({ onBack }) => {
+    return (
+        <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center animate-fade-in" onClick={onBack}>
+             <button onClick={onBack} className="absolute top-8 right-8 text-white/50 hover:text-white"><X size={32} /></button>
+             
+             <div className="relative w-80 h-80 flex items-center justify-center">
+                 <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-[60px] animate-pulse"></div>
+                 {/* Breathing Circle */}
+                 <div className="w-40 h-40 bg-cyan-500 rounded-full animate-breathe flex items-center justify-center shadow-[0_0_50px_rgba(6,182,212,0.6)]">
+                    <span className="text-white font-bold text-xs uppercase tracking-widest animate-pulse">Breathe</span>
+                 </div>
+             </div>
+             
+             <div className="mt-12 text-center">
+                 <h2 className="text-2xl font-bold text-white mb-2">4-7-8 Breathing</h2>
+                 <p className="text-white/50 text-sm">Inhale for 4s, Hold for 7s, Exhale for 8s</p>
+             </div>
+        </div>
+    );
+};
+
+export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exportData, importData, enterWidgetMode, buyFreeze, resetApp, requestNotify, onBack, buyTravelMode, updateQada, setCustomColor }) => {
+    const [showLifetime, setShowLifetime] = useState(true);
+    const [qadaYears, setQadaYears] = useState("");
+
+    // Calculate totals
+    const totalPrayers = state.global.history.reduce((a:any,b:any) => a + b.prayers.filter((p:any)=>p.completed).length, 0) + state.daily.prayers.filter(p=>p.completed).length;
+    const totalDhikr = (state.global.history.reduce((a:any,d:any) => a + (d.dhikrAstaghfirullah + d.dhikrRabbiInni), 0)) + (state.daily.dhikrAstaghfirullah + state.daily.dhikrRabbiInni);
+    
+    const calculateQada = () => {
+        const y = parseInt(qadaYears) || 0;
+        // 5 prayers + Witr = 6 per day * 365
+        const total = y * 365 * 6;
+        if(total > 0 && confirm(`Add estimated ${total} prayers to your Qada Bank?`)) {
+            updateQada(total);
+        }
+    };
 
     const LifetimeStat = ({ label, value, color }: any) => (
         <div className="glass-panel p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
@@ -1038,18 +1164,12 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
         </div>
     );
 
-    // Calculate totals
-    const totalPrayers = state.global.history.reduce((a:any,b:any) => a + b.prayers.filter((p:any)=>p.completed).length, 0) + state.daily.prayers.filter(p=>p.completed).length;
-    const totalPushups = state.global.history.reduce((a:any,b:any) => a + b.fitness.pushups, 0) + state.daily.fitness.pushups;
-    const totalWater = Math.round((state.global.history.reduce((a:any,b:any) => a + b.hygiene.waterGlasses, 0) + state.daily.hygiene.waterGlasses) * 0.25);
-    const totalDhikr = (state.global.history.reduce((a:any,d:any) => a + (d.dhikrAstaghfirullah + d.dhikrRabbiInni), 0)) + (state.daily.dhikrAstaghfirullah + state.daily.dhikrRabbiInni);
-
     return (
-        <TabWrapper themeColor="slate" subView="DAILY" setSubView={() => {}} onBack={onBack}>
+        <TabWrapper themeColor="slate" subView="DAILY" setSubView={() => {}} onBack={onBack} hideSubNav>
         <div className="px-4 py-8 pb-32 space-y-8 animate-fade-in">
             <h2 className="text-3xl font-bold text-primary mb-6">Settings</h2>
             
-            {/* Lifetime Progress Tile (New & Expanded) */}
+            {/* Lifetime Progress Tile */}
             <div onClick={() => setShowLifetime(!showLifetime)} className="glass-panel p-6 rounded-[2rem] border-white/10 hover:border-white/20 transition-all cursor-pointer shadow-lg relative overflow-hidden group">
                  <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/10 rounded-full blur-[60px] group-hover:bg-indigo-500/20 transition-colors"></div>
                  <div className="relative z-10 flex justify-between items-center mb-2">
@@ -1057,29 +1177,38 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
                            <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400"><Trophy size={20} /></div>
                            <div>
                                <h3 className="text-lg font-bold text-white">Lifetime Legacy</h3>
-                               <p className="text-[10px] text-secondary uppercase tracking-wider">View All Progress</p>
+                               <p className="text-[10px] text-secondary uppercase tracking-wider">Accumulated Good Deeds</p>
                            </div>
                       </div>
                       <ChevronDown size={20} className={`text-secondary transition-transform duration-300 ${showLifetime ? 'rotate-180' : ''}`} />
                  </div>
                  
-                 {/* Expandable Stats Grid */}
                  <div className={`grid grid-cols-2 gap-3 mt-4 overflow-hidden transition-all duration-500 ${showLifetime ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <LifetimeStat label="Prayers" value={totalPrayers} color="emerald" />
+                      <LifetimeStat label="Prayers Offered" value={totalPrayers} color="emerald" />
                       <LifetimeStat label="Dhikr Count" value={totalDhikr} color="amber" />
-                      <LifetimeStat label="Pushups" value={totalPushups} color="orange" />
-                      <LifetimeStat label="Quran (Juz)" value={state.global.quransRecited * 30 + state.global.currentParah} color="purple" />
-                      <LifetimeStat label="Clean Streak" value={state.global.streaks.maxMdf} color="rose" />
-                      <LifetimeStat label="Water (L)" value={totalWater} color="cyan" />
+                      <LifetimeStat label="Qurans Completed" value={state.global.quransRecited} color="purple" />
                  </div>
             </div>
             
+            {/* Missed Prayer Calculator */}
+            <section className="space-y-4">
+                 <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Qada Calculator</h3>
+                 <div className="glass-panel p-4 rounded-2xl flex gap-3 items-center">
+                     <input type="number" placeholder="Years Missed" className="bg-transparent border-b border-white/10 text-white p-2 w-full outline-none font-mono" value={qadaYears} onChange={(e) => setQadaYears(e.target.value)} />
+                     <button onClick={calculateQada} className="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-red-500/30">Calculate</button>
+                 </div>
+            </section>
+
             <section className="space-y-4">
                 <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Appearance</h3>
                 <div className="grid grid-cols-3 gap-3">
                     {['AUTO', 'DAY', 'NIGHT'].map((m) => (
                         <button key={m} onClick={() => setTheme(m)} className={`py-4 rounded-2xl border text-[10px] font-bold transition-all ${state.global.theme === m ? 'bg-primary text-black border-transparent shadow-lg' : 'glass-panel text-secondary border-white/5 hover:bg-white/5'}`}>{m}</button>
                     ))}
+                </div>
+                <div className="glass-panel p-4 rounded-2xl flex items-center justify-between">
+                     <span className="text-xs font-bold text-white flex items-center gap-2"><Palette size={14} /> Custom Theme Color</span>
+                     <input type="color" className="w-8 h-8 rounded-full overflow-hidden border-none outline-none bg-transparent cursor-pointer" onChange={(e) => setCustomColor(e.target.value)} />
                 </div>
             </section>
 
@@ -1113,12 +1242,12 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
                 <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Data</h3>
                 <div className="grid grid-cols-2 gap-3">
                     <button onClick={exportData} className="py-6 rounded-[1.5rem] glass-panel border border-white/5 hover:bg-white/5 flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg">
-                        <Download size={24} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-bold text-primary">Backup Data</span>
+                        <Cloud size={24} className="text-emerald-400 group-hover:scale-110 transition-transform" />
+                        <span className="text-xs font-bold text-primary">Sync to Drive</span>
                     </button>
                     <button onClick={importData} className="py-6 rounded-[1.5rem] glass-panel border border-white/5 hover:bg-white/5 flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg">
-                        <Upload size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-bold text-primary">Restore Data</span>
+                        <Cloud size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
+                        <span className="text-xs font-bold text-primary">Sync to iCloud</span>
                     </button>
                 </div>
             </section>
@@ -1150,7 +1279,7 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
             
             <section className="pt-6">
                 <button onClick={resetApp} className="w-full py-4 border border-red-500/30 bg-red-500/5 text-red-500 rounded-2xl hover:bg-red-500/10 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"><Trash2 size={16} /> Reset All Progress</button>
-                <p className="text-center text-[9px] text-secondary mt-4 opacity-50">Zohaib Tracker v5.0 • Built with ❤️</p>
+                <p className="text-center text-[9px] text-secondary mt-4 opacity-50">Zohaib Tracker v5.5 • Built with ❤️</p>
             </section>
         </div>
         </TabWrapper>

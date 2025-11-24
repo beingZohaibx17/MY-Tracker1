@@ -1,8 +1,10 @@
 
 
 
+
+
 import * as React from 'react';
-import { Moon, Orbit, BookOpen, ShieldAlert, Dumbbell, Brain, Settings, Tent, LayoutGrid, Droplets, ShieldCheck, Scroll, BedDouble, Sparkles } from 'lucide-react';
+import { Moon, Orbit, BookOpen, ShieldAlert, Dumbbell, Brain, Settings, Tent, LayoutGrid, Droplets, ShieldCheck, Scroll, BedDouble, Sparkles, Star } from 'lucide-react';
 import { ViewState } from '../types';
 
 interface Props {
@@ -17,7 +19,7 @@ export const BottomNav: React.FC<Props> = ({ currentView, changeView, ramadanMod
     { id: ViewState.DASHBOARD, icon: <LayoutGrid size={22} />, label: 'Home' },
     { id: ViewState.SALAH, icon: <Moon size={22} />, label: 'Salah' },
     { id: ViewState.DHIKR, icon: <Orbit size={22} />, label: 'Dhikr' },
-    { id: ViewState.AI_CHAT, icon: <Sparkles size={22} />, label: 'Guide' }, // AI Chat
+    { id: ViewState.NAMES99, icon: <Star size={22} />, label: '99 Names' }, // New
     { id: ViewState.QURAN, icon: <BookOpen size={22} />, label: 'Quran' },
     { id: ViewState.HADEES, icon: <Scroll size={22} />, label: 'Hadees' },
     { id: ViewState.NIGHT, icon: <BedDouble size={22} />, label: 'Night' },
@@ -26,6 +28,7 @@ export const BottomNav: React.FC<Props> = ({ currentView, changeView, ramadanMod
     { id: ViewState.HABITS, icon: <ShieldCheck size={22} />, label: 'Detox' },
     { id: ViewState.MDF, icon: <ShieldAlert size={22} />, label: 'MDF' },
     { id: ViewState.MEMORIZE, icon: <Brain size={22} />, label: 'Learn' },
+    { id: ViewState.AI_CHAT, icon: <Sparkles size={22} />, label: 'Guide' }, 
   ];
   
   if (ramadanMode) {

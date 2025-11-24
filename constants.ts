@@ -1,16 +1,21 @@
 
 
+
 import { Achievement, Exercise } from './types';
 
 export const URDU_CONCEPTS = [
+  { urdu: "توکل", english: "Tawakkul (Trust)", description: "Complete reliance on God's plan." },
   { urdu: "صبر", english: "Sabr (Patience)", description: "Perseverance and persistence." },
   { urdu: "شکر", english: "Shukr (Gratitude)", description: "Thankfulness for Allah's blessings." },
-  { urdu: "توکل", english: "Tawakkul (Trust)", description: "Complete reliance on God's plan." },
   { urdu: "اخلاص", english: "Ikhlas (Sincerity)", description: "Purity of intention." },
   { urdu: "تقویٰ", english: "Taqwa (God-consciousness)", description: "Being mindful of the Divine." },
   { urdu: "احسان", english: "Ihsan (Excellence)", description: "Worshipping as if you see Him." },
   { urdu: "حیاء", english: "Haya (Modesty)", description: "Self-respect and humility." },
-  { urdu: "عاجزی", english: "Aajizi (Humility)", description: "Lowering oneself before the Truth." }
+  { urdu: "عاجزی", english: "Aajizi (Humility)", description: "Lowering oneself before the Truth." },
+  { urdu: "یقین", english: "Yaqeen (Certainty)", description: "Unshakeable belief." },
+  { urdu: "استغفار", english: "Istighfar (Repentance)", description: "Seeking forgiveness." },
+  { urdu: "ذکر", english: "Dhikr (Remembrance)", description: "Remembering Allah often." },
+  { urdu: "فکر", english: "Fikr (Reflection)", description: "Contemplating creation." }
 ];
 
 export const DUAS = [
@@ -53,90 +58,18 @@ export const CONGRATS_MESSAGES: Record<string, string[]> = {
 };
 
 export const TAB_MESSAGES: Record<string, string[]> = {
-  SALAH: [
-    "Prayer is the pillar of religion.", 
-    "Sujud is where the heart finds rest.",
-    "Delaying prayer delays success.",
-    "Fajr is your victory over sleep.",
-    "Make your Salah your refuge."
-  ],
-  DHIKR: [
-    "Keep your tongue moist with remembrance.",
-    "Dhikr is the polish of the heart.",
-    "Remember Me, I will remember you.",
-    "In the remembrance of Allah do hearts find rest.",
-    "The best wealth is a tongue that remembers Allah."
-  ],
-  QURAN: [
-    "The Quran is a proof for you or against you.",
-    "Recite beautifully, for it is the word of the King.",
-    "A heart without Quran is like a ruined house.",
-    "Quran is the best companion in the grave.",
-    "Read in the name of your Lord."
-  ],
-  FITNESS: [
-    "A strong believer is better than a weak believer.",
-    "Your body is an Amanah.",
-    "Health is a crown only the sick can see.",
-    "Discipline in body leads to discipline in soul.",
-    "Invest in your health for a longer worship life."
-  ],
-  HYGIENE: [
-    "Cleanliness is half of faith.",
-    "Purify yourself for the One who is Pure.",
-    "Wudu washes away sins.",
-    "Keep your environment clean like your heart.",
-    "Purity brings tranquility."
-  ],
-  MDF: [
-    "Guard your gaze, guard your heart.",
-    "Patience in avoiding sin is easier than the pain of regret.",
-    "Real strength is controlling your desires.",
-    "You are a warrior of light.",
-    "Flee from sin as you flee from fire."
-  ],
-  HABITS: [
-    "Change comes from small consistent steps.",
-    "Break the chains of bad habits today.",
-    "You are what you repeatedly do.",
-    "Self-control is the greatest victory.",
-    "Replace a bad habit with a good Sunnah."
-  ],
-  NIGHT: [
-    "The night prayer is the honor of the believer.",
-    "Sleep with Wudu, die as a martyr.",
-    "Review your day before you sleep.",
-    "Surah Mulk protects from the punishment of the grave.",
-    "Make your last words of the day remembrance."
-  ],
-  HADEES: [
-    "Seek knowledge from cradle to grave.",
-    "Whoever travels a path to knowledge, Allah makes the path to Jannah easy.",
-    "The scholars are the heirs of the Prophets.",
-    " Convey from me, even if it is one verse.",
-    "Wisdom is the lost property of the believer."
-  ],
-  MEMORIZE: [
-    "Fill your heart with the words of Allah.",
-    "Memorization preserves knowledge.",
-    "One Ayat learned is better than the world.",
-    "Keep the Quran close to your heart.",
-    "Review what you have learned."
-  ],
-  RAMADAN: [
-    "Ramadan is the month of mercy.",
-    "Fast with your eyes, ears, and tongue too.",
-    "The smell of a fasting person's mouth is musk to Allah.",
-    "Open the gates of Rayyan.",
-    "Taraweeh is the comfort of the night."
-  ],
-  AI_CHAT: [
-    "Ask and you shall learn.",
-    "Guidance is sought, then given.",
-    "Reflect on your day.",
-    "Seek beneficial knowledge.",
-    "A moment of reflection is better than a year of worship."
-  ]
+  SALAH: ["Prayer is the pillar of religion.", "Sujud is where the heart finds rest.", "Delaying prayer delays success.", "Fajr is your victory over sleep.", "Make your Salah your refuge."],
+  DHIKR: ["Keep your tongue moist with remembrance.", "Dhikr is the polish of the heart.", "Remember Me, I will remember you.", "In the remembrance of Allah do hearts find rest.", "The best wealth is a tongue that remembers Allah."],
+  QURAN: ["The Quran is a proof for you or against you.", "Recite beautifully, for it is the word of the King.", "A heart without Quran is like a ruined house.", "Quran is the best companion in the grave.", "Read in the name of your Lord."],
+  FITNESS: ["A strong believer is better than a weak believer.", "Your body is an Amanah.", "Health is a crown only the sick can see.", "Discipline in body leads to discipline in soul.", "Invest in your health for a longer worship life."],
+  HYGIENE: ["Cleanliness is half of faith.", "Purify yourself for the One who is Pure.", "Wudu washes away sins.", "Keep your environment clean like your heart.", "Purity brings tranquility."],
+  MDF: ["Guard your gaze, guard your heart.", "Patience in avoiding sin is easier than the pain of regret.", "Real strength is controlling your desires.", "You are a warrior of light.", "Flee from sin as you flee from fire."],
+  HABITS: ["Change comes from small consistent steps.", "Break the chains of bad habits today.", "You are what you repeatedly do.", "Self-control is the greatest victory.", "Replace a bad habit with a good Sunnah."],
+  NIGHT: ["The night prayer is the honor of the believer.", "Sleep with Wudu, die as a martyr.", "Review your day before you sleep.", "Surah Mulk protects from the punishment of the grave.", "Make your last words of the day remembrance."],
+  HADEES: ["Seek knowledge from cradle to grave.", "Whoever travels a path to knowledge, Allah makes the path to Jannah easy.", "The scholars are the heirs of the Prophets.", "Convey from me, even if it is one verse.", "Wisdom is the lost property of the believer."],
+  MEMORIZE: ["Fill your heart with the words of Allah.", "Memorization preserves knowledge.", "One Ayat learned is better than the world.", "Keep the Quran close to your heart.", "Review what you have learned."],
+  RAMADAN: ["Ramadan is the month of mercy.", "Fast with your eyes, ears, and tongue too.", "The smell of a fasting person's mouth is musk to Allah.", "Open the gates of Rayyan.", "Taraweeh is the comfort of the night."],
+  AI_CHAT: ["Ask and you shall learn.", "Guidance is sought, then given.", "Reflect on your day.", "Seek beneficial knowledge.", "A moment of reflection is better than a year of worship."]
 };
 
 export const PREDEFINED_DHIKR = [
@@ -176,23 +109,10 @@ export const QURAN_PART_LABELS = {
 };
 
 export const HADEES_COLLECTION = [
-  {
-    "Hadith": "اعمال کا دارومدار نیتوں پر ہے۔ (بخاری)",
-    "Explanation": "کسی بھی عمل (عبادت یا دنیاوی) کی قبولیت اور اجر کا انحصار اس کے پیچھے موجود خالص ارادے اور نیت پر ہوتا ہے۔"
-  },
-  {
-    "Hadith": "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے۔ (بخاری)",
-    "Explanation": "وہ شخص افضل ہے جو خود قرآن کی تعلیم حاصل کرے، اس کو سمجھے اور پھر دوسروں کو اس کے معانی اور احکام سکھائے۔"
-  },
-  // ... (Kept truncated for brevity, assuming original list exists)
-  {
-    "Hadith": "مسلمان وہ ہے جس کے ہاتھ اور زبان سے دوسرے مسلمان محفوظ رہیں۔ (بخاری)",
-    "Explanation": "حقیقی مسلمان کی اخلاقی پہچان یہ ہے کہ وہ کسی دوسرے کو جسمانی طور پر (ہاتھ سے) یا زبانی طور پر تکلیف نہ پہنچائے۔"
-  },
-  {
-    "Hadith": "عافیت مانگو، کیونکہ ایمان کے بعد عافیت سے بڑھ کر کوئی چیز نہیں دی گئی۔ (ترمذی)",
-    "Explanation": "اللہ سے دنیا اور آخرت کی عافیت (سکون، سلامتی، بیماری سے حفاظت) مانگنا سب سے افضل دعا ہے۔"
-  }
+  { "Hadith": "اعمال کا دارومدار نیتوں پر ہے۔ (بخاری)", "Explanation": "کسی بھی عمل (عبادت یا دنیاوی) کی قبولیت اور اجر کا انحصار اس کے پیچھے موجود خالص ارادے اور نیت پر ہوتا ہے۔" },
+  { "Hadith": "تم میں سے بہترین وہ ہے جو قرآن سیکھے اور سکھائے۔ (بخاری)", "Explanation": "وہ شخص افضل ہے جو خود قرآن کی تعلیم حاصل کرے، اس کو سمجھے اور پھر دوسروں کو اس کے معانی اور احکام سکھائے۔" },
+  { "Hadith": "مسلمان وہ ہے جس کے ہاتھ اور زبان سے دوسرے مسلمان محفوظ رہیں۔ (بخاری)", "Explanation": "حقیقی مسلمان کی اخلاقی پہچان یہ ہے کہ وہ کسی دوسرے کو جسمانی طور پر (ہاتھ سے) یا زبانی طور پر تکلیف نہ پہنچائے۔" },
+  { "Hadith": "عافیت مانگو، کیونکہ ایمان کے بعد عافیت سے بڑھ کر کوئی چیز نہیں دی گئی۔ (ترمذی)", "Explanation": "اللہ سے دنیا اور آخرت کی عافیت (سکون، سلامتی، بیماری سے حفاظت) مانگنا سب سے افضل دعا ہے۔" }
 ];
 
 export const MEMORIZE_CONTENT = [
@@ -200,12 +120,40 @@ export const MEMORIZE_CONTENT = [
     { arabic: "رَبِّ زِدْنِي عِلْمًا", english: "My Lord, increase me in knowledge." },
     { arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي", english: "O Allah, benefit me with what You have taught me." },
     { arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", english: "O Allah, help me to remember You, to thank You, and to worship You in the best of manners." },
-    { arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", english: "Our Lord! Give us in this world that which is good and in the Hereafter that which is good, and save us from the torment of the Fire!" },
-    { arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ", english: "O Allah, I seek refuge in You from anxiety and sorrow." },
-    { arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ", english: "O Turner of the hearts, keep my heart firm upon Your religion." },
-    { arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ", english: "Glory be to Allah and His is the praise, (and) Allah, the Greatest is free from imperfection." },
-    { arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ", english: "I seek forgiveness from Allah and repent to Him." },
-    { arabic: "لَا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ", english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers." }
+    { arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", english: "Our Lord! Give us in this world that which is good and in the Hereafter that which is good, and save us from the torment of the Fire!" }
+];
+
+export const NAMES_OF_ALLAH = [
+  { name: "Ar-Rahman", meaning: "The Most Gracious", desc: "He who wills goodness and mercy for all His creatures." },
+  { name: "Ar-Rahim", meaning: "The Most Merciful", desc: "He who acts with extreme kindness." },
+  { name: "Al-Malik", meaning: "The King", desc: "The Sovereign Lord, The One with the complete Dominion." },
+  { name: "Al-Quddus", meaning: "The Most Holy", desc: "The One who is pure from any imperfection." },
+  { name: "As-Salam", meaning: "The Peace", desc: "The One who is free from every imperfection and safety." },
+  { name: "Al-Mu'min", meaning: "The Guardian of Faith", desc: "The One who witnessed for Himself that no one is God but Him." },
+  { name: "Al-Muhaimin", meaning: "The Protector", desc: "The One who witnesses the saying and deeds of His creatures." },
+  { name: "Al-Aziz", meaning: "The Almighty", desc: "The Strong, The Defeater who is not defeated." },
+  { name: "Al-Jabbar", meaning: "The Compeller", desc: "The One that nothing happens in His Dominion except that which He willed." },
+  { name: "Al-Mutakabbir", meaning: "The Majestic", desc: "The One who is clear from the attributes of the creatures and from resembling them." },
+  { name: "Al-Khaliq", meaning: "The Creator", desc: "The One who brings everything from non-existence to existence." },
+  { name: "Al-Bari", meaning: "The Evolver", desc: "The Maker, The Creator who has the Power to turn the entities." },
+  { name: "Al-Musawwir", meaning: "The Fashioner", desc: "The One who forms His creatures in different pictures." },
+  { name: "Al-Ghaffar", meaning: "The Great Forgiver", desc: "The Forgiver, The One who forgives the sins of His slaves time and time again." },
+  { name: "Al-Qahhar", meaning: "The Subduer", desc: "The Dominant, The One who has the perfect Power and is not unable over anything." },
+  { name: "Al-Wahhab", meaning: "The Bestower", desc: "The One who is Generous in giving plenty without any return." },
+  { name: "Ar-Razzaq", meaning: "The Provider", desc: "The Sustainer, The Provider." },
+  { name: "Al-Fattah", meaning: "The Opener", desc: "The Opener, The Reliever, The Judge, The One who opens for His slaves the closed worldly and religious matters." },
+  { name: "Al-Alim", meaning: "The All-Knowing", desc: "The Knowledgeable; The One nothing is absent from His knowledge." },
+  { name: "Al-Qabid", meaning: "The Constrictor", desc: "The Constrictor, The Withholder, The One who constricts the sustenance." },
+  { name: "Al-Basit", meaning: "The Expander", desc: "The Expander, The Enlarger, The One who expands and widens." },
+  { name: "Al-Khafid", meaning: "The Abaser", desc: "The Abaser, The One who lowers whoever He willed by His Destruction." },
+  { name: "Ar-Rafi", meaning: "The Exalter", desc: "The Exalter, The Elevator, The One who raises whoever He willed." },
+  { name: "Al-Mu'izz", meaning: "The Honorer", desc: "He gives esteem to whoever He willed, hence there is no one to degrade Him." },
+  { name: "Al-Mudhill", meaning: "The Dishonorer", desc: "The One who degrades whoever He willed, hence there is no one to give Him esteem." },
+  { name: "As-Sami", meaning: "The All-Hearing", desc: "The Hearer, The One who Hears all things that are heard." },
+  { name: "Al-Basir", meaning: "The All-Seeing", desc: "The All-Noticing, The One who Sees all things that are seen." },
+  { name: "Al-Hakam", meaning: "The Judge", desc: "The Judge, He is the Ruler and His judgment is His Word." },
+  { name: "Al-Adl", meaning: "The Just", desc: "The One who is entitled to do what He does." },
+  { name: "Al-Latif", meaning: "The Subtle One", desc: "The Gentle, The One who is kind to His slaves and endows upon them." }
 ];
 
 export const getGrowthStage = (category: string, streak: number) => {
@@ -224,73 +172,58 @@ export const getGrowthStage = (category: string, streak: number) => {
     return { current: { label: 'Novice', threshold: 0, icon: '🌱' }, next: { label: 'Initiate', threshold: 7, icon: '🌿' } };
 };
 
-// --- MASSIVE ACHIEVEMENTS LIST (Expanded for 1,000,000 counts) ---
-const createMassiveAchievements = () => {
-  const categories = ['SALAH', 'DHIKR', 'FITNESS', 'QURAN', 'MDF', 'HYGIENE', 'HABITS', 'HADEES', 'NIGHT', 'MEMORIZE', 'RAMADAN'];
-  const baseAchievements: Achievement[] = [];
+// --- TASK SPECIFIC ACHIEVEMENTS (Replacing Generic Counters) ---
+const createTaskAchievements = () => {
+  const ach: Achievement[] = [];
+
+  // SALAH
+  ach.push({ id: 'salah_fajr_50', title: 'Fajr Warrior', description: 'Pray Fajr 50 times.', tier: 'SILVER', icon: '🌅', category: 'SALAH', metric: 'COUNT', value: 50 });
+  ach.push({ id: 'salah_isha_100', title: 'Night Owl', description: 'Pray Isha 100 times.', tier: 'GOLD', icon: '🌌', category: 'SALAH', metric: 'COUNT', value: 100 });
+  ach.push({ id: 'salah_jamaah_500', title: 'Community Pillar', description: 'Pray in Jamaah 500 times.', tier: 'PLATINUM', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 500 });
+  ach.push({ id: 'salah_tahajjud_10', title: 'The Vigilant', description: 'Pray Tahajjud 10 times.', tier: 'MYTHIC', icon: '🌙', category: 'SALAH', metric: 'COUNT', value: 10 });
   
-  categories.forEach(cat => {
-    const icon = { SALAH:'🤲', DHIKR:'📿', FITNESS:'💪', QURAN:'📖', MDF:'🛡️', HYGIENE:'🧼', HABITS:'🚭', HADEES:'📜', NIGHT:'🌙', MEMORIZE:'🧠', RAMADAN:'🕌' }[cat];
-    const unit = { SALAH:'Prayers', DHIKR:'Remembrances', FITNESS:'Reps', QURAN:'Verses/Parts', MDF:'Days Clean', HYGIENE:'Tasks', HABITS:'Clean Days', HADEES:'Read', NIGHT:'Tasks', MEMORIZE:'Duas', RAMADAN:'Fasts' }[cat];
-    
-    // Standard Count Milestones - Scaled up to 1 Million
-    // Using logarithmic steps to cover the range
-    const countSteps = [
-        10, 50, 100, 500, 
-        1000, 2500, 5000, 7500, 
-        10000, 25000, 50000, 75000, 
-        100000, 250000, 500000, 750000, 
-        1000000
-    ];
+  // DHIKR
+  ach.push({ id: 'dhikr_total_1000', title: 'Moist Tongue', description: 'Complete 1,000 Total Dhikr.', tier: 'BRONZE', icon: '📿', category: 'DHIKR', metric: 'COUNT', value: 1000 });
+  ach.push({ id: 'dhikr_total_10000', title: 'Remembrance', description: 'Complete 10,000 Total Dhikr.', tier: 'GOLD', icon: '✨', category: 'DHIKR', metric: 'COUNT', value: 10000 });
+  ach.push({ id: 'dhikr_completion_100', title: 'Consistency', description: 'Finish daily dhikr target 100 times.', tier: 'PLATINUM', icon: '🎯', category: 'DHIKR', metric: 'COUNT', value: 100 });
 
-    countSteps.forEach(val => {
-        let tier: Achievement['tier'] = 'BRONZE';
-        if (val >= 500) tier = 'SILVER';
-        if (val >= 5000) tier = 'GOLD';
-        if (val >= 25000) tier = 'PLATINUM';
-        if (val >= 100000) tier = 'DIAMOND';
-        if (val >= 500000) tier = 'TITAN';
-        if (val >= 1000000) tier = 'DIVINE';
-
-        baseAchievements.push({
-            id: `${cat.toLowerCase()}_total_${val}`,
-            title: `${cat} ${val >= 1000 ? (val/1000)+'k' : val}`,
-            description: `Reach ${val.toLocaleString()} total ${unit}.`,
-            tier: tier,
-            icon: icon || '🏆',
-            category: cat as any,
-            metric: 'COUNT',
-            value: val
-        });
-    });
-
-    // Massive Streak Milestones
-    const streakSteps = [3, 7, 14, 30, 60, 100, 200, 365, 500, 1000, 2000, 5000];
-    streakSteps.forEach(val => {
-        let tier: Achievement['tier'] = 'BRONZE';
-        if (val >= 30) tier = 'SILVER';
-        if (val >= 100) tier = 'GOLD';
-        if (val >= 365) tier = 'PLATINUM';
-        if (val >= 1000) tier = 'MYTHIC';
-        if (val >= 5000) tier = 'ETERNAL';
-
-        baseAchievements.push({
-            id: `${cat.toLowerCase()}_streak_${val}`,
-            title: `${cat} Streak ${val}`,
-            description: `Maintain a ${val} Day Streak.`,
-            tier: tier,
-            icon: '🔥',
-            category: cat as any,
-            metric: 'STREAK',
-            value: val
-        });
-    });
-  });
+  // QURAN
+  ach.push({ id: 'quran_juz_5', title: 'The Reader', description: 'Complete 5 Juz.', tier: 'SILVER', icon: '📖', category: 'QURAN', metric: 'VALUE', value: 5 });
+  ach.push({ id: 'quran_khatam_1', title: 'The Finisher', description: 'Complete 1 Quran Khatam.', tier: 'DIAMOND', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 1 });
   
-  return baseAchievements;
+  // FITNESS
+  ach.push({ id: 'fitness_pushups_1000', title: 'Iron Chest', description: 'Do 1,000 Total Pushups.', tier: 'GOLD', icon: '💪', category: 'FITNESS', metric: 'COUNT', value: 1000 });
+  ach.push({ id: 'fitness_total_5000', title: 'Spartan', description: 'Do 5,000 Total Reps of any exercise.', tier: 'TITAN', icon: '🛡️', category: 'FITNESS', metric: 'COUNT', value: 5000 });
+  
+  // HYGIENE
+  ach.push({ id: 'hygiene_water_100', title: 'Hydrated', description: 'Hit water goal 100 times.', tier: 'SILVER', icon: '💧', category: 'HYGIENE', metric: 'COUNT', value: 100 });
+  ach.push({ id: 'hygiene_total_500', title: 'Spotless', description: 'Complete 500 hygiene tasks.', tier: 'GOLD', icon: '🧼', category: 'HYGIENE', metric: 'COUNT', value: 500 });
+  
+  // HABITS
+  ach.push({ id: 'habits_streak_30', title: 'Detoxed', description: '30 Days Clean Streak.', tier: 'GOLD', icon: '🚭', category: 'HABITS', metric: 'STREAK', value: 30 });
+  ach.push({ id: 'habits_streak_100', title: 'Pure Lungs', description: '100 Days Clean Streak.', tier: 'DIAMOND', icon: '🌬️', category: 'HABITS', metric: 'STREAK', value: 100 });
+  
+  // RAMADAN
+  ach.push({ id: 'ramadan_fast_30', title: 'Rayyan', description: 'Fast 30 Days.', tier: 'PLATINUM', icon: '🚪', category: 'RAMADAN', metric: 'COUNT', value: 30 });
+  ach.push({ id: 'ramadan_taraweeh_20', title: 'Night Stand', description: 'Pray Taraweeh 20 times.', tier: 'GOLD', icon: '🌃', category: 'RAMADAN', metric: 'COUNT', value: 20 });
+  
+  // HADEES
+  ach.push({ id: 'hadees_total_50', title: 'Seeker', description: 'Read 50 Hadees.', tier: 'SILVER', icon: '📜', category: 'HADEES', metric: 'COUNT', value: 50 });
+  
+  // NIGHT
+  ach.push({ id: 'night_total_100', title: 'Protected', description: 'Complete Night Routine 100 times.', tier: 'GOLD', icon: '🛡️', category: 'NIGHT', metric: 'COUNT', value: 100 });
+
+  // NAMES99
+  ach.push({ id: 'names99_10', title: 'Student', description: 'Learn 10 Names of Allah.', tier: 'BRONZE', icon: '🧠', category: 'NAMES99', metric: 'VALUE', value: 10 });
+  ach.push({ id: 'names99_99', title: 'Hafiz of Names', description: 'Learn all 99 Names.', tier: 'DIVINE', icon: '👑', category: 'NAMES99', metric: 'VALUE', value: 99 });
+  
+  // MEMORIZE
+  ach.push({ id: 'memorize_5', title: 'Memorizer', description: 'Memorize 5 Duas.', tier: 'SILVER', icon: '🧠', category: 'MEMORIZE', metric: 'VALUE', value: 5 });
+
+  return ach;
 };
 
-export const MASTER_ACHIEVEMENTS: Achievement[] = createMassiveAchievements();
+export const MASTER_ACHIEVEMENTS: Achievement[] = createTaskAchievements();
 
 export const OFFLINE_AI_RESPONSES = [
     "Stay patient, for Allah is with the patient.",

@@ -1,4 +1,7 @@
 
+
+
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Atmosphere } from './components/Atmosphere';
@@ -212,7 +215,8 @@ const App: React.FC = () => {
   };
 
   const checkAchievements = (currentState: AppState) => {
-      const { streaks, xp, currentParah, ramadanStats, unlockedAchievements } = currentState.global;
+      if (!currentState || !currentState.global) return; // Safety Check
+      const { streaks, xp, currentParah, ramadanStats, unlockedAchievements, knowledge } = currentState.global;
       const unlocked = new Set(unlockedAchievements);
       const newUnlocks: string[] = [];
 
@@ -258,6 +262,9 @@ const App: React.FC = () => {
          if (id.includes('quran_juz')) return currentParah;
          if (id.includes('quran_khatam')) return currentState.global.quransRecited || 0;
          if (id.includes('memorize')) return currentState.global.memorizeProgress || 0;
+         if (id.includes('knowledge_janazah')) return knowledge?.janazah ? 1 : 0;
+         if (id.includes('knowledge_tibb')) return knowledge?.tibb ? 1 : 0;
+         if (id.includes('knowledge_word')) return knowledge?.surahsLearned?.length || 0;
          return 0;
       };
 
@@ -308,14 +315,15 @@ const App: React.FC = () => {
 
   const updateState = (updater: (prev: AppState) => AppState) => {
     setState(prev => {
+       if (!prev) return prev;
        const next = updater(prev);
-       next.daily.imanScore = calculateImanScore(next.daily);
+       if (next && next.daily) next.daily.imanScore = calculateImanScore(next.daily);
        return next;
     });
   };
 
   useEffect(() => {
-     if (!isLoading) {
+     if (!isLoading && state && state.global) {
          checkAchievements(state);
      }
   }, [
@@ -323,7 +331,8 @@ const App: React.FC = () => {
       state.daily.dhikrAstaghfirullah, 
       state.daily.fitness,
       state.global.streaks,
-      state.global.ramadanStats
+      state.global.ramadanStats,
+      state.global.knowledge 
   ]);
 
   const getDaysDiff = (d1: string, d2: string) => {
@@ -352,6 +361,7 @@ const App: React.FC = () => {
         if(typeof safeDaily.journal === 'undefined') safeDaily.journal = "";
         if(typeof safeGlobal.streaks.names99 === 'undefined') safeGlobal.streaks.names99 = 0;
         if(typeof safeGlobal.customColor === 'undefined') safeGlobal.customColor = null;
+        if(typeof safeGlobal.knowledge === 'undefined') safeGlobal.knowledge = { janazah: false, tibb: false, surahsLearned: [] };
 
         // Backwards compatibility logic
         if(typeof safeDaily.mood === 'undefined') safeDaily.mood = null;
@@ -403,7 +413,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && state && state.global) {
         const globalWithMax = { ...state.global, streaks: syncMaxStreaks(state.global.streaks) };
         localStorage.setItem('zohaib_tracker_v3', JSON.stringify({ daily: state.daily, global: globalWithMax }));
     }
@@ -415,13 +425,12 @@ const App: React.FC = () => {
        root.classList.remove('theme-day', 'theme-night');
        
        // Handle custom color builder
-       if (state.global.customColor) {
+       if (state && state.global && state.global.customColor) {
            root.style.setProperty('--glass-bg', `${state.global.customColor}10`); 
-           // We can dynamically inject styles here if needed for deeper customization
        }
 
-       if (state.global.theme === 'DAY') root.classList.add('theme-day');
-       else if (state.global.theme === 'NIGHT') root.classList.add('theme-night');
+       if (state && state.global && state.global.theme === 'DAY') root.classList.add('theme-day');
+       else if (state && state.global && state.global.theme === 'NIGHT') root.classList.add('theme-night');
        else {
          const hour = new Date().getHours();
          if (hour >= 7 && hour < 18) root.classList.add('theme-day');
@@ -765,7 +774,42 @@ const App: React.FC = () => {
     }));
   };
 
+  const handleToggleKnowledge = (type: 'janazah' | 'tibb' | 'wordQuran', surahId?: string) => {
+      playSound('success');
+      updateState(prev => {
+          // Ensure knowledge object exists to prevent undefined access
+          let knowledge = { ...(prev.global.knowledge || { janazah: false, tibb: false, surahsLearned: [] }) };
+          
+          if (type === 'wordQuran' && surahId) {
+             if (knowledge.surahsLearned.includes(surahId)) {
+                 // Already learned
+             } else {
+                 knowledge.surahsLearned = [...knowledge.surahsLearned, surahId];
+                 addToast(`Surah ${surahId} Learned! +50 XP`, 'success');
+                 showCongratulation('KNOWLEDGE');
+             }
+          } else {
+             if (type === 'janazah') {
+                 knowledge.janazah = !knowledge.janazah;
+                 if (knowledge.janazah) showCongratulation('KNOWLEDGE');
+             }
+             if (type === 'tibb') {
+                 knowledge.tibb = !knowledge.tibb;
+                 if (knowledge.tibb) showCongratulation('KNOWLEDGE');
+             }
+          }
+
+          return {
+              ...prev,
+              global: { ...prev.global, knowledge, xp: prev.global.xp + 50 }
+          };
+      });
+  };
+
   if (isLoading) return <LoadingScreen />;
+
+  // Ensure state is valid before rendering main app
+  if (!state || !state.global) return <LoadingScreen />;
 
   return (
     <>
@@ -806,9 +850,9 @@ const App: React.FC = () => {
           {view === ViewState.RAMADAN && <TabRamadan state={state} toggleRamadanDaily={handleRamadanDailyToggle} updateRamadanStat={handleRamadanStatUpdate} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.NAMES99 && <TabNames99 state={state} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.BREATHWORK && <TabBreathwork onBack={() => setView(ViewState.FITNESS)} />}
-          {view === ViewState.JANAZAH && <TabJanazah onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.TIBB && <TabTibb onBack={() => setView(ViewState.DASHBOARD)} />}
-          {view === ViewState.WORD_QURAN && <TabWordQuran onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.JANAZAH && <TabJanazah state={state} onToggleKnowledge={handleToggleKnowledge} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.TIBB && <TabTibb state={state} onToggleKnowledge={handleToggleKnowledge} onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.WORD_QURAN && <TabWordQuran state={state} onToggleKnowledge={handleToggleKnowledge} onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} setCustomColor={(c) => updateState(prev => ({...prev, global: {...prev.global, customColor: c}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} buyTravelMode={buyTravelMode} resetApp={hardReset} requestNotify={requestNotificationPermission} updateQada={(amt) => updateState(prev => ({ ...prev, global: { ...prev.global, qadaBank: Math.max(0, prev.global.qadaBank + amt) } }))} />}
         </div>
       )}

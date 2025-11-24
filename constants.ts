@@ -1,6 +1,4 @@
 
-
-
 import { Achievement, Exercise } from './types';
 
 export const URDU_CONCEPTS = [
@@ -43,18 +41,19 @@ export const DAILY_QUOTES = [
 ];
 
 export const CONGRATS_MESSAGES: Record<string, string[]> = {
-  SALAH: ["MashaAllah! A step closer to Jannah.", "Your Salah is your light.", "Keep it up, Allah loves consistency.", "Perfect! The angels are recording this."],
+  SALAH: ["MashaAllah! A step closer to Jannah.", "Your Salah is your light.", "Keep it up, Allah loves consistency.", "Perfect! The angels are recording this.", "Allah is proud of you."],
   DHIKR: ["The hearts find rest in this.", "A tongue moist with Dhikr is a treasure.", "SubhanAllah, excellent progress.", "You are remembered in the Heavens."],
   FITNESS: ["Strong believer, strong body!", "Excellent discipline.", "Your body is an Amanah, well kept.", "Powering through! MashaAllah."],
   HYGIENE: ["Cleanliness is half of Iman.", "Pure body, pure soul.", "Refreshing! Keep shining.", "Spotless and spiritual."],
   HABITS: ["Breaking chains, building freedom.", "Discipline is freedom.", "You are stronger than your desires.", "A victory for your soul."],
-  QURAN: ["The Quran is witnessing for you.", "Light upon light.", "Every letter is 10 rewards.", "Beautiful recitation."],
+  QURAN: ["The Quran is witnessing for you.", "Light upon light.", "Every letter is 10 rewards.", "Beautiful recitation.", "The Book of Allah is your companion."],
   MDF: ["Purity is power!", "Stay strong, you are doing amazing.", "Every clean day is a victory.", "Guard your heart."],
   HADEES: ["Knowledge is light.", "You have learned a wisdom of the Prophet (SAW).", "Apply this wisdom to your life.", "May Allah increase your knowledge."],
   NIGHT: ["Sleep like a believer.", "Angels protect you tonight.", "Sunnah before sleep is peace.", "Rest well, warrior."],
   MEMORIZE: ["Quran in the heart is a shield.", "MashaAllah, memory of a scholar!", "Keep preserving the words of Allah.", "Another Ayah, another rank in Jannah."],
   RAMADAN: ["May Allah accept your fast.", "Rayyan is calling.", "Patience in hunger, reward in Hereafter.", "Blessed month, blessed you."],
-  DEFAULT: ["Fantastic job!", "Keep going, Zohaib!", "Alhamdulillah for this success.", "Proud of your progress."]
+  KNOWLEDGE: ["Knowledge is the path to Paradise.", "May Allah increase you in beneficial knowledge.", "You are walking in the footsteps of scholars.", "Light upon Light.", "The angels lower their wings for the seeker of knowledge."],
+  DEFAULT: ["Fantastic job!", "Keep going, Zohaib!", "Alhamdulillah for this success.", "Proud of your progress.", "Every step counts."]
 };
 
 export const TAB_MESSAGES: Record<string, string[]> = {
@@ -69,7 +68,8 @@ export const TAB_MESSAGES: Record<string, string[]> = {
   HADEES: ["Seek knowledge from cradle to grave.", "Whoever travels a path to knowledge, Allah makes the path to Jannah easy.", "The scholars are the heirs of the Prophets.", "Convey from me, even if it is one verse.", "Wisdom is the lost property of the believer."],
   MEMORIZE: ["Fill your heart with the words of Allah.", "Memorization preserves knowledge.", "One Ayat learned is better than the world.", "Keep the Quran close to your heart.", "Review what you have learned."],
   RAMADAN: ["Ramadan is the month of mercy.", "Fast with your eyes, ears, and tongue too.", "The smell of a fasting person's mouth is musk to Allah.", "Open the gates of Rayyan.", "Taraweeh is the comfort of the night."],
-  AI_CHAT: ["Ask and you shall learn.", "Guidance is sought, then given.", "Reflect on your day.", "Seek beneficial knowledge.", "A moment of reflection is better than a year of worship."]
+  AI_CHAT: ["Ask and you shall learn.", "Guidance is sought, then given.", "Reflect on your day.", "Seek beneficial knowledge.", "A moment of reflection is better than a year of worship."],
+  KNOWLEDGE: ["Seek knowledge even if it is in China.", "The ink of the scholar is more holy than the blood of the martyr.", "Learn Janazah to fulfill your community duty.", "Prophetic medicine is the best medicine."]
 };
 
 export const PREDEFINED_DHIKR = [
@@ -92,7 +92,10 @@ export const PREDEFINED_WORKOUTS = [
     { name: "Situps", target: 50 },
     { name: "Squats", target: 40 },
     { name: "Plank (sec)", target: 60 },
-    { name: "Cobra Stretch", target: 1 }
+    { name: "Cobra Stretch", target: 1 },
+    { name: "Burpees", target: 15 },
+    { name: "Lunges", target: 20 },
+    { name: "Mountain Climbers", target: 30 }
 ];
 
 export const PARAH_NAMES_ARABIC = [
@@ -115,7 +118,9 @@ export const HADEES_COLLECTION = [
   { "Hadith": "عافیت مانگو، کیونکہ ایمان کے بعد عافیت سے بڑھ کر کوئی چیز نہیں دی گئی۔ (ترمذی)", "Explanation": "اللہ سے دنیا اور آخرت کی عافیت (سکون، سلامتی، بیماری سے حفاظت) مانگنا سب سے افضل دعا ہے۔" },
   { "Hadith": "اللہ اس شخص پر رحم نہیں کرتا جو لوگوں پر رحم نہیں کرتا۔ (بخاری)", "Explanation": "اللہ کی رحمت حاصل کرنے کے لیے ضروری ہے کہ انسان دوسروں کے ساتھ نرمی، محبت اور رحم کا معاملہ کرے۔" },
   { "Hadith": "صفائی نصف ایمان ہے۔ (مسلم)", "Explanation": "جسمانی اور روحانی پاکیزگی اسلام کا بنیادی جزو ہے اور یہ ایمان کی تکمیل کا ذریعہ ہے۔" },
-  { "Hadith": "غصہ مت کرو۔ (بخاری)", "Explanation": "نبی کریم ﷺ نے اس نصیحت کو بار بار دہرایا، کیونکہ غصہ انسان کی دنیا اور آخرت دونوں برباد کر سکتا ہے۔" }
+  { "Hadith": "غصہ مت کرو۔ (بخاری)", "Explanation": "نبی کریم ﷺ نے اس نصیحت کو بار بار دہرایا، کیونکہ غصہ انسان کی دنیا اور آخرت دونوں برباد کر سکتا ہے۔" },
+  { "Hadith": "مسکرا کر ملنا بھی صدقہ ہے۔ (ترمذی)", "Explanation": "کسی مسلمان بھائی سے خندہ پیشانی سے ملنا ایک نیکی اور صدقہ ہے۔" },
+  { "Hadith": "دعا مومن کا ہتھیار ہے۔ (الحاکم)", "Explanation": "دعا اللہ کی مدد حاصل کرنے کا سب سے بڑا ذریعہ ہے اور مصیبتوں سے بچاؤ کا ہتھیار ہے۔" }
 ];
 
 export const MEMORIZE_CONTENT = [
@@ -126,76 +131,207 @@ export const MEMORIZE_CONTENT = [
     { arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", english: "Our Lord! Give us in this world that which is good and in the Hereafter that which is good, and save us from the torment of the Fire!" }
 ];
 
+// FULL COMPLETE JANAZAH STEPS
+export const JANAZAH_STEPS = [
+    { 
+        step: 1, 
+        title: "Niyyah & 1st Takbeer", 
+        desc: "Make intention to pray for the deceased/Allah. Raise hands to ears saying 'Allahu Akbar', then fold them. Recite Thana (Subhanaka).", 
+        arabic: "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَجَلَّ ثَنَاؤُكَ وَلَا إِلَهَ غَيْرُكَ" 
+    },
+    { 
+        step: 2, 
+        title: "2nd Takbeer & Durood", 
+        desc: "Say 'Allahu Akbar' (do not raise hands). Recite Durood-e-Ibrahim (same as in Salah).", 
+        arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ..." 
+    },
+    { 
+        step: 3, 
+        title: "3rd Takbeer & Dua", 
+        desc: "Say 'Allahu Akbar'. Recite the specific Dua for the deceased (Adult Male/Female or Child).", 
+        arabic: "اللَّهُمَّ اغْفِرْ لِحَيِّنَا وَمَيِّتِنَا، وَشَاهِدِنَا وَغَائِبِنَا، وَصَغِيرِنَا وَكَبِيرِنَا، وَذَكَرِنَا وَأُنْثَانَا" 
+    },
+    { 
+        step: 4, 
+        title: "4th Takbeer & Salam", 
+        desc: "Say 'Allahu Akbar'. Pause slightly. Then turn head right saying Salam, then left saying Salam to end the prayer.", 
+        arabic: "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ" 
+    }
+];
+
+// EXTENSIVE WORD BY WORD QURAN DATA (Surah 93-114 + Fatiha + Ayatul Kursi)
 export const WORD_QURAN_DATA = {
     Fatiha: [
-        { word: "بِسْمِ", meaning: "In the name", grammar: "Preposition + Noun" },
-        { word: "ٱللَّهِ", meaning: "of Allah", grammar: "Proper Noun (Genitive)" },
+        { word: "بِسْمِ", meaning: "In the name", grammar: "Prep+Noun" },
+        { word: "ٱللَّهِ", meaning: "of Allah", grammar: "Proper Noun" },
         { word: "ٱلرَّحْمَـٰنِ", meaning: "the Most Gracious", grammar: "Adjective" },
         { word: "ٱلرَّحِيمِ", meaning: "the Most Merciful", grammar: "Adjective" },
         { word: "ٱلْحَمْدُ", meaning: "All Praise", grammar: "Noun" },
-        { word: "لِلَّهِ", meaning: "is for Allah", grammar: "Preposition + Proper Noun" },
+        { word: "لِلَّهِ", meaning: "is for Allah", grammar: "Prep+Noun" },
         { word: "رَبِّ", meaning: "Lord", grammar: "Noun" },
-        { word: "ٱلْعَـٰلَمِينَ", meaning: "of the worlds", grammar: "Noun (Plural)" }
+        { word: "ٱلْعَـٰلَمِينَ", meaning: "of the worlds", grammar: "Noun Plural" },
+        { word: "ٱلرَّحْمَـٰنِ", meaning: "The Most Gracious", grammar: "Adjective" },
+        { word: "ٱلرَّحِيمِ", meaning: "The Most Merciful", grammar: "Adjective" },
+        { word: "مَـٰلِكِ", meaning: "Master", grammar: "Noun" },
+        { word: "يَوْمِ", meaning: "of the Day", grammar: "Noun" },
+        { word: "ٱلدِّينِ", meaning: "of Judgment", grammar: "Noun" },
+        { word: "إِيَّاكَ", meaning: "You alone", grammar: "Pronoun" },
+        { word: "نَعْبُدُ", meaning: "we worship", grammar: "Verb" },
+        { word: "وَإِيَّاكَ", meaning: "and You alone", grammar: "Conj+Pronoun" },
+        { word: "نَسْتَعِينُ", meaning: "we ask for help", grammar: "Verb" },
+        { word: "ٱهْدِنَا", meaning: "Guide us", grammar: "Verb+Pronoun" },
+        { word: "ٱلصِّرَٰطَ", meaning: "to the path", grammar: "Noun" },
+        { word: "ٱلْمُسْتَقِيمَ", meaning: "the straight", grammar: "Adjective" }
     ],
-    Ikhlas: [
-        { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
-        { word: "هُوَ", meaning: "He is", grammar: "Pronoun" },
+    AyatulKursi: [
         { word: "ٱللَّهُ", meaning: "Allah", grammar: "Proper Noun" },
-        { word: "أَحَدٌ", meaning: "One", grammar: "Adjective" },
-        { word: "ٱللَّهُ", meaning: "Allah", grammar: "Proper Noun" },
-        { word: "ٱلصَّمَدُ", meaning: "The Eternal Refuge", grammar: "Adjective" },
-        { word: "لَمْ", meaning: "Not", grammar: "Particle" },
-        { word: "يَلِدْ", meaning: "Beget", grammar: "Verb" },
-        { word: "وَلَمْ", meaning: "And not", grammar: "Conjunction + Particle" },
-        { word: "يُولَدْ", meaning: "Begotten", grammar: "Passive Verb" }
+        { word: "لَآ", meaning: "There is no", grammar: "Particle" },
+        { word: "إِلَـٰهَ", meaning: "god", grammar: "Noun" },
+        { word: "إِلَّا", meaning: "except", grammar: "Particle" },
+        { word: "هُوَ", meaning: "Him", grammar: "Pronoun" },
+        { word: "ٱلْحَىُّ", meaning: "The Ever-Living", grammar: "Adjective" },
+        { word: "ٱلْقَيُّومُ", meaning: "The Sustainer", grammar: "Adjective" },
+        { word: "لَا", meaning: "Not", grammar: "Particle" },
+        { word: "تَأْخُذُهُۥ", meaning: "overtakes Him", grammar: "Verb+Pronoun" },
+        { word: "سِنَةٌ", meaning: "drowsiness", grammar: "Noun" },
+        { word: "وَلَا", meaning: "and not", grammar: "Conj+Part" },
+        { word: "نَوْمٌ", meaning: "sleep", grammar: "Noun" }
     ],
-    Falaq: [
-        { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
-        { word: "أَعُوذُ", meaning: "I seek refuge", grammar: "Verb" },
-        { word: "بِرَبِّ", meaning: "in the Lord", grammar: "Prep + Noun" },
-        { word: "ٱلْفَلَقِ", meaning: "of the daybreak", grammar: "Noun" },
-        { word: "مِن", meaning: "From", grammar: "Preposition" },
-        { word: "شَرِّ", meaning: "evil", grammar: "Noun" },
-        { word: "مَا", meaning: "of what", grammar: "Relative Pronoun" },
-        { word: "خَلَقَ", meaning: "He created", grammar: "Verb" }
+    Duha: [
+         { word: "وَٱلضُّحَىٰ", meaning: "By the morning brightness", grammar: "Part+Noun" },
+         { word: "وَٱلَّيْلِ", meaning: "And by the night", grammar: "Part+Noun" },
+         { word: "إِذَا", meaning: "When", grammar: "Particle" },
+         { word: "سَجَىٰ", meaning: "It covers with darkness", grammar: "Verb" },
+         { word: "مَا", meaning: "Not", grammar: "Particle" },
+         { word: "وَدَّعَكَ", meaning: "Forsaken you", grammar: "Verb+Pronoun" },
+         { word: "رَبُّكَ", meaning: "Your Lord", grammar: "Noun+Pronoun" },
+         { word: "وَمَا", meaning: "And not", grammar: "Conj+Part" },
+         { word: "قَلَىٰ", meaning: "Detested", grammar: "Verb" }
     ],
-    Nas: [
-         { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
-         { word: "أَعُوذُ", meaning: "I seek refuge", grammar: "Verb" },
-         { word: "بِرَبِّ", meaning: "in the Lord", grammar: "Prep + Noun" },
-         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" },
-         { word: "مَلِكِ", meaning: "The King", grammar: "Noun" },
-         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" }
+    Sharh: [
+         { word: "أَلَمْ", meaning: "Did not", grammar: "Particle" },
+         { word: "نَشْرَحْ", meaning: "We expand", grammar: "Verb" },
+         { word: "لَكَ", meaning: "For you", grammar: "Prep+Pronoun" },
+         { word: "صَدْرَكَ", meaning: "Your breast", grammar: "Noun+Pronoun" },
+         { word: "وَوَضَعْنَا", meaning: "And We removed", grammar: "Conj+Verb" },
+         { word: "عَنكَ", meaning: "From you", grammar: "Prep+Pronoun" },
+         { word: "وِزْرَكَ", meaning: "Your burden", grammar: "Noun+Pronoun" }
+    ],
+    Tin: [
+        { word: "وَٱلتِّينِ", meaning: "By the fig", grammar: "Part+Noun" },
+        { word: "وَٱلزَّيْتُونِ", meaning: "And the olive", grammar: "Part+Noun" },
+        { word: "وَطُورِ", meaning: "And Mount", grammar: "Part+Noun" },
+        { word: "سِينِينَ", meaning: "Sinai", grammar: "Proper Noun" },
+        { word: "وَهَـٰذَا", meaning: "And this", grammar: "Conj+Noun" },
+        { word: "ٱلْبَلَدِ", meaning: "City", grammar: "Noun" },
+        { word: "ٱلْأَمِينِ", meaning: "The Secure", grammar: "Adjective" }
+    ],
+    Alaq: [
+        { word: "ٱقْرَأْ", meaning: "Read", grammar: "Imp Verb" },
+        { word: "بِٱسْمِ", meaning: "In the name", grammar: "Prep+Noun" },
+        { word: "رَبِّكَ", meaning: "of your Lord", grammar: "Noun+Pronoun" },
+        { word: "ٱلَّذِى", meaning: "Who", grammar: "Rel Pronoun" },
+        { word: "خَلَقَ", meaning: "Created", grammar: "Verb" },
+        { word: "خَلَقَ", meaning: "Created", grammar: "Verb" },
+        { word: "ٱلْإِنسَـٰنَ", meaning: "Man", grammar: "Noun" },
+        { word: "مِنْ", meaning: "From", grammar: "Prep" },
+        { word: "عَلَقٍ", meaning: "A clot", grammar: "Noun" }
+    ],
+    Qadr: [
+        { word: "إِنَّآ", meaning: "Indeed We", grammar: "Part+Pronoun" },
+        { word: "أَنزَلْنَـٰهُ", meaning: "Sent it down", grammar: "Verb+Pronoun" },
+        { word: "فِى", meaning: "In", grammar: "Prep" },
+        { word: "لَيْلَةِ", meaning: "The Night", grammar: "Noun" },
+        { word: "ٱلْقَدْرِ", meaning: "of Decree", grammar: "Noun" }
+    ],
+    Bayyinah: [
+        { word: "لَمْ", meaning: "Did not", grammar: "Particle" },
+        { word: "يَكُنِ", meaning: "exist", grammar: "Verb" },
+        { word: "ٱلَّذِينَ", meaning: "Those who", grammar: "Rel Pronoun" },
+        { word: "كَفَرُوا۟", meaning: "Disbelieved", grammar: "Verb" },
+        { word: "مِنْ", meaning: "From", grammar: "Prep" },
+        { word: "أَهْلِ", meaning: "People", grammar: "Noun" },
+        { word: "ٱلْكِتَـٰبِ", meaning: "of the Book", grammar: "Noun" }
+    ],
+    Zalzalah: [
+        { word: "إِذَا", meaning: "When", grammar: "Particle" },
+        { word: "زُلْزِلَتِ", meaning: "is shaken", grammar: "Passive Verb" },
+        { word: "ٱلْأَرْضُ", meaning: "the earth", grammar: "Noun" },
+        { word: "زِلْزَالَهَا", meaning: "its earthquake", grammar: "Noun+Pronoun" }
+    ],
+    Adiyat: [
+        { word: "وَٱلْعَـٰدِيَـٰتِ", meaning: "By the racers", grammar: "Part+Noun" },
+        { word: "ضَبْحًۭا", meaning: "panting", grammar: "Adverb" },
+        { word: "فَٱلْمُورِيَـٰتِ", meaning: "And the producers of sparks", grammar: "Part+Noun" },
+        { word: "قَدْحًۭا", meaning: "striking", grammar: "Adverb" }
+    ],
+    Qariah: [
+        { word: "ٱلْقَارِعَةُ", meaning: "The Calamity", grammar: "Noun" },
+        { word: "مَا", meaning: "What is", grammar: "Particle" },
+        { word: "ٱلْقَارِعَةُ", meaning: "The Calamity", grammar: "Noun" }
+    ],
+    Takathur: [
+        { word: "أَلْهَىٰكُمُ", meaning: "Distracted you", grammar: "Verb+Pronoun" },
+        { word: "ٱلتَّكَاثُرُ", meaning: "Competition for increase", grammar: "Noun" },
+        { word: "حَتَّىٰ", meaning: "Until", grammar: "Particle" },
+        { word: "زُرْتُمُ", meaning: "You visit", grammar: "Verb+Pronoun" },
+        { word: "ٱلْمَقَابِرَ", meaning: "The graves", grammar: "Noun" }
     ],
     Asr: [
-        { word: "وَٱلْعَصْرِ", meaning: "By time", grammar: "Particle + Noun" },
+        { word: "وَٱلْعَصْرِ", meaning: "By time", grammar: "Part+Noun" },
         { word: "إِنَّ", meaning: "Indeed", grammar: "Particle" },
         { word: "ٱلْإِنسَـٰنَ", meaning: "Mankind", grammar: "Noun" },
-        { word: "لَفِى", meaning: "Is surely in", grammar: "Prep + Prep" },
-        { word: "خُسْرٍ", meaning: "Loss", grammar: "Noun" },
-        { word: "إِلَّا", meaning: "Except", grammar: "Particle" },
-        { word: "ٱلَّذِينَ", meaning: "Those who", grammar: "Relative Pronoun" },
-        { word: "ءَامَنُوا۟", meaning: "Believed", grammar: "Verb" }
+        { word: "لَفِى", meaning: "Is surely in", grammar: "Prep+Prep" },
+        { word: "خُسْرٍ", meaning: "Loss", grammar: "Noun" }
+    ],
+    Humazah: [
+        { word: "وَيْلٌ", meaning: "Woe", grammar: "Noun" },
+        { word: "لِّكُلِّ", meaning: "To every", grammar: "Prep+Noun" },
+        { word: "هُمَزَةٍ", meaning: "Scorner", grammar: "Noun" },
+        { word: "لُّمَزَةٍ", meaning: "Mocker", grammar: "Noun" }
+    ],
+    Fil: [
+        { word: "أَلَمْ", meaning: "Have not", grammar: "Particle" },
+        { word: "تَرَ", meaning: "you seen", grammar: "Verb" },
+        { word: "كَيْفَ", meaning: "how", grammar: "Particle" },
+        { word: "فَعَلَ", meaning: "dealt", grammar: "Verb" },
+        { word: "رَبُّكَ", meaning: "your Lord", grammar: "Noun+Pronoun" },
+        { word: "بِأَصْحَـٰبِ", meaning: "with the companions", grammar: "Prep+Noun" },
+        { word: "ٱلْفِيلِ", meaning: "of the Elephant", grammar: "Noun" }
+    ],
+    Quraish: [
+        { word: "لِإِيلَـٰفِ", meaning: "For the accustomed security", grammar: "Prep+Noun" },
+        { word: "قُرَيْشٍ", meaning: "of Quraish", grammar: "Proper Noun" },
+        { word: "إِۦلَـٰفِهِمْ", meaning: "Their accustomed security", grammar: "Noun+Pronoun" },
+        { word: "رِحْلَةَ", meaning: "journey", grammar: "Noun" },
+        { word: "ٱلشِّتَآءِ", meaning: "of winter", grammar: "Noun" },
+        { word: "وَٱلصَّيْفِ", meaning: "and summer", grammar: "Conj+Noun" }
+    ],
+    Maun: [
+        { word: "أَرَءَيْتَ", meaning: "Have you seen", grammar: "Verb+Pronoun" },
+        { word: "ٱلَّذِى", meaning: "the one who", grammar: "Rel Pronoun" },
+        { word: "يُكَذِّبُ", meaning: "denies", grammar: "Verb" },
+        { word: "بِٱلدِّينِ", meaning: "the Recompense", grammar: "Prep+Noun" },
+        { word: "فَذَٰلِكَ", meaning: "Then that", grammar: "Part+Pronoun" },
+        { word: "ٱلَّذِى", meaning: "is the one who", grammar: "Rel Pronoun" },
+        { word: "يَدُعُّ", meaning: "repulses", grammar: "Verb" },
+        { word: "ٱلْيَتِيمَ", meaning: "the orphan", grammar: "Noun" }
     ],
     Kauthar: [
-        { word: "إِنَّآ", meaning: "Indeed We", grammar: "Particle + Pronoun" },
-        { word: "أَعْطَيْنَـٰكَ", meaning: "We gave you", grammar: "Verb + Pronoun" },
+        { word: "إِنَّآ", meaning: "Indeed We", grammar: "Part+Pronoun" },
+        { word: "أَعْطَيْنَـٰكَ", meaning: "We gave you", grammar: "Verb+Pronoun" },
         { word: "ٱلْكَوْثَرَ", meaning: "The Abundance", grammar: "Noun" },
-        { word: "فَصَلِّ", meaning: "So pray", grammar: "Imperative Verb" },
-        { word: "لِرَبِّكَ", meaning: "To your Lord", grammar: "Prep + Noun" },
-        { word: "وَٱنْحَرْ", meaning: "And sacrifice", grammar: "Verb" },
-        { word: "إِنَّ", meaning: "Indeed", grammar: "Particle" },
-        { word: "شَانِئَكَ", meaning: "Your enemy", grammar: "Noun + Pronoun" },
-        { word: "هُوَ", meaning: "He is", grammar: "Pronoun" },
-        { word: "ٱلْأَبْتَرُ", meaning: "The cut off", grammar: "Noun" }
+        { word: "فَصَلِّ", meaning: "So pray", grammar: "Imp Verb" },
+        { word: "لِرَبِّكَ", meaning: "To your Lord", grammar: "Prep+Noun" },
+        { word: "وَٱنْحَرْ", meaning: "And sacrifice", grammar: "Verb" }
     ],
     Kafirun: [
-        { word: "قُلْ", meaning: "Say", grammar: "Imperative Verb" },
+        { word: "قُلْ", meaning: "Say", grammar: "Imp Verb" },
         { word: "يَـٰٓأَيُّهَا", meaning: "O", grammar: "Particle" },
         { word: "ٱلْكَـٰفِرُونَ", meaning: "Disbelievers", grammar: "Noun" },
         { word: "لَآ", meaning: "Not", grammar: "Particle" },
         { word: "أَعْبُدُ", meaning: "I worship", grammar: "Verb" },
-        { word: "مَا", meaning: "What", grammar: "Relative Pronoun" },
+        { word: "مَا", meaning: "What", grammar: "Rel Pronoun" },
         { word: "تَعْبُدُونَ", meaning: "You worship", grammar: "Verb" }
     ],
     Nasr: [
@@ -213,15 +349,61 @@ export const WORD_QURAN_DATA = {
         { word: "يَدَآ", meaning: "The hands", grammar: "Noun" },
         { word: "أَبِى", meaning: "of Abu", grammar: "Noun" },
         { word: "لَهَبٍ", meaning: "Lahab", grammar: "Proper Noun" },
-        { word: "وَتَبَّ", meaning: "And perish he", grammar: "Verb" },
-        { word: "مَآ", meaning: "Not", grammar: "Particle" },
-        { word: "أَغْنَىٰ", meaning: "Avail", grammar: "Verb" },
-        { word: "عَنْهُ", meaning: "Him", grammar: "Prep + Pronoun" },
-        { word: "مَالُهُۥ", meaning: "His wealth", grammar: "Noun + Pronoun" }
+        { word: "وَتَبَّ", meaning: "And perish he", grammar: "Verb" }
+    ],
+    Ikhlas: [
+        { word: "قُلْ", meaning: "Say", grammar: "Imp Verb" },
+        { word: "هُوَ", meaning: "He is", grammar: "Pronoun" },
+        { word: "ٱللَّهُ", meaning: "Allah", grammar: "Proper Noun" },
+        { word: "أَحَدٌ", meaning: "One", grammar: "Adjective" },
+        { word: "ٱللَّهُ", meaning: "Allah", grammar: "Proper Noun" },
+        { word: "ٱلصَّمَدُ", meaning: "The Eternal Refuge", grammar: "Adjective" },
+        { word: "لَمْ", meaning: "Did not", grammar: "Particle" },
+        { word: "يَلِدْ", meaning: "beget", grammar: "Verb" },
+        { word: "وَلَمْ", meaning: "and did not", grammar: "Conj+Part" },
+        { word: "يُولَدْ", meaning: "is begotten", grammar: "Passive Verb" },
+        { word: "وَلَمْ", meaning: "and is not", grammar: "Conj+Part" },
+        { word: "يَكُن", meaning: "there is", grammar: "Verb" },
+        { word: "لَّهُۥ", meaning: "for Him", grammar: "Prep+Pronoun" },
+        { word: "كُفُوًا", meaning: "equivalent", grammar: "Adjective" },
+        { word: "أَحَدٌۢ", meaning: "anyone", grammar: "Adjective" }
+    ],
+    Falaq: [
+        { word: "قُلْ", meaning: "Say", grammar: "Imp Verb" },
+        { word: "أَعُوذُ", meaning: "I seek refuge", grammar: "Verb" },
+        { word: "بِرَبِّ", meaning: "in the Lord", grammar: "Prep+Noun" },
+        { word: "ٱلْفَلَقِ", meaning: "of the daybreak", grammar: "Noun" },
+        { word: "مِن", meaning: "From", grammar: "Prep" },
+        { word: "شَرِّ", meaning: "evil", grammar: "Noun" },
+        { word: "مَا", meaning: "of what", grammar: "Rel Pronoun" },
+        { word: "خَلَقَ", meaning: "He created", grammar: "Verb" },
+        { word: "وَمِن", meaning: "And from", grammar: "Conj+Prep" },
+        { word: "شَرِّ", meaning: "evil", grammar: "Noun" },
+        { word: "غَاسِقٍ", meaning: "darkness", grammar: "Noun" },
+        { word: "إِذَا", meaning: "when", grammar: "Particle" },
+        { word: "وَقَبَ", meaning: "it settles", grammar: "Verb" }
+    ],
+    Nas: [
+         { word: "قُلْ", meaning: "Say", grammar: "Imp Verb" },
+         { word: "أَعُوذُ", meaning: "I seek refuge", grammar: "Verb" },
+         { word: "بِرَبِّ", meaning: "in the Lord", grammar: "Prep+Noun" },
+         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" },
+         { word: "مَلِكِ", meaning: "The King", grammar: "Noun" },
+         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" },
+         { word: "إِلَـٰهِ", meaning: "The God", grammar: "Noun" },
+         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" },
+         { word: "مِن", meaning: "From", grammar: "Prep" },
+         { word: "شَرِّ", meaning: "the evil", grammar: "Noun" },
+         { word: "ٱلْوَسْوَاسِ", meaning: "of the whisperer", grammar: "Noun" },
+         { word: "ٱلْخَنَّاسِ", meaning: "who withdraws", grammar: "Adjective" },
+         { word: "ٱلَّذِى", meaning: "The one who", grammar: "Rel Pronoun" },
+         { word: "يُوَسْوِسُ", meaning: "whispers", grammar: "Verb" },
+         { word: "فِى", meaning: "in", grammar: "Prep" },
+         { word: "صُدُورِ", meaning: "the breasts", grammar: "Noun" },
+         { word: "ٱلنَّاسِ", meaning: "of mankind", grammar: "Noun" }
     ]
 };
 
-// FULL 99 NAMES OF ALLAH (Truncated in previous file, ensuring full list here is consistent or handled by your existing setup. Using the previous full list.)
 export const NAMES_OF_ALLAH = [
   { name: "Ar-Rahman", meaning: "The Most Gracious", desc: "He who wills goodness and mercy for all His creatures." },
   { name: "Ar-Rahim", meaning: "The Most Merciful", desc: "He who acts with extreme kindness." },
@@ -323,6 +505,35 @@ export const NAMES_OF_ALLAH = [
   { name: "As-Sabur", meaning: "The Patient", desc: "The One who does not quickly punish the sinners." }
 ];
 
+export const TIBB_REMEDIES = [
+    { name: "Black Seed (Kalwanji)", desc: "Cure for everything except death.", usage: "Eat 7 seeds daily or use oil." },
+    { name: "Honey", desc: "Healing for mankind.", usage: "Mix with warm water." },
+    { name: "Olive Oil", desc: "From a blessed tree.", usage: "Consume or apply to skin." },
+    { name: "Talbina", desc: "Soothing for the sick heart.", usage: "Barley porridge with milk/honey." },
+    { name: "Cupping (Hijama)", desc: "Best of remedies.", usage: "Perform on Sunnah days (17, 19, 21)." },
+    { name: "Siwak (Miswak)", desc: "Purifies mouth, pleases Lord.", usage: "Use before every prayer." },
+    { name: "Zamzam", desc: "For whatever purpose it is drunk.", usage: "Drink with intention of cure." },
+    { name: "Ajwa Dates", desc: "Protection against poison and magic.", usage: "Eat 7 in the morning." },
+    { name: "Fig", desc: "Allah swears by the Fig in the Quran.", usage: "Eat fresh or dried for strength." },
+    { name: "Vinegar", desc: "An excellent condiment.", usage: "Use with food." },
+    { name: "Senna", desc: "A cure for everything except death.", usage: "Use as tea (laxative)." },
+    { name: "Watermelon", desc: "Prophet (SAW) ate it with dates.", usage: "Cooling effect." },
+    { name: "Truffles", desc: "Juice is a cure for the eyes.", usage: "Apply juice to eyes." }
+];
+
+export const OFFLINE_AI_RESPONSES = [
+    "Stay patient, for Allah is with the patient.",
+    "Remember that after hardship comes ease.",
+    "Make Wudu and pray two Rakat, it will calm your heart.",
+    "Verily, in the remembrance of Allah do hearts find rest.",
+    "Focus on your Salah, it is your connection to the Divine.",
+    "Do not despair of the mercy of Allah.",
+    "Consistency is key, even if the deed is small.",
+    "Your body has a right over you, take care of it.",
+    "Cleanliness is half of faith.",
+    "Trust in Allah's plan, He knows what is best for you."
+];
+
 export const getGrowthStage = (category: string, streak: number) => {
     const c = category.toUpperCase();
     const thresholds = [0, 7, 30, 100, 365, 1000, 5000, 10000, 50000];
@@ -379,41 +590,41 @@ const createTaskAchievements = () => {
   let ach: Achievement[] = [];
 
   // 1. SALAH (Streaks & Counts & Specifics)
-  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_streak', 'STREAK', [3, 7, 14, 21, 30, 40, 60, 90, 100, 200, 365, 500, 1000], '🕌', 'Salah Guardian', 'days of consecutive Salah.')];
-  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_total', 'COUNT', [50, 100, 500, 1000, 2000, 5000, 10000], '🤲', 'Devout Servant', 'total prayers.')];
-  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_jamaah', 'COUNT', [10, 50, 100, 500, 1000], '👥', 'Community Pillar', 'prayers in Jamaah.')];
-  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_fajr', 'COUNT', [5, 20, 50, 100, 365], '🌅', 'Dawn Warrior', 'Fajr prayers.')];
-  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_isha', 'COUNT', [5, 20, 50, 100, 365], '🌌', 'Night Watchman', 'Isha prayers.')];
-  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_tahajjud', 'COUNT', [1, 5, 10, 50, 100], '🌠', 'The Vigilant', 'Tahajjud prayers.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_streak', 'STREAK', [3, 7, 14, 21, 30, 40, 60, 90, 100, 200, 365, 500, 1000, 2000, 3000, 5000], '🕌', 'Salah Guardian', 'days of consecutive Salah.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_total', 'COUNT', [50, 100, 500, 1000, 2000, 5000, 10000, 20000, 50000], '🤲', 'Devout Servant', 'total prayers.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_jamaah', 'COUNT', [10, 50, 100, 500, 1000, 2500, 5000], '👥', 'Community Pillar', 'prayers in Jamaah.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_fajr', 'COUNT', [5, 20, 50, 100, 365, 1000], '🌅', 'Dawn Warrior', 'Fajr prayers.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_isha', 'COUNT', [5, 20, 50, 100, 365, 1000], '🌌', 'Night Watchman', 'Isha prayers.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_tahajjud', 'COUNT', [1, 5, 10, 50, 100, 365], '🌠', 'The Vigilant', 'Tahajjud prayers.')];
 
   // 2. MDF (Streaks)
   ach = [...ach, ...generateTieredAchievements('MDF', 'mdf_streak', 'STREAK', [1, 3, 5, 7, 10, 14, 21, 30, 40, 50, 60, 75, 90, 100, 120, 150, 180, 200, 250, 300, 365, 400, 500, 600, 700, 800, 900, 1000], '🛡️', 'Purity Warrior', 'days free from relapse.')];
 
   // 3. DHIKR (Counts)
-  ach = [...ach, ...generateTieredAchievements('DHIKR', 'dhikr_total', 'COUNT', [100, 500, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000], '📿', 'Remembrance', 'total dhikr recitations.')];
+  ach = [...ach, ...generateTieredAchievements('DHIKR', 'dhikr_total', 'COUNT', [100, 500, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000, 5000000], '📿', 'Remembrance', 'total dhikr recitations.')];
 
   // 4. QURAN (Parts & Khatams)
-  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_streak', 'STREAK', [3, 7, 14, 30, 60, 100, 365], '📖', 'Quran Companion', 'days reading Quran.')];
+  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_streak', 'STREAK', [3, 7, 14, 30, 60, 100, 365, 500, 1000], '📖', 'Quran Companion', 'days reading Quran.')];
   ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_juz', 'VALUE', [1, 2, 5, 10, 15, 20, 25, 30], '📚', 'Juz Master', 'Juz completed.')];
-  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_khatam', 'VALUE', [1, 5, 10, 20], '🏅', 'Khatam Master', 'Qurans completed.')];
+  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_khatam', 'VALUE', [1, 5, 10, 20, 50, 100], '🏅', 'Khatam Master', 'Qurans completed.')];
   
   // 5. FITNESS (Pushups/Count)
-  ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_total', 'COUNT', [100, 500, 1000, 2500, 5000, 10000, 25000, 50000], '💪', 'Iron Body', 'total reps/pushups.')];
-  ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_streak', 'STREAK', [3, 7, 14, 30, 60, 90, 180, 365], '⚡', 'Discipline', 'days of working out.')];
+  ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_total', 'COUNT', [100, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000], '💪', 'Iron Body', 'total reps/pushups.')];
+  ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_streak', 'STREAK', [3, 7, 14, 30, 60, 90, 180, 365, 500, 1000], '⚡', 'Discipline', 'days of working out.')];
 
   // 6. HYGIENE (Water & Tasks)
-  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_streak', 'STREAK', [3, 7, 14, 30, 50, 100], '🧼', 'Pure Soul', 'days of perfect hygiene.')];
-  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_water', 'COUNT', [50, 100, 200, 500, 1000], '💧', 'Hydrated', 'days hitting water goal.')];
-  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_total', 'COUNT', [100, 500, 1000, 5000], '✨', 'Cleanliness Master', 'hygiene tasks.')];
+  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_streak', 'STREAK', [3, 7, 14, 30, 50, 100, 200, 365], '🧼', 'Pure Soul', 'days of perfect hygiene.')];
+  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_water', 'COUNT', [50, 100, 200, 500, 1000, 2000], '💧', 'Hydrated', 'days hitting water goal.')];
+  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_total', 'COUNT', [100, 500, 1000, 5000, 10000], '✨', 'Cleanliness Master', 'hygiene tasks.')];
 
   // 7. HABITS (Streaks)
-  ach = [...ach, ...generateTieredAchievements('HABITS', 'habits_streak', 'STREAK', [3, 7, 14, 21, 30, 60, 90, 120, 150, 365], '🚭', 'Chain Breaker', 'days habit free.')];
+  ach = [...ach, ...generateTieredAchievements('HABITS', 'habits_streak', 'STREAK', [3, 7, 14, 21, 30, 60, 90, 120, 150, 365, 500, 1000], '🚭', 'Chain Breaker', 'days habit free.')];
 
   // 8. HADEES (Read Count)
-  ach = [...ach, ...generateTieredAchievements('HADEES', 'hadees_total', 'COUNT', [10, 50, 100, 200, 300, 500], '📜', 'Seeker of Wisdom', 'Hadith read.')];
+  ach = [...ach, ...generateTieredAchievements('HADEES', 'hadees_total', 'COUNT', [10, 50, 100, 200, 300, 500, 1000], '📜', 'Seeker of Wisdom', 'Hadith read.')];
 
   // 9. NIGHT (Routine Count)
-  ach = [...ach, ...generateTieredAchievements('NIGHT', 'night_total', 'COUNT', [7, 14, 30, 50, 100, 365], '🌙', 'Night Guardian', 'nights completing routine.')];
+  ach = [...ach, ...generateTieredAchievements('NIGHT', 'night_total', 'COUNT', [7, 14, 30, 50, 100, 365, 500, 1000], '🌙', 'Night Guardian', 'nights completing routine.')];
 
   // 10. NAMES99 (Count)
   ach = [...ach, ...generateTieredAchievements('NAMES99', 'names99_total', 'COUNT', [10, 25, 50, 75, 99], '✨', 'Knower of Allah', 'Names learned.')];
@@ -423,49 +634,14 @@ const createTaskAchievements = () => {
   ach = [...ach, ...generateTieredAchievements('RAMADAN', 'ramadan_taraweeh', 'COUNT', [1, 5, 10, 20, 30], '🕌', 'Night Prayer', 'Taraweeh prayers.')];
 
   // 12. MEMORIZE (Duas)
-  ach = [...ach, ...generateTieredAchievements('MEMORIZE', 'memorize_total', 'VALUE', [1, 5, 10, 20, 50], '🧠', 'Hafiz', 'Duas memorized.')];
+  ach = [...ach, ...generateTieredAchievements('MEMORIZE', 'memorize_total', 'VALUE', [1, 5, 10, 20, 50, 100], '🧠', 'Hafiz', 'Duas memorized.')];
+
+  // 13. KNOWLEDGE (New Category)
+  ach.push({ id: 'knowledge_janazah', title: 'Funeral Guide', description: 'Learn the Janazah prayer steps', tier: 'SILVER', icon: '⚰️', category: 'KNOWLEDGE', metric: 'VALUE', value: 1 });
+  ach.push({ id: 'knowledge_tibb', title: 'Prophetic Healer', description: 'Study Tibb-e-Nabawi remedies', tier: 'SILVER', icon: '🌿', category: 'KNOWLEDGE', metric: 'VALUE', value: 1 });
+  ach = [...ach, ...generateTieredAchievements('KNOWLEDGE', 'knowledge_word', 'VALUE', [1, 5, 10, 20, 25], '📖', 'Linguist', 'Surahs studied word-by-word.')];
 
   return ach;
 };
 
 export const MASTER_ACHIEVEMENTS: Achievement[] = createTaskAchievements();
-
-export const OFFLINE_AI_RESPONSES = [
-    "Stay patient, for Allah is with the patient.",
-    "Remember that after hardship comes ease.",
-    "Make Wudu and pray two Rakat, it will calm your heart.",
-    "Verily, in the remembrance of Allah do hearts find rest.",
-    "Focus on your Salah, it is your connection to the Divine.",
-    "Do not despair of the mercy of Allah.",
-    "Consistency is key, even if the deed is small.",
-    "Your body has a right over you, take care of it.",
-    "Cleanliness is half of faith.",
-    "Trust in Allah's plan, He knows what is best for you."
-];
-
-// --- NEW DATA FOR TIBB & JANAZAH ---
-
-export const JANAZAH_STEPS = [
-    { step: 1, title: "Intention (Niyyah)", desc: "Make intention to pray for the deceased.", arabic: "نويت ان اصلي..." },
-    { step: 2, title: "First Takbeer", desc: "Say Allahu Akbar and recite Thana.", arabic: "سُبْحَانَكَ اللَّهُمَّ..." },
-    { step: 3, title: "Second Takbeer", desc: "Say Allahu Akbar and recite Durood-e-Ibrahim.", arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ..." },
-    { step: 4, title: "Third Takbeer", desc: "Say Allahu Akbar and recite Dua for deceased.", arabic: "اللَّهُمَّ اغْفِرْ لِحَيِّنَا..." },
-    { step: 5, title: "Fourth Takbeer", desc: "Say Allahu Akbar, pause, then Tasleem (Salam).", arabic: "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ" }
-];
-
-export const TIBB_REMEDIES = [
-    { name: "Black Seed (Kalwanji)", desc: "Cure for everything except death.", usage: "Eat 7 seeds daily or use oil." },
-    { name: "Honey", desc: "Healing for mankind.", usage: "Mix with warm water." },
-    { name: "Olive Oil", desc: "From a blessed tree.", usage: "Consume or apply to skin." },
-    { name: "Talbina", desc: "Soothing for the sick heart.", usage: "Barley porridge with milk/honey." },
-    { name: "Cupping (Hijama)", desc: "Best of remedies.", usage: "Perform on Sunnah days (17, 19, 21)." },
-    { name: "Siwak (Miswak)", desc: "Purifies mouth, pleases Lord.", usage: "Use before every prayer." },
-    { name: "Zamzam", desc: "For whatever purpose it is drunk.", usage: "Drink with intention of cure." },
-    { name: "Ajwa Dates", desc: "Protection against poison and magic.", usage: "Eat 7 in the morning." },
-    { name: "Fig", desc: "Allah swears by the Fig in the Quran.", usage: "Eat fresh or dried for strength." },
-    { name: "Vinegar", desc: "An excellent condiment.", usage: "Use with food." },
-    { name: "Senna", desc: "A cure for everything except death.", usage: "Use as tea (laxative)." },
-    { name: "Watermelon", desc: "Prophet (SAW) ate it with dates.", usage: "Cooling effect." },
-    { name: "Truffles", desc: "Juice is a cure for the eyes.", usage: "Apply juice to eyes." }
-];
-

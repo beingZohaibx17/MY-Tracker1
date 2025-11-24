@@ -1,11 +1,14 @@
 
 
+
+
+
 import React, { useState, useEffect } from 'react';
 import { AppState, SubView, Exercise, ViewState } from '../types';
 import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH, JANAZAH_STEPS, TIBB_REMEDIES, WORD_QURAN_DATA } from '../constants';
 import { BarChart } from './Charts';
 import { 
-  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind, Printer, Leaf, Languages, Hourglass, Save, FileUp
+  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind, Printer, Leaf, Languages, Hourglass, Save, FileUp, GraduationCap, Settings
 } from 'lucide-react';
 
 // High-Quality Unsplash Images (Dark & Moody Aesthetics) - UPDATED
@@ -394,6 +397,7 @@ const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, get
     );
 }
 
+// ... existing exports ...
 export const TabDhikr: React.FC<any> = ({ state, updateDhikr, addCustomDhikr, onBack, themeOverride }) => {
     const [subView, setSubView] = useState<SubView>('DAILY');
     const [showAddModal, setShowAddModal] = useState(false);
@@ -560,7 +564,7 @@ export const TabHygiene: React.FC<any> = ({ state, updateHygiene, onBack }) => {
                 className="absolute bottom-0 left-0 right-0 bg-cyan-500/70 transition-all duration-1000 ease-in-out z-10"
                 style={{ height: `${progressPercent}%` }}
               >
-                 <div className="absolute -top-12 left-0 right-0 h-12 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0iIzA2YjZkNCIgZmlsbC1vcGFjaXR5PSIwLjciIGQ9Ik0wLDk2TDQ4LDExMkM5NiwxMjgsMTkyLDE2MCwyODgsMTYwQzM4NCwxNjAsNDgwLDEyOCw1NzYsMTEyQzY3Miw5Niw3NjgsOTYsODY0LDExMkM5NjAsMTI4LDEwNTYsMTYwLDExNTIsMTYwQzEyNDgsMTYwLDEzNDQsMTI4LDEzOTIsMTEyTDE0NDAsOTZMMTQ0MCwzMjBMMTM5MiwzMjBDMTM0NCwzMjAsMTI0OCwzMjAsMTE1MiwzMjBDMTA1NiwzMjAsOTYwLDMyMCw4NjQsMzIwQzc2OCwzMjAsNjcyLDMyMCw1NzYsMzIwQzQ4MCwzMjAsMzg0LDMyMCwyODgsMzIwQzE5MiwzMjAsOTYsMzIwLDQ4LDMyMEwwLDMyMFoiPjwvcGF0aD48L3N2Zz4=')] bg-cover animate-wave opacity-80"></div>
+                 <div className="absolute -top-12 left-0 right-0 h-12 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNDQwIDMyMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0iIzA2YjZkNCIgZmlsbC1vcGFjaXR5PSIwLjciIGQ9Ik0wLDk2TDQ4LDExMkM5NiwxMjgsMTkyLDE2MCwyODgsMTYwQzM4NCwxNjAsNDgwLDE2OCw1NzYsMTEyQzY3Miw5Niw3NjgsOTYsODY0LDExMkM5NjAsMTI4LDEwNTYsMTYwLDExNTIsMTYwQzEyNDgsMTYwLDEzNDQsMTI4LDEzOTIsMTEyTDE0NDAsOTZMMTQ0MCwzMjBMMTM5WiwzMjBDMTM0NCwzMjAsMTI0OCwzMjAsMTE1MiwzMjBDMTA1NiwzMjAsOTYwLDMyMCw4NjQsMzIwQzc2OCwzMjAsNjcyLDMyMCw1NzYsMzIwQzQ4MCwzMjAsMzg0LDMyMCwyODgsMzIwQzE5MiwzMjAsOTYsMzIwLDQ4LDMyMEwwLDMyMFoiPjwvcGF0aD48L3N2Zz4=')] bg-cover animate-wave opacity-80"></div>
               </div>
               
               {/* Back Wave (Darker) */}
@@ -1161,7 +1165,7 @@ export const TabNames99: React.FC<any> = ({ state, onBack, themeOverride }) => {
     );
 };
 
-export const TabJanazah: React.FC<any> = ({ onBack }) => (
+export const TabJanazah: React.FC<any> = ({ state, onBack, onToggleKnowledge }) => (
     <TabWrapper themeColor="slate" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
         <div className="space-y-4 animate-slide-up pb-10">
             <HeroCard 
@@ -1183,11 +1187,19 @@ export const TabJanazah: React.FC<any> = ({ onBack }) => (
                      </div>
                 ))}
             </div>
+
+            <button 
+                onClick={() => onToggleKnowledge('janazah')}
+                className={`w-full py-4 mt-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all ${state?.global?.knowledge?.janazah ? 'bg-emerald-500 text-white' : 'bg-slate-800 text-slate-400'}`}
+            >
+                {state?.global?.knowledge?.janazah ? <CheckCircle2 size={18} /> : <GraduationCap size={18} />}
+                {state?.global?.knowledge?.janazah ? 'Learned' : 'Mark as Learned'}
+            </button>
         </div>
     </TabWrapper>
 );
 
-export const TabTibb: React.FC<any> = ({ onBack }) => (
+export const TabTibb: React.FC<any> = ({ state, onBack, onToggleKnowledge }) => (
     <TabWrapper themeColor="emerald" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
         <div className="space-y-4 animate-slide-up pb-10">
              <HeroCard 
@@ -1211,15 +1223,24 @@ export const TabTibb: React.FC<any> = ({ onBack }) => (
                     </div>
                 ))}
             </div>
+
+            <button 
+                onClick={() => onToggleKnowledge('tibb')}
+                className={`w-full py-4 mt-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all ${state?.global?.knowledge?.tibb ? 'bg-emerald-500 text-white' : 'bg-emerald-900/20 text-emerald-400 border border-emerald-500/20'}`}
+            >
+                {state?.global?.knowledge?.tibb ? <CheckCircle2 size={18} /> : <GraduationCap size={18} />}
+                {state?.global?.knowledge?.tibb ? 'Learned' : 'Mark as Learned'}
+            </button>
         </div>
     </TabWrapper>
 );
 
-export const TabWordQuran: React.FC<any> = ({ onBack }) => {
+export const TabWordQuran: React.FC<any> = ({ state, onBack, onToggleKnowledge }) => {
     const [selectedSurah, setSelectedSurah] = useState('Fatiha');
     const [selectedWord, setSelectedWord] = useState<any>(null);
     const surahKeys = Object.keys(WORD_QURAN_DATA);
     const currentWords = WORD_QURAN_DATA[selectedSurah as keyof typeof WORD_QURAN_DATA];
+    const isLearned = state?.global?.knowledge?.surahsLearned?.includes(selectedSurah);
 
     return (
         <TabWrapper themeColor="teal" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
@@ -1270,223 +1291,138 @@ export const TabWordQuran: React.FC<any> = ({ onBack }) => {
                          <div className="text-center text-secondary">Tap a word above to see details</div>
                      )}
                 </div>
+
+                 <button 
+                    onClick={() => onToggleKnowledge('wordQuran', selectedSurah)}
+                    className={`w-full py-4 mt-4 rounded-2xl font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all ${isLearned ? 'bg-teal-500 text-white' : 'bg-teal-900/20 text-teal-400 border border-teal-500/20'}`}
+                >
+                    {isLearned ? <CheckCircle2 size={18} /> : <GraduationCap size={18} />}
+                    {isLearned ? 'Completed' : 'Mark Surah as Learned'}
+                </button>
             </div>
         </TabWrapper>
     );
 };
 
 export const TabBreathwork: React.FC<any> = ({ onBack }) => {
-    return (
-        <div className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center animate-fade-in" onClick={onBack}>
-             <button onClick={onBack} className="absolute top-8 right-8 text-white/50 hover:text-white"><X size={32} /></button>
-             
-             <div className="relative w-80 h-80 flex items-center justify-center">
-                 <div className="absolute inset-0 bg-cyan-500/20 rounded-full blur-[60px] animate-pulse"></div>
-                 {/* Breathing Circle */}
-                 <div className="w-40 h-40 bg-cyan-500 rounded-full animate-breathe flex items-center justify-center shadow-[0_0_50px_rgba(6,182,212,0.6)]">
-                    <span className="text-white font-bold text-xs uppercase tracking-widest animate-pulse">Breathe</span>
-                 </div>
-             </div>
-             
-             <div className="mt-12 text-center">
-                 <h2 className="text-2xl font-bold text-white mb-2">4-7-8 Breathing</h2>
-                 <p className="text-white/50 text-sm">Inhale for 4s, Hold for 7s, Exhale for 8s</p>
-             </div>
-        </div>
-    );
-};
-
-// --- SETTINGS WITH LEGACY PDF ---
-export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exportData, importData, enterWidgetMode, buyFreeze, resetApp, requestNotify, onBack, buyTravelMode, updateQada, setCustomColor }) => {
-    const [showLifetime, setShowLifetime] = useState(true);
-    const [qadaYears, setQadaYears] = useState("");
-    const [showCertificate, setShowCertificate] = useState(false);
-
-    // Calculate totals
-    const totalPrayers = (state.global.history || []).reduce((a:any,b:any) => a + (b.prayers?.filter((p:any)=>p.completed).length || 0), 0) + (state.daily.prayers?.filter(p=>p.completed).length || 0);
-    const totalDhikr = ((state.global.history || []).reduce((a:any,d:any) => a + (d.dhikrAstaghfirullah || 0) + (d.dhikrRabbiInni || 0), 0)) + (state.daily.dhikrAstaghfirullah || 0) + (state.daily.dhikrRabbiInni || 0);
+    const [phase, setPhase] = useState<'Inhale' | 'Hold' | 'Exhale'>('Inhale');
     
-    const calculateQada = () => {
-        const y = parseInt(qadaYears) || 0;
-        const total = y * 365 * 6;
-        if(total > 0 && confirm(`Add estimated ${total} prayers to your Qada Bank?`)) {
-            updateQada(total);
-        }
-    };
-
-    const LifetimeStat = ({ label, value, color }: any) => (
-        <div className="glass-panel p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
-            <span className={`text-[9px] font-bold uppercase tracking-widest text-${color}-400 mb-1`}>{label}</span>
-            <span className="text-2xl font-mono font-bold text-white">{value.toLocaleString()}</span>
-        </div>
-    );
-
-    if (showCertificate) {
-        return (
-            <div className="fixed inset-0 z-[200] bg-white text-black p-8 overflow-y-auto animate-fade-in flex flex-col items-center">
-                 <button onClick={() => setShowCertificate(false)} className="fixed top-4 right-4 p-2 bg-black text-white rounded-full no-print"><X/></button>
-                 <button onClick={() => window.print()} className="fixed top-4 left-4 p-2 bg-blue-600 text-white rounded-full no-print flex gap-2 items-center px-4"><Printer size={16}/> Print</button>
-                 
-                 <div className="max-w-3xl w-full border-8 border-double border-emerald-800 p-10 text-center mt-10 relative">
-                      <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
-                      <h1 className="text-5xl font-serif font-bold text-emerald-900 mb-2">Certificate of Legacy</h1>
-                      <p className="text-xl text-emerald-700 italic mb-8">This certifies the spiritual journey of</p>
-                      
-                      <h2 className="text-6xl font-black text-black mb-8 underline decoration-emerald-500">{state.global.name}</h2>
-                      
-                      <div className="grid grid-cols-2 gap-8 mb-12 text-left">
-                           <div className="border-b-2 border-emerald-100 pb-2">
-                               <span className="text-xs uppercase tracking-widest text-emerald-600">Prayers Offered</span>
-                               <div className="text-3xl font-bold">{totalPrayers}</div>
-                           </div>
-                           <div className="border-b-2 border-emerald-100 pb-2">
-                               <span className="text-xs uppercase tracking-widest text-emerald-600">Dhikr Recited</span>
-                               <div className="text-3xl font-bold">{totalDhikr}</div>
-                           </div>
-                           <div className="border-b-2 border-emerald-100 pb-2">
-                               <span className="text-xs uppercase tracking-widest text-emerald-600">Qurans Finished</span>
-                               <div className="text-3xl font-bold">{state.global.quransRecited}</div>
-                           </div>
-                           <div className="border-b-2 border-emerald-100 pb-2">
-                               <span className="text-xs uppercase tracking-widest text-emerald-600">Clean Streak</span>
-                               <div className="text-3xl font-bold">{state.global.streaks.mdf} Days</div>
-                           </div>
-                      </div>
-                      
-                      <div className="flex justify-between items-end mt-20">
-                          <div className="text-left">
-                              <div className="w-40 h-px bg-black mb-2"></div>
-                              <p className="text-xs uppercase">Date</p>
-                              <p className="font-bold">{new Date().toLocaleDateString()}</p>
-                          </div>
-                          <div className="text-right">
-                              <div className="text-4xl font-serif text-emerald-800 opacity-20">Zohaib Tracker</div>
-                          </div>
-                      </div>
-                 </div>
-            </div>
-        );
-    }
+    useEffect(() => {
+        const interval = setInterval(() => {
+             setPhase(p => {
+                 if (p === 'Inhale') return 'Hold';
+                 if (p === 'Hold') return 'Exhale';
+                 return 'Inhale';
+             });
+        }, 4000); 
+        return () => clearInterval(interval);
+    }, []);
 
     return (
-        <TabWrapper themeColor="slate" subView="DAILY" setSubView={() => {}} onBack={onBack} hideSubNav>
-        <div className="px-4 py-8 pb-32 space-y-8 animate-fade-in">
-            <h2 className="text-3xl font-bold text-primary mb-6">Settings</h2>
-            
-            {/* Lifetime Progress Tile */}
-            <div onClick={() => setShowLifetime(!showLifetime)} className="glass-panel p-6 rounded-[2rem] border-white/10 hover:border-white/20 transition-all cursor-pointer shadow-lg relative overflow-hidden group">
-                 <div className="absolute top-0 right-0 w-40 h-40 bg-indigo-500/10 rounded-full blur-[60px] group-hover:bg-indigo-500/20 transition-colors"></div>
-                 <div className="relative z-10 flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-3">
-                           <div className="p-3 bg-indigo-500/20 rounded-xl text-indigo-400"><Trophy size={20} /></div>
-                           <div>
-                               <h3 className="text-lg font-bold text-white">Lifetime Legacy</h3>
-                               <p className="text-[10px] text-secondary uppercase tracking-wider">Accumulated Good Deeds</p>
-                           </div>
-                      </div>
-                      <ChevronDown size={20} className={`text-secondary transition-transform duration-300 ${showLifetime ? 'rotate-180' : ''}`} />
-                 </div>
-                 
-                 <div className={`grid grid-cols-2 gap-3 mt-4 overflow-hidden transition-all duration-500 ${showLifetime ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <LifetimeStat label="Prayers Offered" value={totalPrayers} color="emerald" />
-                      <LifetimeStat label="Dhikr Count" value={totalDhikr} color="amber" />
-                      <LifetimeStat label="Qurans Completed" value={state.global.quransRecited} color="purple" />
-                      <button onClick={() => setShowCertificate(true)} className="col-span-2 mt-2 py-3 bg-white/10 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white/20">Generate Certificate</button>
-                 </div>
-            </div>
-            
-            {/* Missed Prayer Calculator */}
-            <section className="space-y-4">
-                 <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Qada Calculator</h3>
-                 <div className="glass-panel p-4 rounded-2xl flex gap-3 items-center">
-                     <input type="number" placeholder="Years Missed" className="bg-transparent border-b border-white/10 text-white p-2 w-full outline-none font-mono" value={qadaYears} onChange={(e) => setQadaYears(e.target.value)} />
-                     <button onClick={calculateQada} className="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-red-500/30">Calculate</button>
-                 </div>
-            </section>
-
-            <section className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Appearance</h3>
-                <div className="grid grid-cols-3 gap-3">
-                    {['AUTO', 'DAY', 'NIGHT'].map((m) => (
-                        <button key={m} onClick={() => setTheme(m)} className={`py-4 rounded-2xl border text-[10px] font-bold transition-all ${state.global.theme === m ? 'bg-primary text-black border-transparent shadow-lg' : 'glass-panel text-secondary border-white/5 hover:bg-white/5'}`}>{m}</button>
-                    ))}
-                </div>
-                <div className="glass-panel p-4 rounded-2xl flex items-center justify-between">
-                     <span className="text-xs font-bold text-white flex items-center gap-2"><Palette size={14} /> Custom Theme Color</span>
-                     <input type="color" className="w-8 h-8 rounded-full overflow-hidden border-none outline-none bg-transparent cursor-pointer" onChange={(e) => setCustomColor(e.target.value)} />
-                </div>
-            </section>
-
-             <section className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Store</h3>
-                
-                <div onClick={buyFreeze} className="glass-panel p-4 rounded-2xl flex items-center justify-between cursor-pointer border border-transparent hover:border-blue-500/20 transition-all shadow-md active:scale-95">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-500/20 rounded-xl text-blue-400"><Snowflake size={18} /></div>
-                        <div>
-                            <div className="text-sm font-bold text-primary">Streak Freeze</div>
-                            <div className="text-[10px] text-secondary">Protect 1 missed day</div>
-                        </div>
-                    </div>
-                    <div className="text-[10px] font-bold bg-white/10 px-3 py-1 rounded-lg text-white">500 XP</div>
-                </div>
-
-                <div onClick={buyTravelMode} className="glass-panel p-4 rounded-2xl flex items-center justify-between cursor-pointer border border-transparent hover:border-emerald-500/20 transition-all shadow-md active:scale-95">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-emerald-500/20 rounded-xl text-emerald-400"><ShieldCheck size={18} /></div>
-                        <div>
-                            <div className="text-sm font-bold text-primary">Travel/Sick Mode</div>
-                            <div className="text-[10px] text-secondary">7 Days Protection</div>
-                        </div>
-                    </div>
-                    <div className="text-[10px] font-bold bg-white/10 px-3 py-1 rounded-lg text-white">2000 XP</div>
-                </div>
-            </section>
-
-            <section className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Data</h3>
-                <div className="grid grid-cols-2 gap-3">
-                    <button onClick={exportData} className="py-6 rounded-[1.5rem] glass-panel border border-white/5 hover:bg-white/5 flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg">
-                        <Save size={24} className="text-emerald-400 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-bold text-primary">Backup (File)</span>
-                    </button>
-                    <button onClick={importData} className="py-6 rounded-[1.5rem] glass-panel border border-white/5 hover:bg-white/5 flex flex-col items-center justify-center gap-2 group transition-all active:scale-95 shadow-lg">
-                        <FileUp size={24} className="text-blue-400 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-bold text-primary">Restore (File)</span>
-                    </button>
-                </div>
-            </section>
-
-            <section className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest border-b border-primary/5 pb-2">Features</h3>
-                <div onClick={toggleRamadan} className="glass-panel p-4 rounded-2xl flex items-center justify-between cursor-pointer border border-transparent hover:border-purple-500/20 transition-all shadow-md active:scale-95">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-purple-500/20 rounded-xl text-purple-400"><Tent size={18} /></div>
-                        <div>
-                            <div className="text-sm font-bold text-primary">Ramadan Mode</div>
-                            <div className="text-[10px] text-secondary">Enable special tracking</div>
-                        </div>
-                    </div>
-                    <div className={`w-12 h-7 rounded-full p-1 transition-colors ${state.global.ramadanMode ? 'bg-purple-500' : 'bg-secondary/20'}`}><div className={`w-5 h-5 bg-white rounded-full transition-transform shadow ${state.global.ramadanMode ? 'translate-x-5' : ''}`} /></div>
-                </div>
-
-                <div onClick={requestNotify} className="glass-panel p-4 rounded-2xl flex items-center justify-between cursor-pointer border border-transparent hover:border-blue-500/20 transition-all shadow-md active:scale-95">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-500/20 rounded-xl text-blue-400"><Bell size={18} /></div>
-                        <div>
-                            <div className="text-sm font-bold text-primary">Notifications</div>
-                            <div className="text-[10px] text-secondary">Enable 3x Daily reminders</div>
-                        </div>
-                    </div>
-                    <div className="w-12 h-7 rounded-full bg-secondary/20 p-1"><div className="w-5 h-5 bg-white/50 rounded-full" /></div>
-                </div>
-            </section>
-            
-            <section className="pt-6">
-                <button onClick={resetApp} className="w-full py-4 border border-red-500/30 bg-red-500/5 text-red-500 rounded-2xl hover:bg-red-500/10 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-all"><Trash2 size={16} /> Reset All Progress</button>
-                <p className="text-center text-[9px] text-secondary mt-4 opacity-50">Zohaib Tracker v5.5 • Built with ❤️</p>
-            </section>
+        <div className="fixed inset-0 z-[150] bg-black flex flex-col items-center justify-center animate-fade-in">
+             <button onClick={onBack} className="absolute top-8 left-6 p-4 rounded-full bg-white/10 border border-white/10 text-white z-50 hover:bg-white/20 transition-all active:scale-95"><ChevronLeft size={24} /></button>
+             
+             <div className="relative flex flex-col items-center justify-center">
+                  <div className={`text-5xl font-serif font-bold text-cyan-400 mb-12 animate-float transition-all duration-500 ${phase === 'Hold' ? 'scale-110' : 'scale-100'}`}>{phase}</div>
+                  
+                  <div className="relative w-72 h-72 flex items-center justify-center">
+                       {/* Outer Glow */}
+                       <div className={`absolute inset-0 bg-cyan-500/30 rounded-full blur-[60px] transition-all duration-[4000ms] ease-in-out ${phase === 'Inhale' ? 'scale-125 opacity-100' : 'scale-75 opacity-40'}`}></div>
+                       
+                       {/* Main Circle */}
+                       <div className={`w-48 h-48 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full transition-all duration-[4000ms] ease-in-out shadow-2xl flex items-center justify-center relative z-10 ${phase === 'Inhale' ? 'scale-150' : 'scale-75'}`}>
+                           <div className="absolute inset-0 bg-white/20 rounded-full animate-pulse"></div>
+                       </div>
+                       
+                       {/* Orbiting Particles */}
+                       <div className={`absolute inset-0 animate-spin-slow transition-all duration-[4000ms] ${phase === 'Inhale' ? 'scale-110' : 'scale-50'}`}>
+                           <div className="absolute top-0 left-1/2 w-4 h-4 bg-white rounded-full blur-sm"></div>
+                           <div className="absolute bottom-0 left-1/2 w-4 h-4 bg-white rounded-full blur-sm"></div>
+                           <div className="absolute left-0 top-1/2 w-4 h-4 bg-white rounded-full blur-sm"></div>
+                           <div className="absolute right-0 top-1/2 w-4 h-4 bg-white rounded-full blur-sm"></div>
+                       </div>
+                  </div>
+                  
+                  <p className="text-white/40 text-sm tracking-[0.3em] uppercase mt-12 font-bold animate-pulse">Relax & Focus</p>
+             </div>
         </div>
-        </TabWrapper>
     );
 };
+
+export const TabSettings: React.FC<any> = ({ state, setTheme, setCustomColor, toggleRamadan, exportData, importData, enterWidgetMode, onBack, buyFreeze, buyTravelMode, resetApp, requestNotify, updateQada }) => {
+    const THEME_PRESETS = ['emerald', 'cyan', 'rose', 'amber', 'purple', 'blue'];
+    const COLOR_MAP: Record<string, string> = {
+        emerald: '#10b981',
+        cyan: '#06b6d4',
+        rose: '#f43f5e',
+        amber: '#f59e0b',
+        purple: '#a855f7',
+        blue: '#3b82f6'
+    };
+    
+    return (
+        <TabWrapper themeColor="slate" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
+            <div className="space-y-6 animate-slide-up pb-24">
+                 <HeroCard 
+                    title="Settings" 
+                    subtitle="Control Center" 
+                    stat={state?.global?.level || 1} 
+                    statLabel="Your Level" 
+                    icon={<Settings size={14} />} 
+                    bgImage={RANK_IMAGES.NIGHT} 
+                />
+                
+                {/* Shop Section */}
+                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest pl-2">Shop & Items</h3>
+                <div className="grid grid-cols-2 gap-3">
+                    <button onClick={buyFreeze} className="glass-panel p-5 rounded-[2rem] border-cyan-500/20 bg-cyan-900/10 text-left hover:bg-cyan-900/20 transition-all active:scale-95 group">
+                         <div className="flex justify-between items-start mb-2">
+                             <Snowflake size={24} className="text-cyan-400 group-hover:rotate-12 transition-transform" />
+                             <span className="text-[10px] font-bold bg-cyan-500/20 text-cyan-300 px-2 py-1 rounded-md">500 XP</span>
+                         </div>
+                         <h4 className="font-bold text-white text-sm">Streak Freeze</h4>
+                         <p className="text-[10px] text-secondary mt-1">Protect your streak for 1 day.</p>
+                         <div className="mt-3 text-[10px] font-bold text-white/50">Owned: {state?.global?.streakFreezes || 0}</div>
+                    </button>
+                    
+                    <button onClick={buyTravelMode} className="glass-panel p-5 rounded-[2rem] border-purple-500/20 bg-purple-900/10 text-left hover:bg-purple-900/20 transition-all active:scale-95 group">
+                         <div className="flex justify-between items-start mb-2">
+                             <ShieldCheck size={24} className="text-purple-400 group-hover:scale-110 transition-transform" />
+                             <span className="text-[10px] font-bold bg-purple-500/20 text-purple-300 px-2 py-1 rounded-md">2000 XP</span>
+                         </div>
+                         <h4 className="font-bold text-white text-sm">Travel Mode</h4>
+                         <p className="text-[10px] text-secondary mt-1">Pause streaks for 7 days.</p>
+                         <div className="mt-3 text-[10px] font-bold text-white/50">{state?.global?.freezeModeUntil ? 'Active' : 'Inactive'}</div>
+                    </button>
+                </div>
+
+                {/* Theme Customization */}
+                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest pl-2">Appearance</h3>
+                <div className="glass-panel p-6 rounded-[2rem] border-white/5">
+                     <div className="flex gap-2 mb-4 bg-white/5 p-1 rounded-xl">
+                         {['AUTO', 'DAY', 'NIGHT'].map((t) => (
+                             <button 
+                                key={t} 
+                                onClick={() => setTheme(t)}
+                                className={`flex-1 py-3 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all ${state?.global?.theme === t ? 'bg-white text-black shadow-lg' : 'text-secondary hover:bg-white/5'}`}
+                             >
+                                {t === 'AUTO' && <CloudSun size={14} className="inline mr-1 mb-0.5" />}
+                                {t === 'DAY' && <Sun size={14} className="inline mr-1 mb-0.5" />}
+                                {t === 'NIGHT' && <Moon size={14} className="inline mr-1 mb-0.5" />}
+                                {t}
+                             </button>
+                         ))}
+                     </div>
+                     
+                     <div className="flex justify-between items-center gap-2 overflow-x-auto no-scrollbar py-2">
+                         {THEME_PRESETS.map(c => (
+                             <button 
+                                key={c}
+                                onClick={() => setCustomColor(COLOR_MAP[c])}
+                                className={`w-10 h-10 rounded-full border-2 transition-all ${state?.global?.customColor === COLOR_MAP[c] ? 'border-white scale-110' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                                style={{ background: COLOR_MAP[c] }} 
+                             >
+                             </button>
+                         ))}
+                         {/* Manual Reset */}
+                         <button onClick={() => setCustomColor(null)} className="px-4 py-2 rounded-full bg-white/

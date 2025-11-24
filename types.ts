@@ -59,7 +59,7 @@ export interface Achievement {
   description: string;
   tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL' | 'TITAN' | 'MYTHIC' | 'DIVINE';
   icon: string;
-  category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'RAMADAN' | 'FITNESS' | 'MEMORIZE' | 'HADEES' | 'NIGHT' | 'NAMES99';
+  category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'RAMADAN' | 'FITNESS' | 'MEMORIZE' | 'HADEES' | 'NIGHT' | 'NAMES99' | 'KNOWLEDGE';
   metric?: 'STREAK' | 'COUNT' | 'VALUE' | 'XP' | 'SPECIAL';
   value?: number;
 }
@@ -159,6 +159,7 @@ export interface GlobalStats {
     hadees: number; 
     night: number;  
     names99: number;
+    breathwork: number;
     
     // MAX STREAKS
     maxSalah: number;
@@ -171,6 +172,11 @@ export interface GlobalStats {
     maxRamadan: number;
     maxHadees: number;
     maxNight: number;
+  };
+  knowledge: {
+    janazah: boolean;
+    tibb: boolean;
+    surahsLearned: string[];
   };
   streakFreezes: number;
   freezeModeUntil: number | null; // New: For Travel/Sick mode
@@ -232,9 +238,10 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   level: 1,
   xp: 0,
   streaks: {
-    salah: 0, dhikr: 0, mdf: 0, fitness: 0, hygiene: 0, habits: 0, quranSurah: 0, ramadan: 0, hadees: 0, night: 0, names99: 0,
+    salah: 0, dhikr: 0, mdf: 0, fitness: 0, hygiene: 0, habits: 0, quranSurah: 0, ramadan: 0, hadees: 0, night: 0, names99: 0, breathwork: 0,
     maxSalah: 0, maxDhikr: 0, maxMdf: 0, maxFitness: 0, maxHygiene: 0, maxHabits: 0, maxQuran: 0, maxRamadan: 0, maxHadees: 0, maxNight: 0
   },
+  knowledge: { janazah: false, tibb: false, surahsLearned: [] },
   streakFreezes: 1,
   freezeModeUntil: null,
   qadaBank: 0,

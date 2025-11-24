@@ -1,10 +1,12 @@
 
+
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Send, Sparkles, User, Bot, Loader2, Trash2 } from 'lucide-react';
+import { Send, Sparkles, User, Bot, Loader2, Trash2, WifiOff } from 'lucide-react';
 import { GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import { TabWrapper, HeroCard, RANK_IMAGES } from './SimpleTabs';
 import { AppState } from '../types';
+import { OFFLINE_AI_RESPONSES } from '../constants';
 
 interface Props {
   state: AppState;
@@ -36,6 +38,10 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
     setIsLoading(true);
 
     try {
+      if (!navigator.onLine) {
+         throw new Error("Offline");
+      }
+
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const systemInstruction = `You are Zohaib AI, a friendly, knowledgeable, and empathetic Islamic spiritual companion within the Zohaib Tracker app.
       
@@ -85,7 +91,9 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
       }
       
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'model', text: "I apologize, but I'm having trouble connecting right now. Please try again later." }]);
+       // Fallback for offline or API errors
+       const fallback = OFFLINE_AI_RESPONSES[Math.floor(Math.random() * OFFLINE_AI_RESPONSES.length)];
+       setMessages(prev => [...prev, { role: 'model', text: `(Offline Mode) ${fallback}` }]);
     } finally {
       setIsLoading(false);
     }
@@ -112,7 +120,7 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
              <HeroCard 
                 title="Zohaib AI" 
                 subtitle="Spiritual Guide" 
-                stat="Online" 
+                stat={navigator.onLine ? "Online" : "Offline Mode"} 
                 statLabel="Status" 
                 icon={<Sparkles size={14} />} 
                 bgImage={RANK_IMAGES.AI_CHAT} 
@@ -126,6 +134,12 @@ export const AIAssistant: React.FC<Props> = ({ state, onBack }) => {
                 </button>
             )}
         </div>
+
+        {!navigator.onLine && (
+            <div className="px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-xl flex items-center gap-2 text-yellow-500 text-xs font-bold mb-4 mx-1">
+                <WifiOff size={14} /> You are offline. Using basic responses.
+            </div>
+        )}
 
         <div className="flex flex-col space-y-6 px-1">
             {messages.map((msg, idx) => (

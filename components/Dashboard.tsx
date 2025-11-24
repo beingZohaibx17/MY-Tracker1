@@ -1,13 +1,13 @@
 
+
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { 
-  Moon, Activity, Trophy, Dumbbell, Scroll, BedDouble, Quote, LayoutGrid, Heart, BookOpen, ChevronRight, Sparkles, ShieldAlert, ShieldCheck, Droplets, Brain, Tent, ChevronDown, ChevronUp, MapPin, Calendar, Check, Zap
+  Moon, Activity, Trophy, Dumbbell, Scroll, BedDouble, Quote, LayoutGrid, Heart, BookOpen, ChevronRight, Sparkles, ShieldAlert, ShieldCheck, Droplets, Brain, Tent, ChevronDown, ChevronUp, Zap
 } from 'lucide-react';
 import { AppState, ViewState, SpiritualMood } from '../types';
 import { DAILY_QUOTES, DUAS } from '../constants';
 import { RANK_IMAGES, JUMUAH_IMAGE } from './SimpleTabs';
-import { ActivityHeatmap } from './Charts';
 
 interface Props {
   state: AppState;
@@ -15,48 +15,21 @@ interface Props {
   updateMood?: (mood: SpiritualMood) => void;
 }
 
-const CircularProgress: React.FC<{ value: number; size: number; strokeWidth: number; color: string }> = ({ value, size, strokeWidth, color }) => {
-    const radius = (size - strokeWidth) / 2;
-    const circumference = radius * 2 * Math.PI;
-    const offset = circumference - (value / 100) * circumference;
-
-    return (
-        <svg width={size} height={size} className="transform -rotate-90">
-            <circle
-                cx={size / 2}
-                cy={size / 2}
-                r={radius}
-                stroke="rgba(255, 255, 255, 0.08)"
-                strokeWidth={strokeWidth}
-                fill="none"
-            />
-            <circle
-                cx={size / 2}
-                cy={size / 2}
-                r={radius}
-                stroke={color}
-                strokeWidth={strokeWidth}
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={offset}
-                strokeLinecap="round"
-                className="transition-all duration-1000 ease-out shadow-[0_0_10px_currentColor]"
-            />
-        </svg>
-    );
-};
-
 export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) => {
   const [time, setTime] = useState(new Date());
-  const seed = new Date().getDate();
+  // Default expanded
+  const [appsExpanded, setAppsExpanded] = useState(true);
+  
+  // Daily Dua Logic
+  const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); // Daily Seed
   const dailyQuote = DAILY_QUOTES[seed % DAILY_QUOTES.length];
+  const dailyDua = DUAS[seed % DUAS.length];
   
   const currentXP = state.global.xp;
   const currentLevel = Math.floor(Math.sqrt(currentXP / 100)) + 1;
   const nextLevelXP = Math.pow(currentLevel, 2) * 100;
   const xpProgress = (currentXP / nextLevelXP) * 100;
   
-  const dailySalahCount = state.daily.prayers.filter(p => p.completed).length;
   const isFriday = new Date().getDay() === 5;
 
   useEffect(() => {
@@ -104,54 +77,70 @@ export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) =>
         </div>
       </div>
 
-      {/* Primary Stats Card (Iman Score) */}
-      <div className="animate-slide-up bg-gradient-to-br from-emerald-950 via-slate-900 to-black rounded-[2.5rem] p-8 border border-emerald-500/20 relative overflow-hidden shadow-2xl group">
-           <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-all duration-700"></div>
-           
-           <div className="flex justify-between items-start mb-6 relative z-10">
-               <div>
-                   <h3 className="text-lg font-bold text-white">Iman Score</h3>
-                   <p className="text-[11px] text-emerald-400 font-bold uppercase tracking-wider opacity-80">Daily Aggregate</p>
+      {/* Persistent Top Stats Section (Always Visible) */}
+      <div className="space-y-4 animate-slide-up">
+          {/* Primary Stats Card (Iman Score) */}
+          <div className="bg-gradient-to-br from-emerald-950 via-slate-900 to-black rounded-[2.5rem] p-8 border border-emerald-500/20 relative overflow-hidden shadow-2xl group">
+               <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+               
+               <div className="flex justify-between items-start mb-6 relative z-10">
+                   <div>
+                       <h3 className="text-lg font-bold text-white">Iman Score</h3>
+                       <p className="text-[11px] text-emerald-400 font-bold uppercase tracking-wider opacity-80">Daily Aggregate</p>
+                   </div>
+                   <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 animate-pulse-slow">
+                       <Heart size={18} className="text-emerald-500 fill-emerald-500/20" />
+                   </div>
                </div>
-               <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 animate-pulse-slow">
-                   <Heart size={18} className="text-emerald-500 fill-emerald-500/20" />
+               
+               <div className="flex items-baseline gap-2 relative z-10">
+                   <div className="text-7xl font-mono font-bold text-white tracking-tighter drop-shadow-lg text-glow">{Math.round(state.daily.imanScore)}</div>
+                   <div className="text-2xl text-white/40 font-light">%</div>
                </div>
-           </div>
-           
-           <div className="flex items-baseline gap-2 relative z-10">
-               <div className="text-7xl font-mono font-bold text-white tracking-tighter drop-shadow-lg text-glow">{Math.round(state.daily.imanScore)}</div>
-               <div className="text-2xl text-white/40 font-light">%</div>
-           </div>
-           
-           <div className="w-full bg-white/5 h-2 rounded-full mt-8 overflow-hidden relative z-10 border border-white/5">
-                <div className="h-full bg-emerald-500 transition-all duration-1000 ease-out shadow-[0_0_15px_#10b981]" style={{ width: `${state.daily.imanScore}%` }}>
-                    <div className="absolute inset-0 bg-white/30 animate-shimmer"></div>
-                </div>
-           </div>
+               
+               <div className="w-full bg-white/5 h-2 rounded-full mt-8 overflow-hidden relative z-10 border border-white/5">
+                    <div className="h-full bg-emerald-500 transition-all duration-1000 ease-out shadow-[0_0_15px_#10b981]" style={{ width: `${state.daily.imanScore}%` }}>
+                        <div className="absolute inset-0 bg-white/30 animate-shimmer"></div>
+                    </div>
+               </div>
+          </div>
+
+          {/* Daily Dua Tile */}
+          <div className="glass-panel p-6 rounded-[2rem] border border-indigo-500/20 bg-indigo-900/10 shadow-lg relative overflow-hidden group">
+               <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-[50px] animate-pulse-slow"></div>
+               <div className="flex items-center gap-2 mb-3">
+                   <div className="p-1.5 bg-indigo-500 rounded-lg"><Sparkles size={12} className="text-white" /></div>
+                   <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-300">Daily Dua</span>
+               </div>
+               <div className="relative z-10">
+                   <h3 className="text-xl font-serif text-white leading-relaxed text-right mb-2 font-arabic" dir="rtl">{dailyDua.arabic}</h3>
+                   <p className="text-xs text-indigo-200/80 italic leading-relaxed">"{dailyDua.english}"</p>
+               </div>
+          </div>
+
+          {/* Quote of the Day */}
+          <div className="bg-white/5 border border-white/10 rounded-[2rem] p-6 flex gap-4 items-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-transparent opacity-50"></div>
+              <Quote size={24} className="text-amber-400 flex-shrink-0 relative z-10" />
+              <p className="text-xs text-slate-300 italic leading-relaxed font-medium relative z-10">"{dailyQuote}"</p>
+          </div>
       </div>
 
-      {/* Momentum Widget - Full Width */}
-      <div className="glass-panel p-6 rounded-[2rem] border border-white/5 bg-white/[0.02] shadow-xl animate-slide-up relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
-            <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-blue-500/10 blur-[60px] rounded-full pointer-events-none"></div>
-            <div className="flex justify-between items-center mb-4 relative z-10">
-                 <h3 className="text-xs font-black text-white uppercase tracking-[0.2em] flex items-center gap-2">
-                    <Zap size={14} className="text-emerald-400 fill-emerald-400" />
-                    Momentum
-                </h3>
-                <span className="text-[9px] font-bold text-secondary bg-white/5 px-2 py-1 rounded-md">Last 3 Months</span>
-            </div>
-            <ActivityHeatmap history={state.global.history} current={state.daily} />
+      {/* Arrow Toggle for Apps Grid */}
+      <div className="flex flex-col items-center justify-center -my-2 relative z-30 pt-2 gap-1">
+          <div className="text-[9px] uppercase tracking-widest text-white/20 font-bold">
+              {appsExpanded ? 'Hide Apps' : 'Show Apps'}
+          </div>
+          <button 
+            onClick={() => setAppsExpanded(!appsExpanded)} 
+            className="w-12 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-secondary/50 hover:text-white hover:bg-white/10 transition-all backdrop-blur-md active:scale-95 animate-pulse-slow group"
+          >
+              {appsExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} className="group-hover:translate-y-0.5 transition-transform" />}
+          </button>
       </div>
 
-      {/* Quote of the Day */}
-      <div className="bg-white/5 border border-white/10 rounded-[2rem] p-6 animate-slide-up flex gap-4 items-center relative overflow-hidden" style={{ animationDelay: '0.15s' }}>
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-transparent opacity-50"></div>
-          <Quote size={24} className="text-amber-400 flex-shrink-0 relative z-10" />
-          <p className="text-xs text-slate-300 italic leading-relaxed font-medium relative z-10">"{dailyQuote}"</p>
-      </div>
-
-      {/* Main Apps Stack - Full Width Vertical Flow */}
-      <div className="space-y-3 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+      {/* Collapsible Apps Stack */}
+      <div className={`space-y-3 overflow-hidden transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) ${appsExpanded ? 'max-h-[3000px] opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform -translate-y-10'}`}>
            <h3 className="text-[10px] font-black uppercase tracking-widest text-secondary pl-2 pt-2">Core Worship</h3>
            
            {/* Salah Card - Large */}

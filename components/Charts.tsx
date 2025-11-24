@@ -1,4 +1,5 @@
 
+
 import * as React from 'react';
 
 // Map colors to prevent JIT issues
@@ -12,6 +13,7 @@ const CHART_COLORS: Record<string, any> = {
    pink: { from: '#ec4899', to: '#db2777', text: '#ec4899', bg: 'bg-pink-500' },
    teal: { from: '#14b8a6', to: '#0d9488', text: '#14b8a6', bg: 'bg-teal-500' },
    slate: { from: '#64748b', to: '#475569', text: '#64748b', bg: 'bg-slate-500' },
+   blue: { from: '#3b82f6', to: '#2563eb', text: '#3b82f6', bg: 'bg-blue-500' },
 };
 
 interface BarChartProps {
@@ -98,9 +100,8 @@ interface HeatmapProps {
 }
 
 export const ActivityHeatmap: React.FC<HeatmapProps> = ({ history, current }) => {
-  // Generate dates for the last 14 weeks (approx 3 months)
-  const weeks = 18;
-  const days = weeks * 7;
+  // 30 Days visualization as vertical bars
+  const days = 30;
   const today = new Date();
   
   const allData = [...(history || [])];
@@ -119,50 +120,35 @@ export const ActivityHeatmap: React.FC<HeatmapProps> = ({ history, current }) =>
       d.setDate(d.getDate() - i);
       const dateStr = d.toISOString().split('T')[0];
       const score = scoreMap.get(dateStr) || 0;
-      
-      let opacity = 0.1; // Default empty
-      if (score > 0) opacity = 0.3;
-      if (score > 30) opacity = 0.5;
-      if (score > 60) opacity = 0.7;
-      if (score > 80) opacity = 0.9;
-      if (score > 95) opacity = 1;
-
-      cells.push({ date: dateStr, opacity, score, index: i });
+      cells.push({ date: dateStr, score, index: i });
   }
 
   return (
-    <div className="w-full overflow-hidden">
-        {/* Added a subtle glow effect and wave animation via index delay */}
-        <div className="flex gap-1 justify-end flex-wrap flex-col h-[100px] content-end">
-            {cells.map((cell, i) => (
+    <div className="w-full h-32 flex items-end justify-between gap-1 overflow-hidden">
+        {cells.map((cell, i) => {
+            const heightPercent = Math.max(10, cell.score); // Minimum height 10%
+            return (
                 <div 
                     key={i} 
-                    className="w-2.5 h-2.5 rounded-[2px] bg-emerald-500 transition-all duration-500 hover:scale-150 hover:z-10 relative group hover:shadow-[0_0_8px_#10b981]"
-                    style={{ 
-                        opacity: cell.opacity,
-                        // Create a wave effect based on index
-                        animation: cell.score > 0 ? 'pulse-slow 4s infinite' : 'none',
-                        animationDelay: `${cell.index * 0.05}s`
-                    }}
+                    className="relative group flex-1"
                 >
+                    {/* Bar */}
+                    <div 
+                        className={`w-full rounded-t-sm transition-all duration-700 ease-out ${
+                           cell.score > 80 ? 'bg-emerald-400 shadow-[0_0_10px_#34d399]' : 
+                           cell.score > 50 ? 'bg-emerald-500/80' : 
+                           cell.score > 20 ? 'bg-emerald-500/40' : 'bg-white/10'
+                        }`}
+                        style={{ height: `${heightPercent}%`, animationDelay: `${i * 0.03}s` }}
+                    ></div>
+                    
                     {/* Tooltip */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block bg-black/90 text-white text-[9px] px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none">
-                        {cell.date}: {Math.round(cell.score)}%
+                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-black/90 text-white text-[9px] px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none border border-white/10">
+                        {cell.date.slice(5)}: {Math.round(cell.score)}%
                     </div>
                 </div>
-            ))}
-        </div>
-        <div className="flex justify-between items-center mt-3 text-[9px] text-secondary uppercase tracking-widest opacity-60">
-            <span>3 Months Ago</span>
-            <div className="flex items-center gap-1">
-                <span>Less</span>
-                <div className="w-2 h-2 bg-emerald-500/10 rounded-[1px]"></div>
-                <div className="w-2 h-2 bg-emerald-500/40 rounded-[1px]"></div>
-                <div className="w-2 h-2 bg-emerald-500/70 rounded-[1px]"></div>
-                <div className="w-2 h-2 bg-emerald-500 rounded-[1px] shadow-[0_0_5px_#10b981]"></div>
-                <span>More</span>
-            </div>
-        </div>
+            )
+        })}
     </div>
   );
 };

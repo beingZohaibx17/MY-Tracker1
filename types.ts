@@ -52,7 +52,7 @@ export interface Achievement {
   id: string;
   title: string;
   description: string;
-  tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL' | 'TITAN';
+  tier: 'BRONZE' | 'SILVER' | 'GOLD' | 'PLATINUM' | 'DIAMOND' | 'LEGEND' | 'ETERNAL' | 'TITAN' | 'MYTHIC' | 'DIVINE';
   icon: string;
   category: 'SALAH' | 'DHIKR' | 'QURAN' | 'MDF' | 'HYGIENE' | 'HABITS' | 'RAMADAN' | 'FITNESS' | 'MEMORIZE' | 'HADEES' | 'NIGHT';
   metric?: 'STREAK' | 'COUNT' | 'VALUE' | 'XP' | 'SPECIAL';
@@ -97,7 +97,7 @@ export interface DailyStats {
     surahBaqarah: boolean; // Last 2 ayats
     tasbihFatima: boolean;
     ayatulKursi: boolean;
-    fourQuls: boolean; // New
+    fourQuls: boolean;
   };
 
   // Hadees
@@ -129,6 +129,7 @@ export interface DailyStats {
     iftar: boolean;
     taraweeh: boolean;
     charity: boolean;
+    readParah: boolean;
   };
   
   imanScore: number;
@@ -165,6 +166,7 @@ export interface GlobalStats {
     maxNight: number;
   };
   streakFreezes: number;
+  freezeModeUntil: number | null; // New: For Travel/Sick mode
   qadaBank: number;
   quransRecited: number;
   currentParah: number;
@@ -210,7 +212,7 @@ export const INITIAL_DAILY_STATE: DailyStats = {
   hygiene: { shower: false, brush: false, cleanDesk: false, waterGlasses: 0 },
   habits: { smokingCount: 0, nicotineCount: 0, failedToday: false },
   fitness: { pushups: 0, pushupsTarget: 60, customWorkouts: [] },
-  ramadan: { suhoor: false, iftar: false, taraweeh: false, charity: false },
+  ramadan: { suhoor: false, iftar: false, taraweeh: false, charity: false, readParah: false },
   imanScore: 0,
   mood: null,
   completedDuaReview: false,
@@ -225,6 +227,7 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
     maxSalah: 0, maxDhikr: 0, maxMdf: 0, maxFitness: 0, maxHygiene: 0, maxHabits: 0, maxQuran: 0, maxRamadan: 0, maxHadees: 0, maxNight: 0
   },
   streakFreezes: 1,
+  freezeModeUntil: null,
   qadaBank: 0,
   quransRecited: 0,
   currentParah: 1,

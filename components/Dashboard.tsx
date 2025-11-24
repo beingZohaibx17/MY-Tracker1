@@ -1,10 +1,8 @@
 
-
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { 
-  Moon, Activity, Trophy, Dumbbell, Scroll, BedDouble, Quote, LayoutGrid, Heart, BookOpen, ChevronRight, Sparkles, ShieldAlert, ShieldCheck, Droplets, Brain, Tent, ChevronDown, ChevronUp, Zap
+  Moon, Activity, Trophy, Dumbbell, Scroll, BedDouble, Quote, LayoutGrid, Heart, BookOpen, ChevronRight, Sparkles, ShieldAlert, ShieldCheck, Droplets, Brain, Tent, ChevronDown, ChevronUp, Zap, Skull, Leaf, Languages
 } from 'lucide-react';
 import { AppState, ViewState, SpiritualMood } from '../types';
 import { DAILY_QUOTES, DUAS, URDU_CONCEPTS } from '../constants';
@@ -150,7 +148,7 @@ export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) =>
       </div>
 
       {/* Collapsible Apps Stack */}
-      <div className={`space-y-3 overflow-hidden transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) ${appsExpanded ? 'max-h-[3000px] opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform -translate-y-10'}`}>
+      <div className={`space-y-3 overflow-hidden transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) ${appsExpanded ? 'max-h-[3500px] opacity-100 transform translate-y-0' : 'max-h-0 opacity-0 transform -translate-y-10'}`}>
            <h3 className="text-[10px] font-black uppercase tracking-widest text-secondary pl-2 pt-2">Core Worship</h3>
            
            {/* Salah Card - Large */}
@@ -244,6 +242,27 @@ export const Dashboard: React.FC<Props> = ({ state, changeView, updateMood }) =>
                     daily={state.global.memorizeWeek}
                 />
              </div>
+
+            <div className="grid grid-cols-2 gap-3">
+                <BentoCard 
+                    title="Janazah" color="slate" icon={<Skull size={18}/>} 
+                    onClick={() => changeView(ViewState.JANAZAH)} image={RANK_IMAGES.NIGHT} 
+                    streak={null} daily="Guide"
+                />
+                <BentoCard 
+                    title="Tibb" color="emerald" icon={<Leaf size={18}/>} 
+                    onClick={() => changeView(ViewState.TIBB)} image={RANK_IMAGES.HYGIENE} 
+                    streak={null} daily="Remedies"
+                />
+            </div>
+
+            <BentoCard 
+                title="Word Quran" subtitle="Grammar & Meaning" 
+                icon={<Languages size={20}/>} color="teal" 
+                onClick={() => changeView(ViewState.WORD_QURAN)} image={RANK_IMAGES.QURAN} 
+                streak={null} daily="Study"
+                fullWidth
+            />
 
              {/* Names of Allah */}
              <BentoCard 

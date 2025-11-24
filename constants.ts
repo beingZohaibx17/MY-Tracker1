@@ -1,6 +1,4 @@
 
-
-
 import { Achievement, Exercise } from './types';
 
 export const URDU_CONCEPTS = [
@@ -172,53 +170,84 @@ export const getGrowthStage = (category: string, streak: number) => {
     return { current: { label: 'Novice', threshold: 0, icon: '🌱' }, next: { label: 'Initiate', threshold: 7, icon: '🌿' } };
 };
 
-// --- TASK SPECIFIC ACHIEVEMENTS (Replacing Generic Counters) ---
+// --- ALGORITHMIC ACHIEVEMENT GENERATOR ---
+const generateTieredAchievements = (
+    category: Achievement['category'], 
+    baseId: string, 
+    metric: Achievement['metric'],
+    tiers: number[],
+    icon: string,
+    titlePrefix: string,
+    descSuffix: string
+): Achievement[] => {
+    const tierNames: Achievement['tier'][] = ['BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'DIAMOND', 'MYTHIC', 'TITAN', 'LEGEND', 'ETERNAL', 'DIVINE'];
+    
+    return tiers.map((val, idx) => {
+        const tierName = tierNames[Math.min(idx, tierNames.length - 1)];
+        return {
+            id: `${baseId}_${val}`,
+            title: `${titlePrefix} ${romanize(idx + 1)}`,
+            description: `${metric === 'STREAK' ? 'Reach a streak of' : 'Complete'} ${val} ${descSuffix}`,
+            tier: tierName,
+            icon: icon,
+            category: category,
+            metric: metric,
+            value: val
+        };
+    });
+};
+
+function romanize(num: number): string {
+    const lookup: any = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+    let roman = '', i;
+    for (i in lookup) {
+        while (num >= lookup[i]) { roman += i; num -= lookup[i]; }
+    }
+    return roman;
+}
+
 const createTaskAchievements = () => {
-  const ach: Achievement[] = [];
+  let ach: Achievement[] = [];
 
-  // SALAH
-  ach.push({ id: 'salah_fajr_50', title: 'Fajr Warrior', description: 'Pray Fajr 50 times.', tier: 'SILVER', icon: '🌅', category: 'SALAH', metric: 'COUNT', value: 50 });
-  ach.push({ id: 'salah_isha_100', title: 'Night Owl', description: 'Pray Isha 100 times.', tier: 'GOLD', icon: '🌌', category: 'SALAH', metric: 'COUNT', value: 100 });
-  ach.push({ id: 'salah_jamaah_500', title: 'Community Pillar', description: 'Pray in Jamaah 500 times.', tier: 'PLATINUM', icon: '🕌', category: 'SALAH', metric: 'COUNT', value: 500 });
-  ach.push({ id: 'salah_tahajjud_10', title: 'The Vigilant', description: 'Pray Tahajjud 10 times.', tier: 'MYTHIC', icon: '🌙', category: 'SALAH', metric: 'COUNT', value: 10 });
+  // 1. SALAH (Streaks & Counts)
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_streak', 'STREAK', [3, 7, 14, 21, 30, 40, 60, 90, 100, 200, 365, 500, 1000], '🕌', 'Salah Guardian', 'days of consecutive Salah.')];
+  ach = [...ach, ...generateTieredAchievements('SALAH', 'salah_total', 'COUNT', [50, 100, 500, 1000, 2000, 5000, 10000], '🤲', 'Devout Servant', 'total prayers.')];
   
-  // DHIKR
-  ach.push({ id: 'dhikr_total_1000', title: 'Moist Tongue', description: 'Complete 1,000 Total Dhikr.', tier: 'BRONZE', icon: '📿', category: 'DHIKR', metric: 'COUNT', value: 1000 });
-  ach.push({ id: 'dhikr_total_10000', title: 'Remembrance', description: 'Complete 10,000 Total Dhikr.', tier: 'GOLD', icon: '✨', category: 'DHIKR', metric: 'COUNT', value: 10000 });
-  ach.push({ id: 'dhikr_completion_100', title: 'Consistency', description: 'Finish daily dhikr target 100 times.', tier: 'PLATINUM', icon: '🎯', category: 'DHIKR', metric: 'COUNT', value: 100 });
+  // 2. MDF (Streaks) - Huge focus here
+  ach = [...ach, ...generateTieredAchievements('MDF', 'mdf_streak', 'STREAK', [1, 3, 5, 7, 10, 14, 21, 30, 40, 50, 60, 75, 90, 100, 120, 150, 180, 200, 250, 300, 365, 400, 500, 600, 700, 800, 900, 1000], '🛡️', 'Purity Warrior', 'days free from relapse.')];
 
-  // QURAN
-  ach.push({ id: 'quran_juz_5', title: 'The Reader', description: 'Complete 5 Juz.', tier: 'SILVER', icon: '📖', category: 'QURAN', metric: 'VALUE', value: 5 });
-  ach.push({ id: 'quran_khatam_1', title: 'The Finisher', description: 'Complete 1 Quran Khatam.', tier: 'DIAMOND', icon: '🏆', category: 'QURAN', metric: 'VALUE', value: 1 });
-  
-  // FITNESS
-  ach.push({ id: 'fitness_pushups_1000', title: 'Iron Chest', description: 'Do 1,000 Total Pushups.', tier: 'GOLD', icon: '💪', category: 'FITNESS', metric: 'COUNT', value: 1000 });
-  ach.push({ id: 'fitness_total_5000', title: 'Spartan', description: 'Do 5,000 Total Reps of any exercise.', tier: 'TITAN', icon: '🛡️', category: 'FITNESS', metric: 'COUNT', value: 5000 });
-  
-  // HYGIENE
-  ach.push({ id: 'hygiene_water_100', title: 'Hydrated', description: 'Hit water goal 100 times.', tier: 'SILVER', icon: '💧', category: 'HYGIENE', metric: 'COUNT', value: 100 });
-  ach.push({ id: 'hygiene_total_500', title: 'Spotless', description: 'Complete 500 hygiene tasks.', tier: 'GOLD', icon: '🧼', category: 'HYGIENE', metric: 'COUNT', value: 500 });
-  
-  // HABITS
-  ach.push({ id: 'habits_streak_30', title: 'Detoxed', description: '30 Days Clean Streak.', tier: 'GOLD', icon: '🚭', category: 'HABITS', metric: 'STREAK', value: 30 });
-  ach.push({ id: 'habits_streak_100', title: 'Pure Lungs', description: '100 Days Clean Streak.', tier: 'DIAMOND', icon: '🌬️', category: 'HABITS', metric: 'STREAK', value: 100 });
-  
-  // RAMADAN
-  ach.push({ id: 'ramadan_fast_30', title: 'Rayyan', description: 'Fast 30 Days.', tier: 'PLATINUM', icon: '🚪', category: 'RAMADAN', metric: 'COUNT', value: 30 });
-  ach.push({ id: 'ramadan_taraweeh_20', title: 'Night Stand', description: 'Pray Taraweeh 20 times.', tier: 'GOLD', icon: '🌃', category: 'RAMADAN', metric: 'COUNT', value: 20 });
-  
-  // HADEES
-  ach.push({ id: 'hadees_total_50', title: 'Seeker', description: 'Read 50 Hadees.', tier: 'SILVER', icon: '📜', category: 'HADEES', metric: 'COUNT', value: 50 });
-  
-  // NIGHT
-  ach.push({ id: 'night_total_100', title: 'Protected', description: 'Complete Night Routine 100 times.', tier: 'GOLD', icon: '🛡️', category: 'NIGHT', metric: 'COUNT', value: 100 });
+  // 3. DHIKR (Counts)
+  ach = [...ach, ...generateTieredAchievements('DHIKR', 'dhikr_total', 'COUNT', [100, 500, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000], '📿', 'Remembrance', 'total dhikr recitations.')];
 
-  // NAMES99
-  ach.push({ id: 'names99_10', title: 'Student', description: 'Learn 10 Names of Allah.', tier: 'BRONZE', icon: '🧠', category: 'NAMES99', metric: 'VALUE', value: 10 });
-  ach.push({ id: 'names99_99', title: 'Hafiz of Names', description: 'Learn all 99 Names.', tier: 'DIVINE', icon: '👑', category: 'NAMES99', metric: 'VALUE', value: 99 });
+  // 4. QURAN (Parts)
+  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_streak', 'STREAK', [3, 7, 14, 30, 60, 100, 365], '📖', 'Quran Companion', 'days reading Quran.')];
+  ach = [...ach, ...generateTieredAchievements('QURAN', 'quran_juz', 'VALUE', [1, 2, 5, 10, 15, 20, 25, 30], '📚', 'Juz Master', 'Juz completed.')];
   
-  // MEMORIZE
-  ach.push({ id: 'memorize_5', title: 'Memorizer', description: 'Memorize 5 Duas.', tier: 'SILVER', icon: '🧠', category: 'MEMORIZE', metric: 'VALUE', value: 5 });
+  // 5. FITNESS (Pushups/Count)
+  ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_total', 'COUNT', [100, 500, 1000, 2500, 5000, 10000, 25000, 50000], '💪', 'Iron Body', 'total reps/pushups.')];
+  ach = [...ach, ...generateTieredAchievements('FITNESS', 'fitness_streak', 'STREAK', [3, 7, 14, 30, 60, 90, 180, 365], '⚡', 'Discipline', 'days of working out.')];
+
+  // 6. HYGIENE (Water & Tasks)
+  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_streak', 'STREAK', [3, 7, 14, 30, 50, 100], '🧼', 'Pure Soul', 'days of perfect hygiene.')];
+  ach = [...ach, ...generateTieredAchievements('HYGIENE', 'hygiene_water', 'COUNT', [50, 100, 200, 500, 1000], '💧', 'Hydrated', 'days hitting water goal.')];
+
+  // 7. HABITS (Streaks)
+  ach = [...ach, ...generateTieredAchievements('HABITS', 'habits_streak', 'STREAK', [3, 7, 14, 21, 30, 60, 90, 120, 150, 365], '🚭', 'Chain Breaker', 'days habit free.')];
+
+  // 8. HADEES (Read Count)
+  ach = [...ach, ...generateTieredAchievements('HADEES', 'hadees_total', 'COUNT', [10, 50, 100, 200, 300, 500], '📜', 'Seeker of Wisdom', 'Hadith read.')];
+
+  // 9. NIGHT (Routine Count)
+  ach = [...ach, ...generateTieredAchievements('NIGHT', 'night_total', 'COUNT', [7, 14, 30, 50, 100, 365], '🌙', 'Night Guardian', 'nights completing routine.')];
+
+  // 10. NAMES99 (Count)
+  ach = [...ach, ...generateTieredAchievements('NAMES99', 'names99_total', 'COUNT', [10, 25, 50, 75, 99], '✨', 'Knower of Allah', 'Names learned.')];
+
+  // 11. RAMADAN (Fasts)
+  ach = [...ach, ...generateTieredAchievements('RAMADAN', 'ramadan_fast', 'COUNT', [1, 5, 10, 15, 20, 25, 30], '🚪', 'Rayyan', 'fasts completed.')];
+
+  // 12. MEMORIZE (Duas)
+  ach = [...ach, ...generateTieredAchievements('MEMORIZE', 'memorize_total', 'VALUE', [1, 5, 10, 20, 50], '🧠', 'Hafiz', 'Duas memorized.')];
 
   return ach;
 };
@@ -236,4 +265,24 @@ export const OFFLINE_AI_RESPONSES = [
     "Your body has a right over you, take care of it.",
     "Cleanliness is half of faith.",
     "Trust in Allah's plan, He knows what is best for you."
+];
+
+// --- NEW DATA FOR TIBB & JANAZAH ---
+
+export const JANAZAH_STEPS = [
+    { step: 1, title: "Intention (Niyyah)", desc: "Make intention to pray for the deceased.", arabic: "نويت ان اصلي..." },
+    { step: 2, title: "First Takbeer", desc: "Say Allahu Akbar and recite Thana.", arabic: "سُبْحَانَكَ اللَّهُمَّ..." },
+    { step: 3, title: "Second Takbeer", desc: "Say Allahu Akbar and recite Durood-e-Ibrahim.", arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ..." },
+    { step: 4, title: "Third Takbeer", desc: "Say Allahu Akbar and recite Dua for deceased.", arabic: "اللَّهُمَّ اغْفِرْ لِحَيِّنَا..." },
+    { step: 5, title: "Fourth Takbeer", desc: "Say Allahu Akbar, pause, then Tasleem (Salam).", arabic: "السَّلامُ عَلَيْكُمْ وَرَحْمَةُ اللهِ" }
+];
+
+export const TIBB_REMEDIES = [
+    { name: "Black Seed (Kalwanji)", desc: "Cure for everything except death.", usage: "Eat 7 seeds daily or use oil." },
+    { name: "Honey", desc: "Healing for mankind.", usage: "Mix with warm water." },
+    { name: "Olive Oil", desc: "From a blessed tree.", usage: "Consume or apply to skin." },
+    { name: "Talbina", desc: "Soothing for the sick heart.", usage: "Barley porridge with milk/honey." },
+    { name: "Cupping (Hijama)", desc: "Best of remedies.", usage: "Perform on Sunnah days (17, 19, 21)." },
+    { name: "Siwak (Miswak)", desc: "Purifies mouth, pleases Lord.", usage: "Use before every prayer." },
+    { name: "Zamzam", desc: "For whatever purpose it is drunk.", usage: "Drink with intention of cure." }
 ];

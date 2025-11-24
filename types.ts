@@ -32,7 +32,10 @@ export enum ViewState {
   WIDGET = 'WIDGET',
   AI_CHAT = 'AI_CHAT',
   NAMES99 = 'NAMES99',
-  BREATHWORK = 'BREATHWORK'
+  BREATHWORK = 'BREATHWORK',
+  JANAZAH = 'JANAZAH',
+  TIBB = 'TIBB',
+  WORD_QURAN = 'WORD_QURAN'
 }
 
 export type SubView = 'DAILY' | 'STATS' | 'AWARDS';
@@ -244,7 +247,7 @@ export const INITIAL_GLOBAL_STATE: GlobalStats = {
   name: 'Zohaib',
   ramadanMode: false,
   ramadanStats: { fastsDone: 0, taraweehPrayed: 0, quranKhatams: 0 },
-  theme: 'NIGHT', // Changed Default to Night
+  theme: 'NIGHT', 
   customColor: null,
   hapticsEnabled: true,
   hasSeenOnboarding: false,

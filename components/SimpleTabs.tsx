@@ -1,12 +1,10 @@
 
-
-
 import React, { useState, useEffect } from 'react';
 import { AppState, SubView, Exercise, ViewState } from '../types';
-import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH } from '../constants';
+import { MEMORIZE_CONTENT, PARAH_NAMES_ARABIC, MASTER_ACHIEVEMENTS, getGrowthStage, PREDEFINED_DHIKR, PREDEFINED_WORKOUTS, HADEES_COLLECTION, QURAN_PART_LABELS, TAB_MESSAGES, NAMES_OF_ALLAH, JANAZAH_STEPS, TIBB_REMEDIES } from '../constants';
 import { BarChart } from './Charts';
 import { 
-  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind
+  Check, Droplets, RotateCcw, ShieldAlert, CheckCircle2, BarChart2, Trophy, Dumbbell, Brain, Activity, Plus, Moon, BookOpen, Tent, ShieldCheck, Scroll, BedDouble, LampDesk, Brush, ShowerHead, AlertTriangle, Sparkles, ChevronLeft, Bell, Download, Upload, Trash2, Sunrise, Sunset, Heart, Maximize2, X, Lock, Snowflake, Sun, CloudSun, Utensils, Cigarette, Zap, Flame, Skull, ChevronDown, PenTool, Timer, Palette, Cloud, Wind, Printer, Leaf, Languages, Hourglass
 } from 'lucide-react';
 
 // High-Quality Unsplash Images (Dark & Moody Aesthetics) - UPDATED
@@ -332,6 +330,10 @@ const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, get
     const labels = ["D-6", "D-5", "D-4", "D-3", "D-2", "Yest", "Today"];
     const bgImage = RANK_IMAGES[category];
 
+    // Time Travel Projection
+    const dailyAvg = calculatedTotal / Math.max(1, state.global.history.length + 1);
+    const tenYearProjection = Math.floor(calculatedTotal + (dailyAvg * 3650));
+
     return (
         <div className="animate-slide-up pb-10 space-y-4">
             <RankCard stage={stage} streak={streak} maxStreak={maxStreak || streak} color={color} bgImage={bgImage} />
@@ -345,6 +347,18 @@ const GenericStatsView: React.FC<any> = ({ state, category, color, checkDay, get
                     <div className="text-[9px] uppercase tracking-widest text-secondary mb-2 font-bold">Lifetime {labelTotal}</div>
                     <div className="text-4xl font-mono font-bold text-white drop-shadow-sm">{calculatedTotal}</div>
                  </div>
+            </div>
+
+            {/* Time Travel Stats */}
+            <div className={`glass-panel p-6 rounded-[2rem] border-${color}-500/20 bg-gradient-to-br from-black to-${color}-950/20 relative overflow-hidden group`}>
+                <div className="absolute top-0 right-0 p-10 bg-white/5 rounded-full blur-xl group-hover:bg-white/10 transition-colors"></div>
+                <div className="relative z-10 flex items-center justify-between">
+                     <div>
+                         <div className={`text-xs font-bold text-${color}-400 uppercase tracking-widest flex items-center gap-2 mb-2`}><Hourglass size={14} /> Time Travel: 2035</div>
+                         <div className="text-white text-sm opacity-80">If you keep this up, in 10 years you'll have:</div>
+                         <div className="text-3xl font-mono font-bold text-white mt-2 drop-shadow-md">{tenYearProjection.toLocaleString()} <span className="text-sm font-sans font-normal opacity-50">{label}</span></div>
+                     </div>
+                </div>
             </div>
             
             <StatsCalendar history={state.global.history} current={state.daily} color={color} checkDay={checkDay} label="Goals Hit" />
@@ -1085,7 +1099,7 @@ export const TabNames99: React.FC<any> = ({ state, onBack, themeOverride }) => {
 
     return (
         <TabWrapper themeColor={themeColor} subView="DAILY" setSubView={()=>{}} onBack={onBack} visualType="QURAN" hideSubNav>
-            <div className="space-y-4 animate-slide-up pb-10">
+            <div className="space-y-4 animate-slide-up pb-10 px-1">
                  <HeroCard 
                     title="99 Names" 
                     subtitle="Asma-ul-Husna" 
@@ -1102,8 +1116,9 @@ export const TabNames99: React.FC<any> = ({ state, onBack, themeOverride }) => {
                     <p className="text-white text-lg font-medium">{NAMES_OF_ALLAH[todayIndex].meaning}</p>
                     <p className="text-secondary text-xs mt-3 italic max-w-xs mx-auto">{NAMES_OF_ALLAH[todayIndex].desc}</p>
                 </div>
-
-                <div className="grid grid-cols-2 gap-3">
+                
+                <h3 className="text-[10px] font-bold uppercase text-secondary tracking-widest pl-2">All Names</h3>
+                <div className="grid grid-cols-2 gap-3 pb-8">
                     {NAMES_OF_ALLAH.map((n, i) => (
                         <div key={i} className={`p-4 rounded-2xl glass-panel border border-white/5 hover:border-${themeColor}-500/30 transition-all group active:scale-95`}>
                             <div className="flex justify-between items-start">
@@ -1113,6 +1128,117 @@ export const TabNames99: React.FC<any> = ({ state, onBack, themeOverride }) => {
                             <div className="text-[10px] text-secondary font-medium">{n.meaning}</div>
                         </div>
                     ))}
+                </div>
+            </div>
+        </TabWrapper>
+    );
+};
+
+export const TabJanazah: React.FC<any> = ({ onBack }) => (
+    <TabWrapper themeColor="slate" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
+        <div className="space-y-4 animate-slide-up pb-10">
+            <HeroCard 
+                title="Janazah" 
+                subtitle="Funeral Guide" 
+                stat="4" 
+                statLabel="Takbeers" 
+                icon={<Skull size={14} />} 
+                bgImage={RANK_IMAGES.NIGHT} 
+            />
+            
+            <div className="space-y-3">
+                {JANAZAH_STEPS.map((s, i) => (
+                     <div key={i} className="glass-panel p-6 rounded-[2rem] border-white/5 relative overflow-hidden">
+                          <div className="absolute top-0 right-0 p-3 bg-white/5 rounded-bl-2xl text-[10px] font-bold uppercase">Step {s.step}</div>
+                          <h3 className="text-xl font-bold text-slate-300 mb-2">{s.title}</h3>
+                          <p className="font-serif text-2xl text-right mb-4 text-emerald-400 font-arabic leading-loose" dir="rtl">{s.arabic}</p>
+                          <p className="text-sm text-secondary">{s.desc}</p>
+                     </div>
+                ))}
+            </div>
+        </div>
+    </TabWrapper>
+);
+
+export const TabTibb: React.FC<any> = ({ onBack }) => (
+    <TabWrapper themeColor="emerald" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
+        <div className="space-y-4 animate-slide-up pb-10">
+             <HeroCard 
+                title="Tibb" 
+                subtitle="Prophetic Medicine" 
+                stat={TIBB_REMEDIES.length} 
+                statLabel="Remedies" 
+                icon={<Leaf size={14} />} 
+                bgImage={RANK_IMAGES.HYGIENE} 
+            />
+            
+            <div className="grid grid-cols-1 gap-3">
+                {TIBB_REMEDIES.map((r, i) => (
+                    <div key={i} className="glass-panel p-5 rounded-[2rem] border-emerald-500/10 hover:border-emerald-500/30 transition-all">
+                        <div className="flex items-center gap-3 mb-2">
+                             <div className="p-2 bg-emerald-500/20 rounded-lg text-emerald-400"><Leaf size={16} /></div>
+                             <h3 className="font-bold text-white text-lg">{r.name}</h3>
+                        </div>
+                        <p className="text-sm text-secondary italic mb-2">"{r.desc}"</p>
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 bg-emerald-950/30 p-2 rounded-lg">Usage: {r.usage}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </TabWrapper>
+);
+
+export const TabWordQuran: React.FC<any> = ({ onBack }) => {
+    // Demo content for Al-Fatiha
+    const fatiha = [
+        { word: "بِسْمِ", meaning: "In the name", grammar: "Preposition + Noun" },
+        { word: "ٱللَّهِ", meaning: "of Allah", grammar: "Proper Noun (Genitive)" },
+        { word: "ٱلرَّحْمَـٰنِ", meaning: "the Most Gracious", grammar: "Adjective" },
+        { word: "ٱلرَّحِيمِ", meaning: "the Most Merciful", grammar: "Adjective" },
+        { word: "ٱلْحَمْدُ", meaning: "All Praise", grammar: "Noun" },
+        { word: "لِلَّهِ", meaning: "is for Allah", grammar: "Preposition + Proper Noun" },
+        { word: "رَبِّ", meaning: "Lord", grammar: "Noun" },
+        { word: "ٱلْعَـٰلَمِينَ", meaning: "of the worlds", grammar: "Noun (Plural)" }
+    ];
+
+    const [selectedWord, setSelectedWord] = useState<any>(null);
+
+    return (
+        <TabWrapper themeColor="teal" subView="DAILY" setSubView={()=>{}} onBack={onBack} hideSubNav>
+            <div className="space-y-4 animate-slide-up pb-10">
+                 <HeroCard 
+                    title="Word by Word" 
+                    subtitle="Al-Fatiha Demo" 
+                    stat="Interactive" 
+                    statLabel="Learning" 
+                    icon={<Languages size={14} />} 
+                    bgImage={RANK_IMAGES.QURAN} 
+                />
+
+                <div className="glass-panel p-8 rounded-[2rem] text-center" dir="rtl">
+                    <div className="flex flex-wrap justify-center gap-2 leading-loose">
+                        {fatiha.map((w, i) => (
+                            <span 
+                                key={i} 
+                                onClick={() => setSelectedWord(w)}
+                                className={`text-3xl font-serif px-2 py-1 rounded-lg cursor-pointer transition-all ${selectedWord === w ? 'bg-teal-500/30 text-teal-300' : 'hover:bg-white/5'}`}
+                            >
+                                {w.word}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                <div className={`glass-panel p-6 rounded-[2rem] transition-all duration-500 ${selectedWord ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                     {selectedWord ? (
+                         <div className="text-center">
+                             <h3 className="text-4xl font-serif text-teal-400 mb-2">{selectedWord.word}</h3>
+                             <p className="text-xl text-white font-bold mb-1">{selectedWord.meaning}</p>
+                             <p className="text-xs text-secondary uppercase tracking-widest">{selectedWord.grammar}</p>
+                         </div>
+                     ) : (
+                         <div className="text-center text-secondary">Tap a word above to see details</div>
+                     )}
                 </div>
             </div>
         </TabWrapper>
@@ -1140,9 +1266,11 @@ export const TabBreathwork: React.FC<any> = ({ onBack }) => {
     );
 };
 
+// --- SETTINGS WITH LEGACY PDF ---
 export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exportData, importData, enterWidgetMode, buyFreeze, resetApp, requestNotify, onBack, buyTravelMode, updateQada, setCustomColor }) => {
     const [showLifetime, setShowLifetime] = useState(true);
     const [qadaYears, setQadaYears] = useState("");
+    const [showCertificate, setShowCertificate] = useState(false);
 
     // Calculate totals
     const totalPrayers = state.global.history.reduce((a:any,b:any) => a + b.prayers.filter((p:any)=>p.completed).length, 0) + state.daily.prayers.filter(p=>p.completed).length;
@@ -1150,7 +1278,6 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
     
     const calculateQada = () => {
         const y = parseInt(qadaYears) || 0;
-        // 5 prayers + Witr = 6 per day * 365
         const total = y * 365 * 6;
         if(total > 0 && confirm(`Add estimated ${total} prayers to your Qada Bank?`)) {
             updateQada(total);
@@ -1163,6 +1290,53 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
             <span className="text-2xl font-mono font-bold text-white">{value.toLocaleString()}</span>
         </div>
     );
+
+    if (showCertificate) {
+        return (
+            <div className="fixed inset-0 z-[200] bg-white text-black p-8 overflow-y-auto animate-fade-in flex flex-col items-center">
+                 <button onClick={() => setShowCertificate(false)} className="fixed top-4 right-4 p-2 bg-black text-white rounded-full no-print"><X/></button>
+                 <button onClick={() => window.print()} className="fixed top-4 left-4 p-2 bg-blue-600 text-white rounded-full no-print flex gap-2 items-center px-4"><Printer size={16}/> Print</button>
+                 
+                 <div className="max-w-3xl w-full border-8 border-double border-emerald-800 p-10 text-center mt-10 relative">
+                      <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+                      <h1 className="text-5xl font-serif font-bold text-emerald-900 mb-2">Certificate of Legacy</h1>
+                      <p className="text-xl text-emerald-700 italic mb-8">This certifies the spiritual journey of</p>
+                      
+                      <h2 className="text-6xl font-black text-black mb-8 underline decoration-emerald-500">{state.global.name}</h2>
+                      
+                      <div className="grid grid-cols-2 gap-8 mb-12 text-left">
+                           <div className="border-b-2 border-emerald-100 pb-2">
+                               <span className="text-xs uppercase tracking-widest text-emerald-600">Prayers Offered</span>
+                               <div className="text-3xl font-bold">{totalPrayers}</div>
+                           </div>
+                           <div className="border-b-2 border-emerald-100 pb-2">
+                               <span className="text-xs uppercase tracking-widest text-emerald-600">Dhikr Recited</span>
+                               <div className="text-3xl font-bold">{totalDhikr}</div>
+                           </div>
+                           <div className="border-b-2 border-emerald-100 pb-2">
+                               <span className="text-xs uppercase tracking-widest text-emerald-600">Qurans Finished</span>
+                               <div className="text-3xl font-bold">{state.global.quransRecited}</div>
+                           </div>
+                           <div className="border-b-2 border-emerald-100 pb-2">
+                               <span className="text-xs uppercase tracking-widest text-emerald-600">Clean Streak</span>
+                               <div className="text-3xl font-bold">{state.global.streaks.mdf} Days</div>
+                           </div>
+                      </div>
+                      
+                      <div className="flex justify-between items-end mt-20">
+                          <div className="text-left">
+                              <div className="w-40 h-px bg-black mb-2"></div>
+                              <p className="text-xs uppercase">Date</p>
+                              <p className="font-bold">{new Date().toLocaleDateString()}</p>
+                          </div>
+                          <div className="text-right">
+                              <div className="text-4xl font-serif text-emerald-800 opacity-20">Zohaib Tracker</div>
+                          </div>
+                      </div>
+                 </div>
+            </div>
+        );
+    }
 
     return (
         <TabWrapper themeColor="slate" subView="DAILY" setSubView={() => {}} onBack={onBack} hideSubNav>
@@ -1187,6 +1361,7 @@ export const TabSettings: React.FC<any> = ({ state, setTheme, toggleRamadan, exp
                       <LifetimeStat label="Prayers Offered" value={totalPrayers} color="emerald" />
                       <LifetimeStat label="Dhikr Count" value={totalDhikr} color="amber" />
                       <LifetimeStat label="Qurans Completed" value={state.global.quransRecited} color="purple" />
+                      <button onClick={() => setShowCertificate(true)} className="col-span-2 mt-2 py-3 bg-white/10 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-white/20">Generate Certificate</button>
                  </div>
             </div>
             

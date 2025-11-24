@@ -1,15 +1,10 @@
 
-
-
-
-
-
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Atmosphere } from './components/Atmosphere';
 import { Dashboard } from './components/Dashboard';
 import { TabSalah } from './components/TabSalah';
-import { TabDhikr, TabHygiene, TabMDF, TabFitness, TabMemorize, TabQuran, TabRamadan, TabSettings, TabHabits, TabHadees, TabNight, TabNames99, TabBreathwork } from './components/SimpleTabs';
+import { TabDhikr, TabHygiene, TabMDF, TabFitness, TabMemorize, TabQuran, TabRamadan, TabSettings, TabHabits, TabHadees, TabNight, TabNames99, TabBreathwork, TabJanazah, TabTibb, TabWordQuran } from './components/SimpleTabs';
 import { AIAssistant } from './components/AIAssistant';
 import { BottomNav } from './components/BottomNav';
 import { AppState, INITIAL_DAILY_STATE, INITIAL_GLOBAL_STATE, ViewState, DailyStats, SpiritualMood } from './types';
@@ -233,6 +228,7 @@ const App: React.FC = () => {
           if (cat === 'HADEES') return streaks.hadees;
           if (cat === 'NIGHT') return streaks.night;
           if (cat === 'MEMORIZE') return currentState.global.memorizeWeek;
+          if (cat === 'NAMES99') return streaks.names99;
           return 0;
       };
 
@@ -810,6 +806,9 @@ const App: React.FC = () => {
           {view === ViewState.RAMADAN && <TabRamadan state={state} toggleRamadanDaily={handleRamadanDailyToggle} updateRamadanStat={handleRamadanStatUpdate} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.NAMES99 && <TabNames99 state={state} onBack={() => setView(ViewState.DASHBOARD)} themeOverride={currentThemeColor} />}
           {view === ViewState.BREATHWORK && <TabBreathwork onBack={() => setView(ViewState.FITNESS)} />}
+          {view === ViewState.JANAZAH && <TabJanazah onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.TIBB && <TabTibb onBack={() => setView(ViewState.DASHBOARD)} />}
+          {view === ViewState.WORD_QURAN && <TabWordQuran onBack={() => setView(ViewState.DASHBOARD)} />}
           {view === ViewState.SETTINGS && <TabSettings state={state} setTheme={(t) => updateState(prev => ({...prev, global: {...prev.global, theme: t}}))} setCustomColor={(c) => updateState(prev => ({...prev, global: {...prev.global, customColor: c}}))} toggleRamadan={() => updateState(prev => ({...prev, global: {...prev.global, ramadanMode: !prev.global.ramadanMode}}))} exportData={exportData} importData={importData} enterWidgetMode={() => setView(ViewState.WIDGET)} onBack={() => setView(ViewState.DASHBOARD)} buyFreeze={buyFreeze} buyTravelMode={buyTravelMode} resetApp={hardReset} requestNotify={requestNotificationPermission} updateQada={(amt) => updateState(prev => ({ ...prev, global: { ...prev.global, qadaBank: Math.max(0, prev.global.qadaBank + amt) } }))} />}
         </div>
       )}
